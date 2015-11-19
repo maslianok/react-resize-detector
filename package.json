@@ -42,6 +42,6 @@
     "test:cov": "babel-node ./node_modules/.bin/isparta cover ./node_modules/.bin/_mocha -- --recursive",
     "test:watch": "NODE_ENV=test mocha --compilers js:babel/register --recursive --watch"
   },
-  "version": "0.1.0",
+  "version": "0.1.1",
   "dependencies": {}
 }
