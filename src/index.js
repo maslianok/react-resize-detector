@@ -1,10 +1,4 @@
-import Tabs from './components/Tabs';
-import Tab from './components/Tab';
-import TabPanel from './components/TabPanel';
+import ResizeDetector from './components/ResizeDetector';
 
-export default {
-  Tabs: Tabs,
-  Tab: Tab,
-  TabPanel: TabPanel
-};
+export default ResizeDetector;
 

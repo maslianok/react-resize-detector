@@ -18,7 +18,7 @@ module.exports = {
     new webpack.NoErrorsPlugin()
   ],
   resolve: { 
-    alias: {'react-responsive-tabs': path.join(__dirname, '..', 'src', 'index.js')},
+    alias: {'react-resize-detector': path.join(__dirname, '..', 'src', 'index.js')},
     root: path.join(__dirname, 'node_modules')
   },
   module: {

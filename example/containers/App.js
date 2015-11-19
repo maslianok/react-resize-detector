@@ -1,37 +1,83 @@
 import React, {Component} from 'react';
-import {Tabs, Tab, TabPanel} from 'react-responsive-tabs';
+import ReactResizeDetector from 'react-resize-detector';
+
+const s = {
+  wrapper: {
+    display: 'flex',
+    height: '100%'
+  },
+  leftColumn: {
+    flexBasis: '200px',
+    backgroundColor: '#EAEAEA'
+
+  },
+  rightColumn: {
+    display: 'flex',
+    alignItems: 'center',
+    flexBasis: '1000px',
+    position: 'relative',
+    flexGrow: 1,
+    backgroundColor: '#D9DBFF',
+    fontSize: '30px',
+    textAlign: 'center'
+
+  },
+  toggleLeftColumnBtn: {
+    alignSelf: 'baseline',
+    fontSize: '14px'
+  },
+  text: {
+    flexGrow: 1
+  }
+}
 
 class App extends Component {
+  constructor(props) {
+    super();
+
+    this.state = {
+      leftPanel: true,
+      count: 0
+    };
+  }
+
+  
+
   render() {
     return (
-      <div>
-        <Tabs>
-          <Tab key="1">Lorem ipsum dolor sit amet 1</Tab>
-          <TabPanel key="1">Lorem ipsum dolor sit amet 1</TabPanel>
+      <div style={s.wrapper}>
+        {(() => {
+          if (this.state.leftPanel) {
+            return <div style={s.leftColumn}></div>
+          }
+        })()}
 
-          <Tab key="2">Lorem ipsum dolor sit amet 2</Tab>
-          <TabPanel key="2">Lorem ipsum dolor sit amet 2</TabPanel>
+        <div style={s.rightColumn}>
+          <div style={s.toggleLeftColumnBtn}>
+            <button onClick={this._hideLeftPanel.bind(this)}>Toggle left panel</button>
+            <br/>or resize window
+          </div>
 
-          <Tab key="3">Lorem ipsum dolor sit amet 3</Tab>
-          <TabPanel key="3">Lorem ipsum dolor sit amet 3</TabPanel>
+          <div style={s.text}>Main div resized {this.state.count} times</div>
 
-          <Tab key="4">Lorem ipsum dolor sit amet 4</Tab>
-          <TabPanel key="4">Lorem ipsum dolor sit amet 4</TabPanel>
+          <ReactResizeDetector handleWidth handleHeight onResize={this._onResize.bind(this)} />
+        </div>
 
-          <Tab key="5">Lorem ipsum dolor sit amet 5</Tab>
-          <TabPanel key="5">Lorem ipsum dolor sit amet 5</TabPanel>
-
-          <Tab key="6">Lorem ipsum dolor sit amet 5</Tab>
-          <TabPanel key="6">Lorem ipsum dolor sit amet 5</TabPanel>
-
-          <Tab key="7">Lorem ipsum dolor sit amet 5</Tab>
-          <TabPanel key="7">Lorem ipsum dolor sit amet 5</TabPanel>
-
-          <Tab key="8">Lorem ipsum dolor sit amet 5</Tab>
-          <TabPanel key="8">Lorem ipsum dolor sit amet 5</TabPanel>
-        </Tabs>
       </div>
     );
+  }
+
+  _onResize() {
+    console.log(1111);
+    this.setState({
+      count: this.state.count + 1
+    });
+  }
+
+  _hideLeftPanel() {
+    this.setState({
+      leftPanel: !this.state.leftPanel
+    });
   }
 }
 

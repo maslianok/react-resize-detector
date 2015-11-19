@@ -28,29 +28,32 @@ export default class ResizeDetector extends Component {
   }
 
   componentDidMount() {
-    this.reset();
+    this.reset()
+  }
+
+  componentDidUpdate() {
+    let {expand, shrink} = this;
+
+    expand.scrollLeft = expand.scrollWidth;
+    expand.scrollTop = expand.scrollHeight;
+
+    shrink.scrollLeft = shrink.scrollWidth;
+    shrink.scrollTop = shrink.scrollHeight;
   }
 
   reset() {
-    const {
+    let {
       expand,
-      shrink,
       container,
       props
     } = this;
 
     this.setState({
-      expandChildHeight: props.handleHeight && (expand.offsetHeight + 10),
-      expandChildWidth: props.handleWidth && (expand.offsetWidth + 10),
+      expandChildHeight: expand.offsetHeight + 10,
+      expandChildWidth: expand.offsetWidth + 10,
       lastWidth: props.handleWidth && container.parentElement.offsetWidth,
       lastHeight: props.handleHeight && container.parentElement.offsetHeight,
     });
-
-    // expand.scrollLeft = expand.scrollWidth;
-    // expand.scrollTop = expand.scrollHeight;
-
-    // shrink.scrollLeft = shrink.scrollWidth;
-    // shrink.scrollTop = shrink.scrollHeight;
   }
 
   handleScroll(evt) {
@@ -76,14 +79,14 @@ export default class ResizeDetector extends Component {
     };
 
     return (
-      <resize-sensor style={parentStyle} ref={(ref) => {this.container = findDOMNode(ref)}}>
-        <expand style={parentStyle} onScroll={this.handleScroll} ref={(ref) => {this.expand = findDOMNode(ref)}}>
-          <expand-child style={expandStyle}/>
-        </expand>
-        <shrink style={parentStyle} onScroll={this.handleScroll} ref={(ref) => {this.shrink = findDOMNode(ref)}}>
-          <shrink-child style={shrinkChildStyle}/>
-        </shrink>
-      </resize-sensor>
+      <div style={parentStyle} ref={(ref) => {this.container = findDOMNode(ref)}}>
+        <div style={parentStyle} onScroll={this.handleScroll} ref={(ref) => {this.expand = findDOMNode(ref)}}>
+          <div style={expandStyle}/>
+        </div>
+        <div style={parentStyle} onScroll={this.handleScroll} ref={(ref) => {this.shrink = findDOMNode(ref)}}>
+          <div style={shrinkChildStyle}/>
+        </div>
+      </div>
     );
   }
 }

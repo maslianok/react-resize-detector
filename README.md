@@ -8,7 +8,7 @@ Inspired by this article [Cross-Browser, Event-based, Element Resize Detection](
 //todo
 
 ##Installation
-npm install react-resize-detector
+`npm install react-resize-detector`
 
 ##API
 //todo
