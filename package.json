@@ -1,0 +1,47 @@
+{
+  "author": "Vitalii Maslianok <maslianok@gmail.com> (https://github.com/maslianok)",
+  "bugs": {
+    "url": "https://github.com/maslianok/react-resize-detector/issues"
+  },
+  "description": "React resize detector",
+  "devDependencies": {
+    "babel": "^5",
+    "babel-core": "^5",
+    "babel-eslint": "^4.1.4",
+    "babel-loader": "^5",
+    "babel-plugin-react-transform": "^1.1.1",
+    "eslint": "^1.9",
+    "eslint-plugin-react": "^3.7.0",
+    "react-transform-hmr": "^1.0.1",
+    "rimraf": "^2.3.4"
+  },
+  "directories": {
+    "example": "example"
+  },
+  "homepage": "https://github.com/maslianok/react-resize-detector",
+  "keywords": [
+    "react",
+    "resize",
+    "detector"
+  ],
+  "license": "MIT",
+  "main": "lib/index.js",
+  "maintainers": [
+    "maslianok <maslianok@gmail.com>"
+  ],
+  "name": "react-resize-detector",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/maslianok/react-resize-detector.git"
+  },
+  "scripts": {
+    "build": "babel src --out-dir lib",
+    "clean": "rimraf lib",
+    "lint": "eslint example src",
+    "prepublish": "npm run lint && npm run clean && npm run build",
+    "test:cov": "babel-node ./node_modules/.bin/isparta cover ./node_modules/.bin/_mocha -- --recursive",
+    "test:watch": "NODE_ENV=test mocha --compilers js:babel/register --recursive --watch"
+  },
+  "version": "0.1.0",
+  "dependencies": {}
+}

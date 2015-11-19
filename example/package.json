@@ -1,0 +1,32 @@
+{
+  "name": "react-resize-detector-example",
+  "version": "0.0.0",
+  "description": "react-resize-detector example",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/maslianok/react-resize-detector.git"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/maslianok/react-resize-detector/issues"
+  },
+  "dependencies": {
+    "react": "^0.14.0",
+    "react-dom": "^0.14.0"
+  },
+  "devDependencies": {
+    "babel-core": "^5",
+    "babel-loader": "^5",
+    "babel-plugin-react-transform": "^1.1.0",
+    "expect": "^1.8",
+    "express": "^4.13.3",
+    "node-libs-browser": "^0.5.2",
+    "react-transform-hmr": "^1.0.0",
+    "webpack": "^1.9.11",
+    "webpack-dev-middleware": "^1.2.0",
+    "webpack-hot-middleware": "^2.2.0"
+  }
+}
