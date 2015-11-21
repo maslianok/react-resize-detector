@@ -38,13 +38,13 @@ render(<App />, document.getElementById('root'));
 ```
 
 ##API
-###handleWidth
+####handleWidth
 (Bool) Trigger `onResize` on width change
 
-###handleHeight
+####handleHeight
 (Bool) Trigger `onResize` on height change
 
-###onResize
+####onResize
 Function that will be invoked
 
 ## License
