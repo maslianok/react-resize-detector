@@ -27,9 +27,7 @@ class App extends Component {
   }
 
   _onResize() {
-    this.setState({
-      count: this.state.count + 1
-    });
+    ...
   }
 }
 
