@@ -41,8 +41,6 @@ class App extends Component {
     };
   }
 
-  
-
   render() {
     return (
       <div style={s.wrapper}>
@@ -68,7 +66,6 @@ class App extends Component {
   }
 
   _onResize() {
-    console.log(1111);
     this.setState({
       count: this.state.count + 1
     });
