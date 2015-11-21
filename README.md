@@ -8,13 +8,11 @@ Inspired by this article [Cross-Browser, Event-based, Element Resize Detection](
 ####[Live demo](http://maslianok.github.io/react-resize-detector/)
 
 Local demo:
-
-`git clone https://github.com/maslianok/react-resize-detector.git`
-
-`cd react-resize-detector/example`
-
-`npm install && npm start`
-
+```
+git clone https://github.com/maslianok/react-resize-detector.git
+cd react-resize-detector/example
+npm install && npm start
+```
 
 ## Installation
 `npm install react-resize-detector`
