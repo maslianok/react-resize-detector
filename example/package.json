@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "description": "react-resize-detector example",
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "deploy": "BABEL_ENV=production webpack --config webpack.config.js --progress --profile --colors"
   },
   "repository": {
     "type": "git",

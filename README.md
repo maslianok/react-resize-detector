@@ -5,8 +5,12 @@ This implementation does NOT use an internal timer to detect size changes (as mo
 Inspired by this article [Cross-Browser, Event-based, Element Resize Detection](http://www.backalleycoder.com/2013/03/18/cross-browser-event-based-element-resize-detection/) written by [Back Alley Coder](http://www.backalleycoder.com/)
 
 ## Demo
+####[Live demo](http://maslianok.github.io/react-resize-detector/)
 
-todo
+Local demo:
+`git clone https://github.com/maslianok/react-resize-detector.git`
+`cd react-resize-detector/example`
+`npm install && npm start`
 
 ## Installation
 `npm install react-resize-detector`
