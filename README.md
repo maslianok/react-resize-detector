@@ -1,16 +1,17 @@
-#React resize detector
+# React resize detector
 
-##Event-based Element Resize Detection
+## Event-based Element Resize Detection
 This implementation does NOT use an internal timer to detect size changes (as most implementations do). It uses scroll events.
 Inspired by this article [Cross-Browser, Event-based, Element Resize Detection](http://www.backalleycoder.com/2013/03/18/cross-browser-event-based-element-resize-detection/) written by [Back Alley Coder](http://www.backalleycoder.com/)
 
-##Demo
-//todo
+## Demo
 
-##Installation
+todo
+
+## Installation
 `npm install react-resize-detector`
 
-##Example
+## Example
 ```javascript
 import React, {Component} from 'react';
 import {render} from 'react-dom';
@@ -35,14 +36,14 @@ render(<App />, document.getElementById('root'));
 
 ```
 
-##API
-####handleWidth
+## API
+#### handleWidth
 (Bool) Trigger `onResize` on width change
 
-####handleHeight
+#### handleHeight
 (Bool) Trigger `onResize` on height change
 
-####onResize
+#### onResize
 Function that will be invoked
 
 ## License
