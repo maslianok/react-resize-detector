@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import ReactResizeDetector from 'react-resize-detector';
+import ResizeDetector from 'react-resize-detector';
 
 const s = {
   wrapper: {
@@ -20,7 +20,6 @@ const s = {
     backgroundColor: '#D9DBFF',
     fontSize: '30px',
     textAlign: 'center'
-
   },
   toggleLeftColumnBtn: {
     alignSelf: 'baseline',
@@ -58,7 +57,7 @@ class App extends Component {
 
           <div style={s.text}>Main div resized {this.state.count} times</div>
 
-          <ReactResizeDetector handleWidth handleHeight onResize={this._onResize.bind(this)} />
+          <ResizeDetector handleWidth handleHeight onResize={this._onResize.bind(this)} />
         </div>
 
       </div>

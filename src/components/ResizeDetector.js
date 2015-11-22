@@ -48,6 +48,12 @@ export default class ResizeDetector extends Component {
       props
     } = this;
 
+    let parent = container.parentElement;
+
+    if (getComputedStyle(parent).position == 'static') {
+      parent.style.position = 'relative';
+    }
+
     this.setState({
       expandChildHeight: expand.offsetHeight + 10,
       expandChildWidth: expand.offsetWidth + 10,
