@@ -1,5 +1,11 @@
 # React resize detector
 
+### Your feedback is highly appreciated! 
+
+Please, file an issue if something went wrong or let me know via Twitter @maslianok
+
+---
+
 ## Event-based Element Resize Detection
 This implementation does NOT use an internal timer to detect size changes (as most implementations do). It uses scroll events.
 Inspired by this article [Cross-Browser, Event-based, Element Resize Detection](http://www.backalleycoder.com/2013/03/18/cross-browser-event-based-element-resize-detection/) written by [Back Alley Coder](http://www.backalleycoder.com/)
