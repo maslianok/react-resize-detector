@@ -4,6 +4,7 @@
   "description": "react-resize-detector example",
   "scripts": {
     "start": "node server.js",
+    "build": "NODE_ENV=production webpack --colors --display-error-details --config webpack.config.js",
     "test": "cross-env NODE_ENV=test mocha --recursive --compilers js:babel-register",
     "test:watch": "npm test -- --watch",
     "lint": "eslint -c .eslintrc containers"
