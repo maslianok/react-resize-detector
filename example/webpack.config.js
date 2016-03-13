@@ -8,46 +8,26 @@ module.exports = {
     './index'
   ],
   output: {
-    path: path.join(__dirname, 'static'),
+    path: path.join(__dirname, 'dist'),
     filename: 'bundle.js',
     publicPath: '/static/'
   },
   plugins: [
     new webpack.optimize.OccurenceOrderPlugin(),
-    new webpack.HotModuleReplacementPlugin(),
-    new webpack.NoErrorsPlugin()
+    new webpack.HotModuleReplacementPlugin()
   ],
   resolve: { 
-    alias: {'react-resize-detector': path.join(__dirname, '..', 'src', 'index.js')},
+    alias: {'react-resize-detector': path.join(__dirname, '..', 'lib', 'index.js')},
     root: path.join(__dirname, 'node_modules')
   },
   module: {
-    loaders: [{
-      test: /\.js$/,
-      loaders: ['babel'],
-      exclude: /node_modules/,
-    }]
+    loaders: [
+      {
+        test: /\.js$/,
+        loaders: [ 'babel' ],
+        exclude: /node_modules/,
+        include: __dirname
+      }
+    ]
   }
 }
-
-
-// When inside repo, prefer src to compiled version.
-// You can safely delete these lines in your project.
-// var src = path.join(__dirname, '..', 'src')
-// var fs = require('fs')
-// if (fs.existsSync(src)) {
-//   // Resolve to source
-//   module.exports.resolve = { alias: { 'react-responsive-tabs': src } }
-//   // Compile from source
-//   // module.exports.module.loaders.push({
-//   //   test: /\.js$/,
-//   //   loaders: ['babel'],
-//   //   include: src
-//   // })
-// }
-
-
-
-
-
-

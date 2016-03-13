@@ -1,11 +1,9 @@
-import React, {Component, PropTypes} from 'react';
-import {findDOMNode} from 'react-dom';
+import React, { Component, PropTypes } from 'react';
 
-import {parentStyle, shrinkChildStyle, expandChildStyle} from '../helpers/resizeDetectorStyles';
+import { parentStyle, shrinkChildStyle, expandChildStyle } from '../helpers/resizeDetectorStyles';
 
 export default class ResizeDetector extends Component {
-
-  constructor(props) {
+  constructor() {
     super();
 
     this.state = {
@@ -23,16 +21,16 @@ export default class ResizeDetector extends Component {
     this.handleScroll = this.handleScroll.bind(this);
   }
 
-  shouldComponentUpdate(nextProps, nextState) {
-    return this.props != nextProps;
+  componentDidMount() {
+    this.reset();
   }
 
-  componentDidMount() {
-    this.reset()
+  shouldComponentUpdate(nextProps) {
+    return this.props !== nextProps;
   }
 
   componentDidUpdate() {
-    let {expand, shrink} = this;
+    const { refs: { expand, shrink } } = this;
 
     expand.scrollLeft = expand.scrollWidth;
     expand.scrollTop = expand.scrollHeight;
@@ -42,15 +40,10 @@ export default class ResizeDetector extends Component {
   }
 
   reset() {
-    let {
-      expand,
-      container,
-      props
-    } = this;
+    const { refs: { expand, container }, props } = this;
+    const parent = container.parentElement;
 
-    let parent = container.parentElement;
-
-    if (getComputedStyle(parent).position == 'static') {
+    if (getComputedStyle(parent).position === 'static') {
       parent.style.position = 'relative';
     }
 
@@ -62,12 +55,12 @@ export default class ResizeDetector extends Component {
     });
   }
 
-  handleScroll(evt) {
-    const {container, state, props} = this;
+  handleScroll() {
+    const { refs: { container }, state, props } = this;
 
     if (
-      (props.handleWidth && container.parentElement.offsetWidth != state.lastWidth) ||
-      (props.handleHeight && container.parentElement.offsetHeight != state.lastHeight)
+      (props.handleWidth && container.parentElement.offsetWidth !== state.lastWidth) ||
+      (props.handleHeight && container.parentElement.offsetHeight !== state.lastHeight)
     ) {
       this.props.onResize();
     }
@@ -76,21 +69,21 @@ export default class ResizeDetector extends Component {
   }
 
   render() {
-    const {state} = this;
+    const { state } = this;
 
-    const expandStyle = {
-      ...expandChildStyle,
+
+    const expandStyle = Object.assign({}, expandChildStyle, {
       width: state.expandChildWidth,
       height: state.expandChildHeight,
-    };
+    });
 
     return (
-      <div style={parentStyle} ref={(ref) => {this.container = findDOMNode(ref)}}>
-        <div style={parentStyle} onScroll={this.handleScroll} ref={(ref) => {this.expand = findDOMNode(ref)}}>
-          <div style={expandStyle}/>
+      <div style={parentStyle} ref="container">
+        <div style={parentStyle} onScroll={this.handleScroll} ref="expand">
+          <div style={expandStyle} />
         </div>
-        <div style={parentStyle} onScroll={this.handleScroll} ref={(ref) => {this.shrink = findDOMNode(ref)}}>
-          <div style={shrinkChildStyle}/>
+        <div style={parentStyle} onScroll={this.handleScroll} ref="shrink">
+          <div style={shrinkChildStyle} />
         </div>
       </div>
     );
@@ -100,11 +93,11 @@ export default class ResizeDetector extends Component {
 ResizeDetector.propTypes = {
   handleWidth: PropTypes.bool,
   handleHeight: PropTypes.bool,
-  onResize: PropTypes.func.isRequired
+  onResize: PropTypes.func,
 };
 
 ResizeDetector.defaultProps = {
   handleWidth: false,
   handleHeight: false,
-  onResize: () => console.error('ResizeDetector:onResize')
+  onResize: e => e,
 };
