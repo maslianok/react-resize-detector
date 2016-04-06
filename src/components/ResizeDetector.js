@@ -43,7 +43,13 @@ export default class ResizeDetector extends Component {
     const { refs: { expand, container }, props } = this;
     const parent = container.parentElement;
 
-    if (getComputedStyle(parent).position === 'static') {
+    let position = 'static';
+    if (parent.currentStyle) {
+      position = parent.currentStyle.position;
+    } else if (window.getComputedStyle) {
+      position = window.getComputedStyle(parent).position;
+    }
+    if (position === 'static') {
       parent.style.position = 'relative';
     }
 
