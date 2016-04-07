@@ -30,18 +30,15 @@ export default class ResizeDetector extends Component {
   }
 
   componentDidUpdate() {
-    const { refs: { expand, shrink } } = this;
+    this.expand.scrollLeft = this.expand.scrollWidth;
+    this.expand.scrollTop = this.expand.scrollHeight;
 
-    expand.scrollLeft = expand.scrollWidth;
-    expand.scrollTop = expand.scrollHeight;
-
-    shrink.scrollLeft = shrink.scrollWidth;
-    shrink.scrollTop = shrink.scrollHeight;
+    this.shrink.scrollLeft = this.shrink.scrollWidth;
+    this.shrink.scrollTop = this.shrink.scrollHeight;
   }
 
   reset() {
-    const { refs: { expand, container }, props } = this;
-    const parent = container.parentElement;
+    const parent = this.container.parentElement;
 
     let position = 'static';
     if (parent.currentStyle) {
@@ -54,19 +51,19 @@ export default class ResizeDetector extends Component {
     }
 
     this.setState({
-      expandChildHeight: expand.offsetHeight + 10,
-      expandChildWidth: expand.offsetWidth + 10,
-      lastWidth: props.handleWidth && container.parentElement.offsetWidth,
-      lastHeight: props.handleHeight && container.parentElement.offsetHeight,
+      expandChildHeight: this.expand.offsetHeight + 10,
+      expandChildWidth: this.expand.offsetWidth + 10,
+      lastWidth: this.props.handleWidth && this.container.parentElement.offsetWidth,
+      lastHeight: this.props.handleHeight && this.container.parentElement.offsetHeight,
     });
   }
 
   handleScroll() {
-    const { refs: { container }, state, props } = this;
+    const { state, props } = this;
 
     if (
-      (props.handleWidth && container.parentElement.offsetWidth !== state.lastWidth) ||
-      (props.handleHeight && container.parentElement.offsetHeight !== state.lastHeight)
+      (props.handleWidth && this.container.parentElement.offsetWidth !== state.lastWidth) ||
+      (props.handleHeight && this.container.parentElement.offsetHeight !== state.lastHeight)
     ) {
       this.props.onResize();
     }
@@ -84,11 +81,11 @@ export default class ResizeDetector extends Component {
     });
 
     return (
-      <div style={parentStyle} ref="container">
-        <div style={parentStyle} onScroll={this.handleScroll} ref="expand">
+      <div style={parentStyle} ref={e => {this.container = e;}}>
+        <div style={parentStyle} onScroll={this.handleScroll} ref={e => {this.expand = e;}}>
           <div style={expandStyle} />
         </div>
-        <div style={parentStyle} onScroll={this.handleScroll} ref="shrink">
+        <div style={parentStyle} onScroll={this.handleScroll} ref={e => {this.shrink = e;}}>
           <div style={shrinkChildStyle} />
         </div>
       </div>
