@@ -1,11 +1,12 @@
 {
   "author": "Vitalii Maslianok <maslianok@gmail.com> (https://github.com/maslianok)",
+  "version": "0.3.0",
   "bugs": {
     "url": "https://github.com/maslianok/react-resize-detector/issues"
   },
   "description": "React resize detector",
   "peerDependencies": {
-    "react": "^0.14.8"
+    "react": "^0.14.7 || ^15.0.0"
   },
   "devDependencies": {
     "babel-cli": "^6.5.1",
@@ -17,7 +18,7 @@
     "eslint-config-airbnb": "^6.0.2",
     "eslint-plugin-import": "^1.0.3",
     "eslint-plugin-react": "^4.1.0",
-    "react": "^0.14.8",
+    "react": "^15.0.1",
     "rimraf": "^2.3.4"
   },
   "directories": {
@@ -47,6 +48,5 @@
     "test:cov": "babel-node ./node_modules/.bin/isparta cover ./node_modules/.bin/_mocha -- --recursive",
     "test:watch": "NODE_ENV=test mocha --compilers js:babel/register --recursive --watch"
   },
-  "version": "0.2.4",
   "dependencies": {}
 }
