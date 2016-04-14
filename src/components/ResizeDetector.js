@@ -38,6 +38,10 @@ export default class ResizeDetector extends Component {
   }
 
   reset() {
+    if (typeof window === 'undefined') {
+      return;
+    }
+
     const parent = this.container.parentElement;
 
     let position = 'static';
@@ -59,6 +63,10 @@ export default class ResizeDetector extends Component {
   }
 
   handleScroll() {
+    if (typeof window === 'undefined') {
+      return;
+    }
+
     const { state, props } = this;
 
     if (
@@ -73,7 +81,6 @@ export default class ResizeDetector extends Component {
 
   render() {
     const { state } = this;
-
 
     const expandStyle = Object.assign({}, expandChildStyle, {
       width: state.expandChildWidth,
