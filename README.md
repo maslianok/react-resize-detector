@@ -56,7 +56,7 @@ render(<App />, document.getElementById('root'));
 (Bool) Trigger `onResize` on height change
 
 #### onResize
-(Func) Function that will be invoked
+(Func) Function that will be invoked with `width` and `height` arguments. When handling only one of dimensions, other argument will be `undefined`.
 
 ## License
 MIT

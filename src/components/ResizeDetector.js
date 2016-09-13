@@ -22,7 +22,8 @@ export default class ResizeDetector extends Component {
   }
 
   componentDidMount() {
-    this.reset();
+    const [width, height] = this.containerSize();
+    this.reset(width, height);
   }
 
   shouldComponentUpdate(nextProps) {
@@ -37,7 +38,14 @@ export default class ResizeDetector extends Component {
     this.shrink.scrollTop = this.shrink.scrollHeight;
   }
 
-  reset() {
+  containerSize() {
+    return [
+      this.props.handleWidth && this.container.parentElement.offsetWidth,
+      this.props.handleHeight && this.container.parentElement.offsetHeight,
+    ];
+  }
+
+  reset(containerWidth, containerHeight) {
     if (typeof window === 'undefined') {
       return;
     }
@@ -57,8 +65,8 @@ export default class ResizeDetector extends Component {
     this.setState({
       expandChildHeight: this.expand.offsetHeight + 10,
       expandChildWidth: this.expand.offsetWidth + 10,
-      lastWidth: this.props.handleWidth && this.container.parentElement.offsetWidth,
-      lastHeight: this.props.handleHeight && this.container.parentElement.offsetHeight,
+      lastWidth: containerWidth,
+      lastHeight: containerHeight,
     });
   }
 
@@ -69,14 +77,12 @@ export default class ResizeDetector extends Component {
 
     const { state, props } = this;
 
-    if (
-      (props.handleWidth && this.container.parentElement.offsetWidth !== state.lastWidth) ||
-      (props.handleHeight && this.container.parentElement.offsetHeight !== state.lastHeight)
-    ) {
-      this.props.onResize();
+    const [width, height] = this.containerSize();
+    if ((width !== state.lastWidth) || (height !== state.lastHeight)) {
+      this.props.onResize(width, height);
     }
 
-    this.reset();
+    this.reset(width, height);
   }
 
   render() {
