@@ -75,7 +75,7 @@ export default class ResizeDetector extends Component {
       return;
     }
 
-    const { state, props } = this;
+    const { state } = this;
 
     const [width, height] = this.containerSize();
     if ((width !== state.lastWidth) || (height !== state.lastHeight)) {
@@ -94,11 +94,11 @@ export default class ResizeDetector extends Component {
     });
 
     return (
-      <div style={parentStyle} ref={e => {this.container = e;}}>
-        <div style={parentStyle} onScroll={this.handleScroll} ref={e => {this.expand = e;}}>
+      <div style={parentStyle} ref={(e) => { this.container = e; }}>
+        <div style={parentStyle} onScroll={this.handleScroll} ref={(e) => { this.expand = e; }}>
           <div style={expandStyle} />
         </div>
-        <div style={parentStyle} onScroll={this.handleScroll} ref={e => {this.shrink = e;}}>
+        <div style={parentStyle} onScroll={this.handleScroll} ref={(e) => { this.shrink = e; }}>
           <div style={shrinkChildStyle} />
         </div>
       </div>
