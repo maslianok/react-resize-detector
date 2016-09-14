@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import ResizeDetector from 'react-resize-detector';
+import ResizeDetector from 'react-resize-detector'; // eslint-disable-line
 
 const s = {
   wrapper: {
@@ -39,31 +39,31 @@ class App extends Component {
       count: 0,
     };
 
-    this._hideLeftPanel = this._hideLeftPanel.bind(this);
-    this._onResize = this._onResize.bind(this);
+    this.hideLeftPanel = this.hideLeftPanel.bind(this);
+    this.onResize = this.onResize.bind(this);
   }
 
-  _onResize() {
+  onResize() {
     this.setState({ count: this.state.count + 1 });
   }
 
-  _hideLeftPanel() {
+  hideLeftPanel() {
     this.setState({ leftPanel: !this.state.leftPanel });
   }
 
   render() {
     return (
       <div style={s.wrapper}>
-        {this.state.leftPanel && <div style={s.leftColumn}></div>}
+        {this.state.leftPanel && <div style={s.leftColumn} />}
         <div style={s.rightColumn}>
           <div style={s.toggleLeftColumnBtn}>
-            <button onClick={this._hideLeftPanel}>Toggle left panel</button>
+            <button onClick={this.hideLeftPanel}>Toggle left panel</button>
             <br />or resize window
           </div>
 
           <div style={s.text}>Main div resized {this.state.count} times</div>
 
-          <ResizeDetector handleWidth handleHeight onResize={this._onResize} />
+          <ResizeDetector handleWidth handleHeight onResize={this.onResize} />
         </div>
 
       </div>

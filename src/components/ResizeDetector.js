@@ -21,6 +21,10 @@ export default class ResizeDetector extends Component {
     this.handleScroll = this.handleScroll.bind(this);
   }
 
+  componentWillMount() {
+    this.forceUpdate();
+  }
+
   componentDidMount() {
     const [width, height] = this.containerSize();
     this.reset(width, height);
