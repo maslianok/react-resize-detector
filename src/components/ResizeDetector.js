@@ -30,8 +30,8 @@ export default class ResizeDetector extends Component {
     this.reset(width, height);
   }
 
-  shouldComponentUpdate(nextProps) {
-    return this.props !== nextProps;
+  shouldComponentUpdate(nextProps, nextState) {
+    return this.props !== nextProps || this.state !== nextState;
   }
 
   componentDidUpdate() {
