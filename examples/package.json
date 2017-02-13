@@ -1,0 +1,20 @@
+{
+  "name": "examples",
+  "version": "0.1.0",
+  "private": true,
+  "devDependencies": {
+    "linklocal": "^2.6.1",
+    "react-scripts": "^0.9.0"
+  },
+  "dependencies": {
+    "react": "^15.3.2",
+    "react-dom": "^15.3.2",
+    "react-resize-detector": "file:../"
+  },
+  "scripts": {
+    "start": "linklocal && react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  }
+}

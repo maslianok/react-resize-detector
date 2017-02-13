@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import ResizeDetector from 'react-resize-detector'; // eslint-disable-line
+import ResizeDetector from 'react-resize-detector';
 
 const s = {
   wrapper: {
