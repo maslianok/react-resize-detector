@@ -19,7 +19,7 @@
     "eslint-plugin-import": "^2.2.0",
     "eslint-plugin-jsx-a11y": "^4.0.0",
     "eslint-plugin-react": "^6.2.1",
-    "react": "^15.0.1",
+    "react": "^15.5.0",
     "rimraf": "^2.3.4"
   },
   "directories": {
@@ -49,5 +49,7 @@
     "test:cov": "babel-node ./node_modules/.bin/isparta cover ./node_modules/.bin/_mocha -- --recursive",
     "test:watch": "NODE_ENV=test mocha --compilers js:babel/register --recursive --watch"
   },
-  "dependencies": {}
+  "dependencies": {
+    "prop-types": "^15.5.8"
+  }
 }
