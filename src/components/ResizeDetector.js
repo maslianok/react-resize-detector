@@ -29,6 +29,7 @@ export default class ResizeDetector extends Component {
   componentDidMount() {
     const [width, height] = this.containerSize();
     this.reset(width, height);
+    this.props.onResize(width, height);
   }
 
   shouldComponentUpdate(nextProps, nextState) {
