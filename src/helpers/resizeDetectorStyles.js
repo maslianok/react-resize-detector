@@ -4,7 +4,7 @@ export const parentStyle = {
   top: 0,
   right: 0,
   bottom: 0,
-  overflow: 'scroll',
+  overflow: 'hidden',
   zIndex: -1,
   visibility: 'hidden',
 };
