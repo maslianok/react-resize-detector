@@ -1,6 +1,6 @@
 {
   "author": "Vitalii Maslianok <maslianok@gmail.com> (https://github.com/maslianok)",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "bugs": {
     "url": "https://github.com/maslianok/react-resize-detector/issues"
   },
@@ -26,10 +26,16 @@
     "example": "example"
   },
   "homepage": "https://github.com/maslianok/react-resize-detector",
-  "keywords": ["react", "resize", "detector"],
+  "keywords": [
+    "react",
+    "resize",
+    "detector"
+  ],
   "license": "MIT",
   "main": "lib/index.js",
-  "maintainers": ["maslianok <maslianok@gmail.com>"],
+  "maintainers": [
+    "maslianok <maslianok@gmail.com>"
+  ],
   "name": "react-resize-detector",
   "repository": {
     "type": "git",
