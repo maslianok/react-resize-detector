@@ -17,11 +17,14 @@ Local demo:
 ```
 git clone https://github.com/maslianok/react-resize-detector.git
 cd react-resize-detector/example
-npm install && npm start
+npm i && npm start
 ```
 
 ## Installation
-`npm i react-resize-detector --save`
+`npm i react-resize-detector`
+
+## Running the tests
+`npm t`
 
 ## Example
 ```javascript
@@ -34,12 +37,12 @@ class App extends Component {
     return (
       <div>
         ...
-        <ReactResizeDetector handleWidth handleHeight onResize={this._onResize.bind(this)} />
+        <ReactResizeDetector handleWidth handleHeight onResize={this._onResize} />
       </div>
     );
   }
 
-  _onResize() {
+  _onResize = () => {
     ...
   }
 }

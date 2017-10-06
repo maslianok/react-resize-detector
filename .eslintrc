@@ -3,6 +3,7 @@
   "extends": "airbnb",
   "env": {
     "browser": true,
+    "mocha": true,
     "node": true,
     "es6": true
   },
@@ -15,7 +16,7 @@
   },
   "settings": {
     "import/resolve": {
-      moduleDirectory: ["node_modules"]
+      "moduleDirectory": ["node_modules"]
     }
   }
 }
