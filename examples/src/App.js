@@ -31,25 +31,16 @@ const s = {
 };
 
 class App extends Component {
-  constructor(props) {
-    super(props);
+  state = {
+    leftPanel: true,
+    count: 0,
+  };
 
-    this.state = {
-      leftPanel: true,
-      count: 0,
-    };
-
-    this.hideLeftPanel = this.hideLeftPanel.bind(this);
-    this.onResize = this.onResize.bind(this);
-  }
-
-  onResize() {
+  onResize = () =>
     this.setState({ count: this.state.count + 1 });
-  }
 
-  hideLeftPanel() {
+  hideLeftPanel = () =>
     this.setState({ leftPanel: !this.state.leftPanel });
-  }
 
   render() {
     return (
