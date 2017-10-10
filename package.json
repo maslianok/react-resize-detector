@@ -1,6 +1,6 @@
 {
   "author": "Vitalii Maslianok <maslianok@gmail.com> (https://github.com/maslianok)",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "bugs": {
     "url": "https://github.com/maslianok/react-resize-detector/issues"
   },
@@ -33,26 +33,19 @@
     "example": "example"
   },
   "homepage": "https://github.com/maslianok/react-resize-detector",
-  "keywords": [
-    "react",
-    "resize",
-    "detector"
-  ],
+  "keywords": ["react", "resize", "detector"],
   "license": "MIT",
   "main": "lib/index.js",
-  "maintainers": [
-    "maslianok <maslianok@gmail.com>"
-  ],
-  "contributors": [
-    "James J. Womack (@james_womack)"
-  ],
+  "maintainers": ["maslianok <maslianok@gmail.com>"],
+  "contributors": ["James J. Womack (@james_womack)"],
   "name": "react-resize-detector",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/maslianok/react-resize-detector.git"
   },
   "scripts": {
-    "build": "babel --presets=react,es2015 --plugins=transform-object-assign,transform-class-properties src --out-dir lib",
+    "build":
+      "babel --presets=react,es2015 --plugins=transform-object-assign,transform-class-properties src --out-dir lib",
     "clean": "rimraf lib",
     "lint": "eslint -c .eslintrc src",
     "prepublishOnly": "npm run lint && npm run clean && npm run build",
