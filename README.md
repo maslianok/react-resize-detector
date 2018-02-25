@@ -14,7 +14,7 @@ Local demo:
 
 ```
 git clone https://github.com/maslianok/react-resize-detector.git
-cd react-resize-detector/example
+cd react-resize-detector/examples
 npm i && npm start
 ```
 
