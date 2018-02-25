@@ -3,11 +3,12 @@
 Nowadays browsers start supporting element resize handling natively using [ResizeObserver](https://wicg.github.io/ResizeObserver/). And we use this feature (with [polyfill](resize-observer-polyfill)) to help you handle element resizes in React.
 
 <details>
-  <summary>*This change intriduced in v.2.0.0. Versions < 2.0.0 use the different approach to handle element resizes*</summary><p>
-```
+  <summary>This change intriduced in v.2.0.0. Versions < 2.0.0 use the different approach to handle element resizes</summary><p>
+
 This implementation does NOT use an internal timer to detect size changes (as most implementations do). It uses scroll events.
-Inspired by this article [Cross-Browser, Event-based, Element Resize Detection](http://www.backalleycoder.com/2013/03/18/cross-browser-event-based-element-resize-detection/) written by [Back Alley Coder](http://www.backalleycoder.com/)
-```
+
+Inspired by this article [Cross-Browser, Event-based, Element Resize Detection](http://www.backalleycoder.com/2013/03/18/cross-browser-event-based-element-resize-detection/) written by Back Alley Coder
+
 </p></details>
 
 ## Demo
