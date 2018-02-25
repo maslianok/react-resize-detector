@@ -9,7 +9,6 @@ const s = {
   leftColumn: {
     flexBasis: '200px',
     backgroundColor: '#EAEAEA',
-
   },
   rightColumn: {
     display: 'flex',
@@ -36,11 +35,18 @@ class App extends Component {
     count: 0,
   };
 
-  onResize = () =>
-    this.setState({ count: this.state.count + 1 });
+  componentDidMount() {
+    setTimeout(() => {
+      console.log('CHANGE!');
+      this.setState({
+        handleWidth: true,
+      });
+    }, 10000);
+  }
 
-  hideLeftPanel = () =>
-    this.setState({ leftPanel: !this.state.leftPanel });
+  onResize = () => this.setState({ count: this.state.count + 1 });
+
+  hideLeftPanel = () => this.setState({ leftPanel: !this.state.leftPanel });
 
   render() {
     return (
@@ -54,9 +60,8 @@ class App extends Component {
 
           <div style={s.text}>Main div resized {this.state.count} times</div>
 
-          <ResizeDetector handleWidth handleHeight onResize={this.onResize} />
+          <ResizeDetector handleWidth={this.state.handleWidth} skipOnMount onResize={this.onResize} />
         </div>
-
       </div>
     );
   }

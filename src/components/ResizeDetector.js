@@ -1,116 +1,51 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import ResizeObserver from 'resize-observer-polyfill';
 
-import { parentStyle, shrinkChildStyle, expandChildStyle } from '../helpers/resizeDetectorStyles';
+const styles = {
+  position: 'absolute',
+  width: 0,
+  height: 0,
+  visibility: 'hidden',
+  display: 'none',
+};
 
-export default class ResizeDetector extends Component {
-  constructor() {
-    super();
+export default class ResizeDetector extends PureComponent {
+  constructor(props) {
+    super(props);
 
-    this.state = {
-      expandChildHeight: 0,
-      expandChildWidth: 0,
-      expandScrollLeft: 0,
-      expandScrollTop: 0,
-      shrinkScrollTop: 0,
-      shrinkScrollLeft: 0,
-      lastWidth: 0,
-      lastHeight: 0,
-    };
+    this.width = undefined;
+    this.height = undefined;
+    this.skipOnMount = props.skipOnMount;
 
-    this.reset = this.reset.bind(this);
-    this.handleScroll = this.handleScroll.bind(this);
-  }
+    this.ro = new ResizeObserver((entries) => {
+      entries.forEach((entry) => {
+        const { width, height } = entry.contentRect;
+        const notifyWidth = this.props.handleWidth && this.width !== width;
+        const notifyHeight = this.props.handleHeight && this.height !== height;
+        if (!this.skipOnMount && (notifyWidth || notifyHeight)) {
+          this.props.onResize(width, height);
+        }
 
-  componentWillMount() {
-    this.forceUpdate();
+        this.width = width;
+        this.height = height;
+        this.skipOnMount = false;
+      });
+    });
   }
 
   componentDidMount() {
-    const [width, height] = this.containerSize();
-    this.reset(width, height);
-    this.props.onResize(width, height);
-  }
-
-  shouldComponentUpdate(nextProps, nextState) {
-    return this.props !== nextProps || this.state !== nextState;
-  }
-
-  componentDidUpdate() {
-    this.expand.scrollLeft = this.expand.scrollWidth;
-    this.expand.scrollTop = this.expand.scrollHeight;
-
-    this.shrink.scrollLeft = this.shrink.scrollWidth;
-    this.shrink.scrollTop = this.shrink.scrollHeight;
-  }
-
-  containerSize() {
-    return [
-      this.props.handleWidth && this.container.parentElement.offsetWidth,
-      this.props.handleHeight && this.container.parentElement.offsetHeight,
-    ];
-  }
-
-  reset(containerWidth, containerHeight) {
-    if (typeof window === 'undefined') {
-      return;
-    }
-
-    const parent = this.container.parentElement;
-
-    let position = 'static';
-    if (parent.currentStyle) {
-      position = parent.currentStyle.position;
-    } else if (window.getComputedStyle) {
-      position = window.getComputedStyle(parent).position;
-    }
-    if (position === 'static') {
-      parent.style.position = 'relative';
-    }
-
-    this.setState({
-      expandChildHeight: this.expand.offsetHeight + 10,
-      expandChildWidth: this.expand.offsetWidth + 10,
-      lastWidth: containerWidth,
-      lastHeight: containerHeight,
-    });
-  }
-
-  handleScroll(e) {
-    if (typeof window === 'undefined') {
-      return;
-    }
-
-    e.preventDefault();
-    e.stopPropagation();
-
-    const { state } = this;
-
-    const [width, height] = this.containerSize();
-    if ((width !== state.lastWidth) || (height !== state.lastHeight)) {
-      this.props.onResize(width, height);
-    }
-
-    this.reset(width, height);
+    this.ro.observe(this.el.parentElement);
   }
 
   render() {
-    const { state } = this;
-
-    const expandStyle = Object.assign({}, expandChildStyle, {
-      width: state.expandChildWidth,
-      height: state.expandChildHeight,
-    });
-
     return (
-      <div style={parentStyle} ref={(e) => { this.container = e; }}>
-        <div style={parentStyle} onScroll={this.handleScroll} ref={(e) => { this.expand = e; }}>
-          <div style={expandStyle} />
-        </div>
-        <div style={parentStyle} onScroll={this.handleScroll} ref={(e) => { this.shrink = e; }}>
-          <div style={shrinkChildStyle} />
-        </div>
-      </div>
+      <div
+        style={styles}
+        ref={(el) => {
+          this.el = el;
+        }}
+      />
     );
   }
 }
@@ -118,11 +53,13 @@ export default class ResizeDetector extends Component {
 ResizeDetector.propTypes = {
   handleWidth: PropTypes.bool,
   handleHeight: PropTypes.bool,
+  skipOnMount: PropTypes.bool,
   onResize: PropTypes.func,
 };
 
 ResizeDetector.defaultProps = {
   handleWidth: false,
   handleHeight: false,
+  skipOnMount: false,
   onResize: e => e,
 };

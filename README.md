@@ -1,19 +1,17 @@
-# React resize detector
+# Handle element resizes like it's 2018!
 
-### Your feedback is highly appreciated! 
+Nowadays browsers start supporting element resize handling natively using [ResizeObserver](https://wicg.github.io/ResizeObserver/). And we use this feature (with [polyfill](resize-observer-polyfill)) to help you handle element resizes in React.
 
-Please, file an issue if something went wrong or let me know via Twitter @maslianok
+#### ⚠️ This change intriduced in v.2.0.0
 
----
-
-## Event-based Element Resize Detection
-This implementation does NOT use an internal timer to detect size changes (as most implementations do). It uses scroll events.
-Inspired by this article [Cross-Browser, Event-based, Element Resize Detection](http://www.backalleycoder.com/2013/03/18/cross-browser-event-based-element-resize-detection/) written by [Back Alley Coder](http://www.backalleycoder.com/)
+For older implementations please checkout this branch [v.1.1.0](https://github.com/maslianok/react-resize-detector/tree/4fef26243ae4b3aeb386cca8bd829d3299a4a494)
 
 ## Demo
+
 #### [Live demo](http://maslianok.github.io/react-resize-detector/)
 
 Local demo:
+
 ```
 git clone https://github.com/maslianok/react-resize-detector.git
 cd react-resize-detector/example
@@ -21,45 +19,56 @@ npm i && npm start
 ```
 
 ## Installation
-`npm i react-resize-detector`
 
-## Running the tests
-`npm t`
+```
+npm i react-resize-detector
+// OR
+yarn add react-resize-detector
+```
 
 ## Example
+
 ```javascript
-import React, {Component} from 'react';
-import {render} from 'react-dom';
+import React, { PureComponent } from 'react';
+import { render } from 'react-dom';
 import ReactResizeDetector from 'react-resize-detector';
 
-class App extends Component {
+class App extends PureComponent {
   render() {
     return (
       <div>
         ...
-        <ReactResizeDetector handleWidth handleHeight onResize={this._onResize} />
+        <ReactResizeDetector handleWidth handleHeight onResize={this.onResize} />
       </div>
     );
   }
 
-  _onResize = () => {
+  onResize = () => {
     ...
   }
 }
 
 render(<App />, document.getElementById('root'));
-
 ```
 
 ## API
-#### handleWidth
-(Bool) Trigger `onResize` on width change
-
-#### handleHeight
-(Bool) Trigger `onResize` on height change
 
 #### onResize
-(Func) Function that will be invoked with `width` and `height` arguments. When handling only one of dimensions, other argument will be `undefined`.
+
+(Func) Function that will be invoked with `width` and `height` arguments.
+
+#### handleWidth
+
+(Bool) Trigger `onResize` on width change. Default: `false`.
+
+#### handleHeight
+
+(Bool) Trigger `onResize` on height change. Default: `false`.
+
+#### skipOnMount
+
+(Bool) Do not trigger onResize when a component mounts. Default: `false`.
 
 ## License
+
 MIT

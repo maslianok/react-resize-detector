@@ -1,20 +1,19 @@
 {
   "name": "examples",
-  "version": "1.0.0-beta.0",
+  "version": "1.1.0",
   "private": true,
   "devDependencies": {
-    "linklocal": "^2.6.1",
-    "react-scripts": "^1.0.13"
+    "linklocal": "^2.8.1",
+    "react-scripts": "^1.1.1"
   },
   "dependencies": {
-    "react": "^16.0.0",
-    "react-dom": "^16.0.0",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
     "react-resize-detector": "file:../"
   },
   "scripts": {
     "start": "linklocal && react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   }
 }
