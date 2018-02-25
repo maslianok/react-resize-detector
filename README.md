@@ -4,7 +4,7 @@ Nowadays browsers start supporting element resize handling natively using [Resiz
 
 #### ⚠️ This change intriduced in v.2.0.0
 
-For older versions please checkout this branch [v.1.1.0](https://github.com/maslianok/react-resize-detector/tree/4fef26243ae4b3aeb386cca8bd829d3299a4a494)
+For older implementations please checkout this branch [v.1.1.0](https://github.com/maslianok/react-resize-detector/tree/4fef26243ae4b3aeb386cca8bd829d3299a4a494)
 
 ## Demo
 
