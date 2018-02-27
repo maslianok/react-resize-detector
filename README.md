@@ -69,6 +69,10 @@ render(<App />, document.getElementById('root'));
 
 (Bool) Do not trigger onResize when a component mounts. Default: `false`.
 
+#### resizableElementId
+
+(string) Id of the element we want to observe. If no one provided, parentElement of the component will be used. Default: ``.
+
 ## License
 
 MIT
