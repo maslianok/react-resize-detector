@@ -71,7 +71,16 @@ render(<App />, document.getElementById('root'));
 
 #### resizableElementId
 
-(string) Id of the element we want to observe. If no one provided, parentElement of the component will be used. Default: ``.
+(String) Id of the element we want to observe. If no one provided, parentElement of the component will be used. Default: ``.
+
+### refreshMode
+
+(String) Mode refreshing should occur, values are "throttle" and "debounce". Default: `throttle`.
+
+### refreshRate
+
+(Number) Time to refreshing, in milliseconds. Default: `1000`.
+
 
 ## License
 
