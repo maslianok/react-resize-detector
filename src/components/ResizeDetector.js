@@ -1,6 +1,10 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import ResizeObserver from 'resize-observer-polyfill';
+import debounce from 'lodash.debounce';
+import throttle from 'lodash.throttle';
+
+const listMode = { debounce, throttle };
 
 const styles = {
   position: 'absolute',
@@ -14,24 +18,17 @@ export default class ResizeDetector extends PureComponent {
   constructor(props) {
     super(props);
 
+    const { skipOnMount, refreshMode, refreshRate } = props;
+
     this.width = undefined;
     this.height = undefined;
-    this.skipOnMount = props.skipOnMount;
+    this.skipOnMount = skipOnMount;
 
-    this.ro = new ResizeObserver((entries) => {
-      entries.forEach((entry) => {
-        const { width, height } = entry.contentRect;
-        const notifyWidth = this.props.handleWidth && this.width !== width;
-        const notifyHeight = this.props.handleHeight && this.height !== height;
-        if (!this.skipOnMount && (notifyWidth || notifyHeight)) {
-          this.props.onResize(width, height);
-        }
+    const resizeObserver =
+      (listMode[refreshMode] && listMode[refreshMode](this.createResizeObserver, refreshRate)) ||
+      this.createResizeObserver;
 
-        this.width = width;
-        this.height = height;
-        this.skipOnMount = false;
-      });
-    });
+    this.ro = new ResizeObserver(resizeObserver);
   }
 
   componentDidMount() {
@@ -41,6 +38,20 @@ export default class ResizeDetector extends PureComponent {
       this.ro.observe(this.el.parentElement);
     }
   }
+
+  createResizeObserver = (entries) => {
+    entries.forEach((entry) => {
+      const { width, height } = entry.contentRect;
+      const notifyWidth = this.props.handleWidth && this.width !== width;
+      const notifyHeight = this.props.handleHeight && this.height !== height;
+      if (!this.skipOnMount && (notifyWidth || notifyHeight)) {
+        this.props.onResize(width, height);
+      }
+      this.width = width;
+      this.height = height;
+      this.skipOnMount = false;
+    });
+  };
 
   render() {
     return (
@@ -58,6 +69,8 @@ ResizeDetector.propTypes = {
   handleWidth: PropTypes.bool,
   handleHeight: PropTypes.bool,
   skipOnMount: PropTypes.bool,
+  refreshRate: PropTypes.number,
+  refreshMode: PropTypes.string,
   resizableElementId: PropTypes.string,
   onResize: PropTypes.func,
 };
@@ -66,6 +79,8 @@ ResizeDetector.defaultProps = {
   handleWidth: false,
   handleHeight: false,
   skipOnMount: false,
+  refreshRate: 1000,
+  refreshMode: 'throttle',
   resizableElementId: '',
   onResize: e => e,
 };
