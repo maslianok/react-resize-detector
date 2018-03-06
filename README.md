@@ -75,12 +75,11 @@ render(<App />, document.getElementById('root'));
 
 ### refreshMode
 
-(String) Mode refreshing should occur, values are "throttle" and "debounce". Default: `throttle`.
+(String) Possible values: `throttle` and `debounce` See [lodash docs](https://lodash.com/docs#debounce) for more information. Default: `undefined` - means that callback will be fired as often as ResizeObserver allows
 
 ### refreshRate
 
-(Number) Time to refreshing, in milliseconds. Default: `1000`.
-
+(Number) Makes sense only when `refreshMode` is set. Default: `1000`. Important! It's numeric prop so set it correctly, e.g. `refreshRate={500}`
 
 ## License
 

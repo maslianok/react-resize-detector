@@ -80,7 +80,7 @@ ResizeDetector.defaultProps = {
   handleHeight: false,
   skipOnMount: false,
   refreshRate: 1000,
-  refreshMode: 'throttle',
+  refreshMode: undefined,
   resizableElementId: '',
   onResize: e => e,
 };
