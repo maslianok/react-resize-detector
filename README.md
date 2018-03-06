@@ -73,11 +73,11 @@ render(<App />, document.getElementById('root'));
 
 (String) Id of the element we want to observe. If no one provided, parentElement of the component will be used. Default: ``.
 
-### refreshMode
+#### refreshMode
 
 (String) Possible values: `throttle` and `debounce` See [lodash docs](https://lodash.com/docs#debounce) for more information. Default: `undefined` - means that callback will be fired as often as ResizeObserver allows
 
-### refreshRate
+#### refreshRate
 
 (Number) Makes sense only when `refreshMode` is set. Default: `1000`. Important! It's numeric prop so set it correctly, e.g. `refreshRate={500}`
 
