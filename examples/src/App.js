@@ -46,12 +46,19 @@ class App extends Component {
         <div style={s.rightColumn}>
           <div style={s.toggleLeftColumnBtn}>
             <button onClick={this.hideLeftPanel}>Toggle left panel</button>
-            <br />or resize window
+            <br />or resize window, mode debounce and rate 1000ms.
           </div>
 
           <div style={s.text}>Main div resized {this.state.count} times</div>
 
-          <ResizeDetector handleWidth handleHeight skipOnMount onResize={this.onResize} />
+          <ResizeDetector
+            handleWidth
+            handleHeight
+            skipOnMount
+            refreshMode="debounce"
+            refreshRate={1000}
+            onResize={this.onResize}
+          />
         </div>
       </div>
     );
