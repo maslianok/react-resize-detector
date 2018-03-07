@@ -32,11 +32,10 @@ export default class ResizeDetector extends PureComponent {
   }
 
   componentDidMount() {
-    if (this.props.resizableElementId !== '') {
-      this.ro.observe(document.getElementById(this.props.resizableElementId));
-    } else {
-      this.ro.observe(this.el.parentElement);
-    }
+    const resizableElement = this.props.resizableElementId
+      ? document.getElementById(this.props.resizableElementId)
+      : this.el.parentElement;
+    this.ro.observe(resizableElement);
   }
 
   createResizeObserver = (entries) => {
