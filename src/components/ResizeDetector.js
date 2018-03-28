@@ -37,6 +37,12 @@ export default class ResizeDetector extends PureComponent {
     this.ro.observe(resizableElement);
   }
 
+  componentWillUnmount() {
+    const { resizableElementId } = this.props;
+    const resizableElement = resizableElementId ? document.getElementById(resizableElementId) : this.el.parentElement;
+    this.ro.unobserve(resizableElement);
+  }
+
   createResizeObserver = (entries) => {
     const {
       handleWidth, handleHeight, onResize,
