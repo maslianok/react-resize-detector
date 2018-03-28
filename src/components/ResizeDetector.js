@@ -1,8 +1,10 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent, isValidElement, cloneElement } from 'react';
 import PropTypes from 'prop-types';
 import ResizeObserver from 'resize-observer-polyfill';
 import debounce from 'lodash.debounce';
 import throttle from 'lodash.throttle';
+import isArray from 'lodash.isarray';
+import isFunction from 'lodash.isfunction';
 
 const listMode = { debounce, throttle };
 
@@ -13,6 +15,16 @@ const styles = {
   visibility: 'hidden',
   display: 'none',
 };
+
+/**
+ * detect childen of component and convert to array
+ * @param {*} children - children of component
+ */
+function convertChildToArray(children) {
+  if (!children) return null;
+  if (!isArray(children)) return [children];
+  return children;
+}
 
 export default class ResizeDetector extends PureComponent {
   constructor(props) {
@@ -48,7 +60,9 @@ export default class ResizeDetector extends PureComponent {
       handleWidth, handleHeight, onResize,
     } = this.props;
     entries.forEach((entry) => {
-      const { width, height } = entry.contentRect;
+      let { width, height } = entry.contentRect;
+      width = Math.floor(width);
+      height = Math.floor(height);
       const notifyWidth = handleWidth && this.width !== width;
       const notifyHeight = handleHeight && this.height !== height;
       if (!this.skipOnMount && (notifyWidth || notifyHeight)) {
@@ -60,15 +74,28 @@ export default class ResizeDetector extends PureComponent {
     });
   };
 
+  renderChildren = () => {
+    const { width = null, height = null } = this;
+    const { children } = this.props;
+    const child = convertChildToArray(children) || [];
+    return child.map((c) => {
+      if (isFunction(c)) return c(width, height);
+      if (isValidElement(c)) return cloneElement(c, { width, height });
+      return c;
+    });
+  }
+
   render() {
-    return (
+    const children = this.renderChildren();
+    return [
       <div
         style={styles}
         ref={(el) => {
           this.el = el;
         }}
-      />
-    );
+      />,
+      ...children,
+    ].filter(c => !!c).map((c, key) => cloneElement((c), { key }));
   }
 }
 
@@ -80,6 +107,7 @@ ResizeDetector.propTypes = {
   refreshMode: PropTypes.string,
   resizableElementId: PropTypes.string,
   onResize: PropTypes.func,
+  children: PropTypes.any, // eslint-disable-line react/forbid-prop-types
 };
 
 ResizeDetector.defaultProps = {
@@ -90,4 +118,5 @@ ResizeDetector.defaultProps = {
   refreshMode: undefined,
   resizableElementId: '',
   onResize: e => e,
+  children: null,
 };
