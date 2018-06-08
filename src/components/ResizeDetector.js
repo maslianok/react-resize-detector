@@ -31,18 +31,6 @@ export default class ResizeDetector extends PureComponent {
     this.ro = new ResizeObserver(resizeObserver);
   }
 
-  componentDidMount() {
-    const { resizableElementId } = this.props;
-    const resizableElement = resizableElementId ? document.getElementById(resizableElementId) : this.el.parentElement;
-    this.ro.observe(resizableElement);
-  }
-
-  componentWillUnmount() {
-    const { resizableElementId } = this.props;
-    const resizableElement = resizableElementId ? document.getElementById(resizableElementId) : this.el.parentElement;
-    this.ro.unobserve(resizableElement);
-  }
-
   createResizeObserver = (entries) => {
     const {
       handleWidth, handleHeight, onResize,
@@ -61,11 +49,20 @@ export default class ResizeDetector extends PureComponent {
   };
 
   render() {
+    const { resizableElementId } = this.props;
     return (
       <div
+        key={resizableElementId}
         style={styles}
         ref={(el) => {
-          this.el = el;
+          if (el === null) {
+            this.ro.disconnect();
+          } else {
+            const resizableElement = resizableElementId
+              ? document.getElementById(resizableElementId)
+              : el.parentElement;
+            this.ro.observe(resizableElement);
+          }
         }}
       />
     );
