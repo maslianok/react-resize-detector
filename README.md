@@ -28,6 +28,8 @@ yarn add react-resize-detector
 
 ## Example
 
+### normal
+
 ```javascript
 import React, { PureComponent } from 'react';
 import { render } from 'react-dom';
@@ -45,6 +47,54 @@ class App extends PureComponent {
 
   onResize = () => {
     ...
+  }
+}
+
+render(<App />, document.getElementById('root'));
+```
+
+### render chidlren function
+
+```javascript
+import React, { PureComponent } from 'react';
+import { render } from 'react-dom';
+import ReactResizeDetector from 'react-resize-detector';
+
+class App extends PureComponent {
+  render() {
+    return (
+      <div>
+        ...
+        <ReactResizeDetector handleWidth handleHeight>
+          {(width, height) => (<div>{width}x{height}</div>)}
+        </ReactResizeDetector>
+      </div>
+    );
+  }
+}
+
+render(<App />, document.getElementById('root'));
+```
+
+### render chidlren react element
+
+```javascript
+import React, { PureComponent } from 'react';
+import { render } from 'react-dom';
+import ReactResizeDetector from 'react-resize-detector';
+
+const ChildrenComponent = ({ width, height }) => (<div>{width}x{height}</div>);
+
+class App extends PureComponent {
+  render() {
+    return (
+      <div>
+        ...
+        <ReactResizeDetector handleWidth handleHeight>
+          <ChildrenComponent />
+        </ReactResizeDetector>
+      </div>
+    );
   }
 }
 
