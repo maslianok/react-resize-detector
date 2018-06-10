@@ -131,7 +131,7 @@ class App extends PureComponent {
 render(<App />, document.getElementById('root'));
 ```
 
-***note**: you can use multiple render methods for one call
+**Note**: You can use multiple render methods for one call. When using render children, in mount children component will not received width and height value because window not resized, you should add a default value.
 
 ## API
 
