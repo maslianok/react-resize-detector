@@ -1,4 +1,4 @@
-import React, { PureComponent, isValidElement, cloneElement, Fragment } from 'react';
+import React, { PureComponent, isValidElement, cloneElement } from 'react';
 import PropTypes from 'prop-types';
 import ResizeObserver from 'resize-observer-polyfill';
 import debounce from 'lodash.debounce';
