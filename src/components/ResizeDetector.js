@@ -1,4 +1,4 @@
-import React, { PureComponent, isValidElement, cloneElement } from 'react';
+import React, { PureComponent, isValidElement, cloneElement, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import ResizeObserver from 'resize-observer-polyfill';
 import debounce from 'lodash.debounce';
@@ -17,11 +17,11 @@ const styles = {
 };
 
 /**
- * detect childen of component and convert to array
- * @param {*} children - children of component
+ * detect component's children and convert them to array
+ * @param {*} children - component's children
  */
-function convertChildToArray(children) {
-  if (!children) return null;
+function convertChildrenToArray(children) {
+  if (!children) return [];
   if (!isArray(children)) return [children];
   return children;
 }
@@ -32,9 +32,12 @@ export default class ResizeDetector extends PureComponent {
 
     const { skipOnMount, refreshMode, refreshRate } = props;
 
-    this.width = undefined;
-    this.height = undefined;
     this.skipOnMount = skipOnMount;
+
+    this.state = {
+      width: undefined,
+      height: undefined,
+    };
 
     const resizeObserver =
       (listMode[refreshMode] && listMode[refreshMode](this.createResizeObserver, refreshRate)) ||
@@ -56,46 +59,42 @@ export default class ResizeDetector extends PureComponent {
   }
 
   createResizeObserver = (entries) => {
-    const {
-      handleWidth, handleHeight, onResize,
-    } = this.props;
+    const { handleWidth, handleHeight, onResize } = this.props;
     entries.forEach((entry) => {
-      let { width, height } = entry.contentRect;
-      width = Math.floor(width);
-      height = Math.floor(height);
-      const notifyWidth = handleWidth && this.width !== width;
-      const notifyHeight = handleHeight && this.height !== height;
+      const { width, height } = entry.contentRect;
+      const notifyWidth = handleWidth && this.state.width !== width;
+      const notifyHeight = handleHeight && this.state.height !== height;
       if (!this.skipOnMount && (notifyWidth || notifyHeight)) {
         onResize(width, height);
+        this.setState({ width, height });
       }
-      this.width = width;
-      this.height = height;
       this.skipOnMount = false;
     });
   };
 
   renderChildren = () => {
-    const { width = null, height = null } = this;
+    const { width, height } = this.state;
     const { children } = this.props;
-    const child = convertChildToArray(children) || [];
-    return child.map((c) => {
-      if (isFunction(c)) return c(width, height);
-      if (isValidElement(c)) return cloneElement(c, { width, height });
-      return c;
-    });
-  }
+    return convertChildrenToArray(children)
+      .filter(child => !!child)
+      .map((child, key) => {
+        if (isFunction(child)) return cloneElement(child(width, height), { key });
+        if (isValidElement(child)) return cloneElement(child, { width, height, key });
+        return child;
+      });
+  };
 
   render() {
-    const children = this.renderChildren();
     return [
       <div
+        key="resize-detector"
         style={styles}
         ref={(el) => {
           this.el = el;
         }}
       />,
-      ...children,
-    ].filter(c => !!c).map((c, key) => cloneElement((c), { key }));
+      ...this.renderChildren(),
+    ];
   }
 }
 

@@ -12,7 +12,9 @@ const s = {
   },
   rightColumn: {
     display: 'flex',
+    flexDirection: 'column',
     alignItems: 'center',
+    justifyContent: 'center',
     flexBasis: '1000px',
     position: 'relative',
     flexGrow: 1,
@@ -21,11 +23,13 @@ const s = {
     textAlign: 'center',
   },
   toggleLeftColumnBtn: {
-    alignSelf: 'baseline',
+    position: 'absolute',
+    top: '5px',
+    left: '5px',
     fontSize: '14px',
   },
-  text: {
-    flexGrow: 1,
+  dimensions: {
+    fontSize: '18px',
   },
 };
 
@@ -33,9 +37,11 @@ class App extends Component {
   state = {
     leftPanel: true,
     count: 0,
+    width: undefined,
+    height: undefined,
   };
 
-  onResize = () => this.setState({ count: this.state.count + 1 });
+  onResize = (width, height) => this.setState({ count: this.state.count + 1, width, height });
 
   hideLeftPanel = () => this.setState({ leftPanel: !this.state.leftPanel });
 
@@ -49,9 +55,13 @@ class App extends Component {
             <br />or resize window.
           </div>
 
-          <div style={s.text}>Main div resized {this.state.count} times</div>
-
-          <ResizeDetector handleWidth handleHeight skipOnMount onResize={this.onResize} />
+          <ResizeDetector handleWidth handleHeight>
+            {(width, height) => (
+              <div style={s.dimensions}>
+                Width: {width}, Height: {height}
+              </div>
+            )}
+          </ResizeDetector>
         </div>
       </div>
     );
