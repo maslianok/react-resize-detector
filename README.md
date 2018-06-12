@@ -1,10 +1,10 @@
 # Handle element resizes like it's 2018!
 
-Nowadays browsers start supporting element resize handling natively using [ResizeObserver](https://wicg.github.io/ResizeObserver/). And we use this feature (with [polyfill](https://github.com/que-etc/resize-observer-polyfill)) to help you handle element resizes in React.
+Nowadays browsers have started to support element resize handling natively using [ResizeObservers](https://wicg.github.io/ResizeObserver/). We use this feature (with a [polyfill](https://github.com/que-etc/resize-observer-polyfill)) to help you handle element resizes in React.
 
-#### ⚠️ This change intriduced in v.2.0.0
+#### ⚠️ This change was introduced in v2.0.0
 
-For older implementations please checkout this branch [v.1.1.0](https://github.com/maslianok/react-resize-detector/tree/4fef26243ae4b3aeb386cca8bd829d3299a4a494)
+For older implementations please check out this branch [v1.1.0](https://github.com/maslianok/react-resize-detector/tree/4fef26243ae4b3aeb386cca8bd829d3299a4a494)
 
 ## Demo
 
@@ -28,8 +28,7 @@ yarn add react-resize-detector
 
 ## Examples
 
-### callback pattern
-
+### Callback Pattern
 ```javascript
 import React, { PureComponent } from 'react';
 import { render } from 'react-dom';
@@ -53,7 +52,7 @@ class App extends PureComponent {
 render(<App />, document.getElementById('root'));
 ```
 
-### chidlren function pattern
+### Child Function Pattern
 
 ```javascript
 import React, { PureComponent } from 'react';
@@ -76,7 +75,7 @@ class App extends PureComponent {
 render(<App />, document.getElementById('root'));
 ```
 
-### chidlren component pattern
+### Child Component Pattern
 
 ```javascript
 import React, { PureComponent } from 'react';
@@ -103,7 +102,7 @@ class App extends PureComponent {
 render(<App />, document.getElementById('root'));
 ```
 
-### it's also possible to have everything toghether! ;)
+### It's also possible to have everything at once! ;)
 
 ```javascript
 import React, { PureComponent } from 'react';
@@ -141,9 +140,9 @@ render(<App />, document.getElementById('root'));
 | handleWidth        | Bool   | Trigger `onResize` on width change                                                                                                                                                                     | `false`     |
 | handleHeight       | Bool   | Trigger `onResize` on height change                                                                                                                                                                    | `false`     |
 | skipOnMount        | Bool   | Do not trigger onResize when a component mounts                                                                                                                                                        | `false`     |
-| resizableElementId | String | Id of the element we want to observe. If no one provided, parentElement of the component will be used                                                                                                  | `undefined` |
+| resizableElementId | String | Id of the element we want to observe. If none provided, parentElement of the component will be used                                                                                                  | `undefined` |
 | refreshMode        | String | Possible values: `throttle` and `debounce` See [lodash docs](https://lodash.com/docs#debounce) for more information. `undefined` - means that callback will be fired as often as ResizeObserver allows | `undefined` |
-| refreshRate        | Number | Makes sense only when `refreshMode` is set. Important! It's numeric prop so set it correctly, e.g. `refreshRate={500}`                                                                                 | `1000`      |
+| refreshRate        | Number | Only makes sense when `refreshMode` is set. Important! It's a numeric prop so set it accordingly, e.g. `refreshRate={500}`                                                                                 | `1000`      |
 
 ## License
 
