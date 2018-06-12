@@ -46,6 +46,7 @@ class App extends Component {
   hideLeftPanel = () => this.setState({ leftPanel: !this.state.leftPanel });
 
   render() {
+    const { count, width, height } = this.state;
     return (
       <div style={s.wrapper}>
         {this.state.leftPanel && <div style={s.leftColumn} />}
@@ -55,13 +56,12 @@ class App extends Component {
             <br />or resize window.
           </div>
 
-          <ResizeDetector handleWidth handleHeight>
-            {(width, height) => (
-              <div style={s.dimensions}>
-                Width: {width}, Height: {height}
-              </div>
-            )}
-          </ResizeDetector>
+          <div>Main div resized {count} times</div>
+          <div style={s.dimensions}>
+            Width: {width}, Height: {height}
+          </div>
+
+          <ResizeDetector handleWidth handleHeight onResize={this.onResize} />
         </div>
       </div>
     );
