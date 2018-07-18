@@ -29,6 +29,7 @@ yarn add react-resize-detector
 ## Examples
 
 ### Callback Pattern
+
 ```javascript
 import React, { PureComponent } from 'react';
 import { render } from 'react-dom';
@@ -55,81 +56,49 @@ render(<App />, document.getElementById('root'));
 ### Child Function Pattern
 
 ```javascript
-import React, { PureComponent } from 'react';
-import { render } from 'react-dom';
-import ReactResizeDetector from 'react-resize-detector';
-
-class App extends PureComponent {
-  render() {
-    return (
-      <div>
-        ...
-        <ReactResizeDetector handleWidth handleHeight>
-          {(width, height) => <div>{`${width}x${height}`}</div>}
-        </ReactResizeDetector>
-      </div>
-    );
-  }
-}
-
-render(<App />, document.getElementById('root'));
+<ReactResizeDetector handleWidth handleHeight>
+  {(width, height) => <div>{`${width}x${height}`}</div>}
+</ReactResizeDetector>
 ```
 
 ### Child Component Pattern
 
 ```javascript
-import React, { PureComponent } from 'react';
-import { render } from 'react-dom';
-import ReactResizeDetector from 'react-resize-detector';
+const CustomComponent = ({ width, height }) => (
+  <div>{`${width}x${height}`}</div>
+);
+
+// ...
+
+<ReactResizeDetector handleWidth handleHeight>
+  <CustomComponent />
+</ReactResizeDetector>;
+```
+
+### HOC pattern
+
+```javascript
+import { withResizeDetector } from 'react-resize-detector';
 
 const CustomComponent = ({ width, height }) => (
   <div>{`${width}x${height}`}</div>
 );
 
-class App extends PureComponent {
-  render() {
-    return (
-      <div>
-        ...
-        <ReactResizeDetector handleWidth handleHeight>
-          <CustomComponent />
-        </ReactResizeDetector>
-      </div>
-    );
-  }
-}
-
-render(<App />, document.getElementById('root'));
+export default withResizeDetector(CustomComponent);
 ```
 
-### It's also possible to have everything at once! ;)
+### Render prop pattern
 
 ```javascript
-import React, { PureComponent } from 'react';
-import { render } from 'react-dom';
-import ReactResizeDetector from 'react-resize-detector';
-
-const CustomComponent = ({ width, height }) => (<div>{`${width}x${height}`}</div>);
-
-class App extends PureComponent {
-  render() {
-    return (
-      <div>
-        ...
-        <ReactResizeDetector handleWidth handleHeight onResize={this.onResize}>
-          {(width, height) => (<div>{`${width}x${height}`}</div>)}
-          <CustomComponent />
-        </ReactResizeDetector>
-      </div>
-    );
-  }
-
-  onResize = () => {
-    ...
-  }
-}
-
-render(<App />, document.getElementById('root'));
+<ResizeDetector
+  handleWidth
+  handleHeight
+  render={({ width, height }) => (
+    <div>
+      Width:{width}, Height:{height}
+    </div>
+  )}
+/>
 ```
 
 ## API
@@ -140,9 +109,9 @@ render(<App />, document.getElementById('root'));
 | handleWidth        | Bool   | Trigger `onResize` on width change                                                                                                                                                                     | `false`     |
 | handleHeight       | Bool   | Trigger `onResize` on height change                                                                                                                                                                    | `false`     |
 | skipOnMount        | Bool   | Do not trigger onResize when a component mounts                                                                                                                                                        | `false`     |
-| resizableElementId | String | Id of the element we want to observe. If none provided, parentElement of the component will be used                                                                                                  | `undefined` |
+| resizableElementId | String | Id of the element we want to observe. If none provided, parentElement of the component will be used                                                                                                    | `undefined` |
 | refreshMode        | String | Possible values: `throttle` and `debounce` See [lodash docs](https://lodash.com/docs#debounce) for more information. `undefined` - means that callback will be fired as often as ResizeObserver allows | `undefined` |
-| refreshRate        | Number | Only makes sense when `refreshMode` is set. Important! It's a numeric prop so set it accordingly, e.g. `refreshRate={500}`                                                                                 | `1000`      |
+| refreshRate        | Number | Only makes sense when `refreshMode` is set. Important! It's a numeric prop so set it accordingly, e.g. `refreshRate={500}`                                                                             | `1000`      |
 
 ## License
 
