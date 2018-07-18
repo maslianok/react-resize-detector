@@ -2,10 +2,6 @@
 
 Nowadays browsers have started to support element resize handling natively using [ResizeObservers](https://wicg.github.io/ResizeObserver/). We use this feature (with a [polyfill](https://github.com/que-etc/resize-observer-polyfill)) to help you handle element resizes in React.
 
-#### ⚠️ This change was introduced in v2.0.0
-
-For older implementations please check out this branch [v1.1.0](https://github.com/maslianok/react-resize-detector/tree/4fef26243ae4b3aeb386cca8bd829d3299a4a494)
-
 ## Demo
 
 #### [Live demo](http://maslianok.github.io/react-resize-detector/)
