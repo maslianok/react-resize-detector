@@ -28,9 +28,9 @@ yarn add react-resize-detector
 
 ## Examples
 
-### Callback Pattern
+#### 1. Callback Pattern
 
-```javascript
+```jsx
 import React, { PureComponent } from 'react';
 import { render } from 'react-dom';
 import ReactResizeDetector from 'react-resize-detector';
@@ -53,17 +53,17 @@ class App extends PureComponent {
 render(<App />, document.getElementById('root'));
 ```
 
-### Child Function Pattern
+#### 2. Child Function Pattern
 
-```javascript
+```jsx
 <ReactResizeDetector handleWidth handleHeight>
   {(width, height) => <div>{`${width}x${height}`}</div>}
 </ReactResizeDetector>
 ```
 
-### Child Component Pattern
+#### 3. Child Component Pattern
 
-```javascript
+```jsx
 const CustomComponent = ({ width, height }) => (
   <div>{`${width}x${height}`}</div>
 );
@@ -75,9 +75,9 @@ const CustomComponent = ({ width, height }) => (
 </ReactResizeDetector>;
 ```
 
-### HOC pattern
+#### 4. HOC pattern
 
-```javascript
+```jsx
 import { withResizeDetector } from 'react-resize-detector';
 
 const CustomComponent = ({ width, height }) => (
@@ -87,9 +87,9 @@ const CustomComponent = ({ width, height }) => (
 export default withResizeDetector(CustomComponent);
 ```
 
-### Render prop pattern
+#### 5. Render prop pattern
 
-```javascript
+```jsx
 <ResizeDetector
   handleWidth
   handleHeight
