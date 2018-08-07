@@ -148,7 +148,7 @@ export const withResizeDetector = (WrappedComponent, props = { handleWidth: true
     render() {
       return (
         <ResizeDetector {...props}>
-          <WrappedComponent />
+          <WrappedComponent {...this.props} />
         </ResizeDetector>
       );
     }
