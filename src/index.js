@@ -47,15 +47,24 @@ class ResizeDetector extends PureComponent {
   }
 
   componentDidMount() {
-    const { resizableElementId } = this.props;
-    const resizableElement = resizableElementId ? document.getElementById(resizableElementId) : this.el.parentElement;
-    this.ro.observe(resizableElement);
+    const resizableElement = this.getElement();
+    if (resizableElement) this.ro.observe(resizableElement);
   }
 
   componentWillUnmount() {
+    const resizableElement = this.getElement();
+    if (resizableElement) this.ro.unobserve(resizableElement);
+  }
+
+  getElement = () => {
     const { resizableElementId } = this.props;
-    const resizableElement = resizableElementId ? document.getElementById(resizableElementId) : this.el.parentElement;
-    this.ro.unobserve(resizableElement);
+
+    const otherElement = resizableElementId && document.getElementById(resizableElementId);
+    const parentElement = this.el && this.el.parentElement;
+
+    const resizableElement = otherElement || parentElement;
+
+    return resizableElement;
   }
 
   createResizeObserver = (entries) => {
