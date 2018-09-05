@@ -33,6 +33,7 @@ class ResizeDetector extends PureComponent {
     const { skipOnMount, refreshMode, refreshRate } = props;
 
     this.skipOnMount = skipOnMount;
+    this.animationFrameID = null;
 
     this.state = {
       width: undefined,
@@ -54,6 +55,9 @@ class ResizeDetector extends PureComponent {
   componentWillUnmount() {
     const resizableElement = this.getElement();
     if (resizableElement) this.ro.unobserve(resizableElement);
+    if (typeof window !== 'undefined' && this.animationFrameID) {
+      window.cancelAnimationFrame(this.animationFrameID);
+    }
   }
 
   getElement = () => {
@@ -65,7 +69,7 @@ class ResizeDetector extends PureComponent {
     const resizableElement = otherElement || parentElement;
 
     return resizableElement;
-  }
+  };
 
   createResizeObserver = (entries) => {
     const { handleWidth, handleHeight, onResize } = this.props;
@@ -73,9 +77,11 @@ class ResizeDetector extends PureComponent {
       const { width, height } = entry.contentRect;
       const notifyWidth = handleWidth && this.state.width !== width;
       const notifyHeight = handleHeight && this.state.height !== height;
-      if (!this.skipOnMount && (notifyWidth || notifyHeight)) {
-        onResize(width, height);
-        this.setState({ width, height });
+      if (!this.skipOnMount && (notifyWidth || notifyHeight) && typeof window !== 'undefined') {
+        this.animationFrameID = window.requestAnimationFrame(() => {
+          onResize(width, height);
+          this.setState({ width, height });
+        });
       }
       this.skipOnMount = false;
     });
