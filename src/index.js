@@ -32,19 +32,19 @@ class ResizeDetector extends PureComponent {
 
     const { skipOnMount, refreshMode, refreshRate } = props;
 
-    this.skipOnMount = skipOnMount;
-    this.animationFrameID = null;
-
     this.state = {
       width: undefined,
       height: undefined,
     };
 
-    const resizeObserver =
-      (listMode[refreshMode] && listMode[refreshMode](this.createResizeObserver, refreshRate)) ||
-      this.createResizeObserver;
+    this.skipOnMount = skipOnMount;
+    this.animationFrameID = null;
 
-    this.ro = new ResizeObserver(resizeObserver);
+    this.resizeHandler =
+      (listMode[refreshMode] && listMode[refreshMode](this.createResizeHandler, refreshRate)) ||
+      this.createResizeHandler;
+
+    this.ro = new ResizeObserver(this.resizeHandler);
   }
 
   componentDidMount() {
@@ -57,6 +57,10 @@ class ResizeDetector extends PureComponent {
     if (resizableElement) this.ro.unobserve(resizableElement);
     if (typeof window !== 'undefined' && this.animationFrameID) {
       window.cancelAnimationFrame(this.animationFrameID);
+    }
+    if (this.resizeHandler && this.resizeHandler.cancel) {
+      // cancel debounced handler
+      this.resizeHandler.cancel();
     }
   }
 
@@ -71,7 +75,7 @@ class ResizeDetector extends PureComponent {
     return resizableElement;
   };
 
-  createResizeObserver = (entries) => {
+  createResizeHandler = (entries) => {
     const { handleWidth, handleHeight, onResize } = this.props;
     entries.forEach((entry) => {
       const { width, height } = entry.contentRect;
