@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import ResizeObserver from 'resize-observer-polyfill';
 import debounce from 'lodash.debounce';
 import throttle from 'lodash.throttle';
-import isArray from 'lodash.isarray';
 import isFunction from 'lodash.isfunction';
 
 const listMode = { debounce, throttle };
@@ -22,7 +21,7 @@ const styles = {
  */
 function convertChildrenToArray(children) {
   if (!children) return [];
-  if (!isArray(children)) return [children];
+  if (!Array.isArray(children)) return [children];
   return children;
 }
 
