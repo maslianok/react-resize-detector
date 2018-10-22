@@ -1,4 +1,9 @@
-import React, { PureComponent, Component, isValidElement, cloneElement } from 'react';
+import React, {
+  PureComponent,
+  Component,
+  isValidElement,
+  cloneElement,
+} from 'react';
 import PropTypes from 'prop-types';
 import ResizeObserver from 'resize-observer-polyfill';
 import debounce from 'lodash.debounce';
@@ -39,9 +44,9 @@ class ResizeDetector extends PureComponent {
     this.skipOnMount = skipOnMount;
     this.animationFrameID = null;
 
-    this.resizeHandler =
-      (listMode[refreshMode] && listMode[refreshMode](this.createResizeHandler, refreshRate)) ||
-      this.createResizeHandler;
+    this.resizeHandler = (
+      listMode[refreshMode] && listMode[refreshMode](this.createResizeHandler, refreshRate)
+    ) || this.createResizeHandler;
 
     this.ro = new ResizeObserver(this.resizeHandler);
   }
