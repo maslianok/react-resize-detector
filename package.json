@@ -35,6 +35,7 @@
   "license": "MIT",
   "main": "lib/index.js",
   "module": "lib/esm/index.js",
+  "sideEffects": false,
   "maintainers": [
     {
       "name": "maslianok",
