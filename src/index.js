@@ -6,9 +6,7 @@ import React, {
 } from 'react';
 import PropTypes from 'prop-types';
 import ResizeObserver from 'resize-observer-polyfill';
-import { debounce } from 'lodash';
-import { throttle } from 'lodash';
-import { isFunction } from 'lodash';
+import { debounce, throttle, isFunction } from 'lodash';
 
 const listMode = { debounce, throttle };
 
