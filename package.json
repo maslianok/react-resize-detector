@@ -14,6 +14,7 @@
     "@babel/plugin-proposal-class-properties": "^7.1.0",
     "@babel/preset-env": "^7.1.5",
     "@babel/preset-react": "^7.0.0",
+    "babel-plugin-transform-imports": "^1.5.1",
     "eslint-config-airbnb": "^17.1.0",
     "eslint-plugin-import": "^2.14.0",
     "eslint-plugin-jsx-a11y": "^6.1.2",
@@ -33,6 +34,8 @@
   ],
   "license": "MIT",
   "main": "lib/index.js",
+  "module": "lib/esm/index.js",
+  "sideEffects": false,
   "maintainers": [
     {
       "name": "maslianok",
@@ -55,15 +58,16 @@
     "url": "git+https://github.com/maslianok/react-resize-detector.git"
   },
   "scripts": {
-    "build": "babel src --out-dir lib",
+    "build": "npm run build:cjs && npm run build:esm",
+    "build:cjs": "babel src --out-dir lib",
+    "build:esm": "BABEL_ENV=esm babel src --out-dir lib/esm",
     "clean": "rimraf lib",
     "lint": "eslint -c .eslintrc src",
     "prepublishOnly": "npm run lint && npm run clean && npm run build"
   },
   "dependencies": {
-    "lodash.debounce": "^4.0.8",
-    "lodash.isfunction": "^3.0.9",
-    "lodash.throttle": "^4.1.1",
+    "lodash": "^4.17.11",
+    "lodash-es": "^4.17.11",
     "prop-types": "^15.6.2",
     "resize-observer-polyfill": "^1.5.0"
   }

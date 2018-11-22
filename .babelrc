@@ -1,4 +1,33 @@
 {
   "presets": ["@babel/env", "@babel/react"],
-  "plugins": ["@babel/plugin-proposal-class-properties"]
+  "plugins": ["@babel/plugin-proposal-class-properties",
+    ["transform-imports",
+      {
+        "lodash": {
+          "transform": "lodash/${member}",
+          "preventFullImport": true
+        }
+      }
+    ]
+  ],
+  "env": {
+    "esm": {
+      "presets": [
+        ["@babel/env", {
+          "modules": false
+        }],
+        "@babel/react"
+      ],
+      "plugins": [
+        ["transform-imports",
+          {
+            "lodash": {
+              "transform": "lodash-es/${member}",
+              "preventFullImport": true
+            }
+          }
+        ]
+      ]
+    }
+  }
 }
