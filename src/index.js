@@ -1,8 +1,5 @@
 import React, {
-  PureComponent,
-  Component,
-  isValidElement,
-  cloneElement,
+  PureComponent, Component, isValidElement, cloneElement,
 } from 'react';
 import PropTypes from 'prop-types';
 import ResizeObserver from 'resize-observer-polyfill';
@@ -32,7 +29,9 @@ class ResizeDetector extends PureComponent {
   constructor(props) {
     super(props);
 
-    const { skipOnMount, refreshMode, refreshRate } = props;
+    const {
+      skipOnMount, refreshMode, refreshRate, refreshOptions,
+    } = props;
 
     this.state = {
       width: undefined,
@@ -42,9 +41,8 @@ class ResizeDetector extends PureComponent {
     this.skipOnMount = skipOnMount;
     this.animationFrameID = null;
 
-    this.resizeHandler = (
-      listMode[refreshMode] && listMode[refreshMode](this.createResizeHandler, refreshRate)
-    ) || this.createResizeHandler;
+    this.resizeHandler = (listMode[refreshMode] && listMode[refreshMode](this.createResizeHandler, refreshRate, refreshOptions))
+      || this.createResizeHandler;
 
     this.ro = new ResizeObserver(this.resizeHandler);
   }
@@ -136,6 +134,10 @@ ResizeDetector.propTypes = {
   skipOnMount: PropTypes.bool,
   refreshRate: PropTypes.number,
   refreshMode: PropTypes.string,
+  refreshOptions: PropTypes.shape({
+    leading: PropTypes.bool,
+    trailing: PropTypes.bool,
+  }),
   resizableElementId: PropTypes.string,
   onResize: PropTypes.func,
   render: PropTypes.func,
@@ -148,6 +150,7 @@ ResizeDetector.defaultProps = {
   skipOnMount: false,
   refreshRate: 1000,
   refreshMode: undefined,
+  refreshOptions: undefined,
   resizableElementId: '',
   onResize: e => e,
   render: undefined,

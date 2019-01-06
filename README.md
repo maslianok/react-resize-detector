@@ -60,9 +60,7 @@ render(<App />, document.getElementById('root'));
 #### 3. Child Component Pattern
 
 ```jsx
-const CustomComponent = ({ width, height }) => (
-  <div>{`${width}x${height}`}</div>
-);
+const CustomComponent = ({ width, height }) => <div>{`${width}x${height}`}</div>;
 
 // ...
 
@@ -76,9 +74,7 @@ const CustomComponent = ({ width, height }) => (
 ```jsx
 import { withResizeDetector } from 'react-resize-detector';
 
-const CustomComponent = ({ width, height }) => (
-  <div>{`${width}x${height}`}</div>
-);
+const CustomComponent = ({ width, height }) => <div>{`${width}x${height}`}</div>;
 
 export default withResizeDetector(CustomComponent);
 ```
@@ -108,6 +104,7 @@ export default withResizeDetector(CustomComponent);
 | resizableElementId | String | Id of the element we want to observe. If none provided, parentElement of the component will be used                                                                                                    | `undefined` |
 | refreshMode        | String | Possible values: `throttle` and `debounce` See [lodash docs](https://lodash.com/docs#debounce) for more information. `undefined` - means that callback will be fired as often as ResizeObserver allows | `undefined` |
 | refreshRate        | Number | Only makes sense when `refreshMode` is set. Important! It's a numeric prop so set it accordingly, e.g. `refreshRate={500}`                                                                             | `1000`      |
+| refreshOptions     | Object | Only makes sense when `refreshMode` is set. An object in shape of { leading: bool, trailing: bool }. Please refer to [lodash's docs](https://lodash.com/docs/4.17.11#throttle) for more info           | `undefined` |
 
 ## License
 
