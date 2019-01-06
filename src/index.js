@@ -1,5 +1,5 @@
 import React, {
-  PureComponent, Component, isValidElement, cloneElement,
+  PureComponent, Component, isValidElement, cloneElement, createElement,
 } from 'react';
 import PropTypes from 'prop-types';
 import ResizeObserver from 'resize-observer-polyfill';
@@ -115,17 +115,15 @@ class ResizeDetector extends PureComponent {
   };
 
   render() {
-    return [
-      <div
-        key="resize-detector"
-        style={styles}
-        ref={(el) => {
-          this.el = el;
-        }}
-      />,
-      this.handleRenderProp(),
-      ...this.renderChildren(),
-    ];
+    const { nodeType } = this.props;
+    const resizeDetector = createElement(nodeType, {
+      key: 'resize-detector',
+      style: styles,
+      ref: (el) => {
+        this.el = el;
+      },
+    });
+    return [resizeDetector, this.handleRenderProp(), ...this.renderChildren()];
   }
 }
 
@@ -143,6 +141,7 @@ ResizeDetector.propTypes = {
   onResize: PropTypes.func,
   render: PropTypes.func,
   children: PropTypes.any, // eslint-disable-line react/forbid-prop-types
+  nodeType: PropTypes.node, // eslint-disable-line react/forbid-prop-types
 };
 
 ResizeDetector.defaultProps = {
@@ -156,6 +155,7 @@ ResizeDetector.defaultProps = {
   onResize: e => e,
   render: undefined,
   children: null,
+  nodeType: 'div',
 };
 
 export const withResizeDetector = (WrappedComponent, props = { handleWidth: true, handleHeight: true }) =>

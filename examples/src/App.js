@@ -41,9 +41,9 @@ class App extends Component {
     height: undefined,
   };
 
-  onResize = (width, height) => this.setState({ count: this.state.count + 1, width, height });
+  onResize = (width, height) => this.setState(prevState => ({ count: prevState.count + 1, width, height }));
 
-  hideLeftPanel = () => this.setState({ leftPanel: !this.state.leftPanel });
+  hideLeftPanel = () => this.setState(prevState => ({ leftPanel: !prevState.leftPanel }));
 
   render() {
     const { count, width, height } = this.state;
@@ -52,14 +52,14 @@ class App extends Component {
         {this.state.leftPanel && <div style={s.leftColumn} />}
         <div style={s.rightColumn}>
           <div style={s.toggleLeftColumnBtn}>
-            <button onClick={this.hideLeftPanel}>Toggle left panel</button>
-            <br />or resize window.
+            <button onClick={this.hideLeftPanel} type="button">
+              Toggle left panel
+            </button>
+            <p>or resize window.</p>
           </div>
 
-          <div>Main div resized {count} times</div>
-          <div style={s.dimensions}>
-            Width: {width}, Height: {height}
-          </div>
+          <div>{`Main div resized ${count} times`}</div>
+          <div style={s.dimensions}>{`Width: ${width}, Height: ${height}`}</div>
 
           <ResizeDetector handleWidth handleHeight onResize={this.onResize} />
         </div>
