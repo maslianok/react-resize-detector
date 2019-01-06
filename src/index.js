@@ -41,8 +41,9 @@ class ResizeDetector extends PureComponent {
     this.skipOnMount = skipOnMount;
     this.animationFrameID = null;
 
-    this.resizeHandler = (listMode[refreshMode] && listMode[refreshMode](this.createResizeHandler, refreshRate, refreshOptions))
-      || this.createResizeHandler;
+    this.resizeHandler = listMode[refreshMode]
+      ? listMode[refreshMode](this.createResizeHandler, refreshRate, refreshOptions)
+      : this.createResizeHandler;
 
     this.ro = new ResizeObserver(this.resizeHandler);
   }
