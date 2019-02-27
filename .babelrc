@@ -1,6 +1,7 @@
 {
   "presets": ["@babel/env", "@babel/react"],
-  "plugins": ["@babel/plugin-proposal-class-properties",
+  "plugins": [
+    "@babel/plugin-proposal-class-properties",
     ["transform-imports",
       {
         "lodash": {
@@ -8,6 +9,15 @@
           "preventFullImport": true
         }
       }
+    ],
+    [
+      "module-resolver",
+      {
+        "root": [
+          "./",
+          "./src",
+        ],
+      },
     ]
   ],
   "env": {
