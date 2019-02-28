@@ -85,6 +85,9 @@ class ResizeDetector extends PureComponent {
   getElement = () => {
     const { querySelector } = this.props;
 
+    const isHaveWindow = checkIsHaveWindow();
+    if (!isHaveWindow) return null;
+
     const selectedElement = querySelector && document.querySelector(querySelector);
 
     // eslint-disable-next-line react/no-find-dom-node
