@@ -75,10 +75,10 @@ class ResizeDetector extends PureComponent {
     if (!element) return;
 
     const type = isOn ? 'observe' : 'unobserve';
-    const handle = this.resizeObserver[type];
-    if (!handle) return;
+    const isValid = !!(this.resizeObserver[type]);
+    if (!isValid) return;
 
-    handle(element);
+    this.resizeObserver[type](element);
   }
 
   getElement = () => {
