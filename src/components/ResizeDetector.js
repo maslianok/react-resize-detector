@@ -72,14 +72,13 @@ class ResizeDetector extends PureComponent {
 
   toggleObserver = (isOn) => {
     const element = this.getElement();
-    if (!element) return false;
+    if (!element) return;
 
     const type = isOn ? 'observe' : 'unobserve';
     const handle = this.resizeObserver[type];
-    if (!handle) return false;
+    if (!handle) return;
 
-    this.resizeObserver[type](element);
-    return true;
+    handle(element);
   }
 
   getElement = () => {
@@ -107,7 +106,8 @@ class ResizeDetector extends PureComponent {
       if (isFunction(onResize)) {
         onResize(width, height);
       }
-      if (this.unmounted) {
+
+      if (!this.unmounted) {
         this.setState({ width, height });
       }
     });
@@ -149,7 +149,7 @@ class ResizeDetector extends PureComponent {
     this.element = el;
   };
 
-  render() {
+  getComponent = () => {
     const { width, height } = this.state;
     const { render, children } = this.props;
 
@@ -171,6 +171,11 @@ class ResizeDetector extends PureComponent {
       component = cloneElement(children, childProps);
     }
 
+    return component;
+  };
+
+  render() {
+    const component = this.getComponent();
     return <Reference ref={this.onRef}>{component || <div />}</Reference>;
   }
 }

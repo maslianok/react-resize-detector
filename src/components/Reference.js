@@ -1,8 +1,19 @@
-import pure from 'rc-pure-component';
+import { PureComponent } from 'react';
+import { any } from 'prop-types';
 
-const Reference = ({ children }) => children;
+class Reference extends PureComponent {
+  static propTypes = {
+    children: any, // eslint-disable-line react/forbid-prop-types
+  }
 
-const Wrapper = pure(Reference);
-Wrapper.displayName = 'Wrapper';
+  static defaultProps = {
+    children: null,
+  }
 
-export default Wrapper;
+  render() {
+    const { children } = this.props;
+    return children;
+  }
+}
+
+export default Reference;

@@ -18,7 +18,6 @@
     "lodash-es": "^4.17.11",
     "prop-types": "^15.6.2",
     "raf-schd": "^4.0.0",
-    "rc-pure-component": "^0.2.0",
     "resize-observer-polyfill": "^1.5.1"
   },
   "devDependencies": {
