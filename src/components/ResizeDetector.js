@@ -1,24 +1,20 @@
-import React, {
-  PureComponent, isValidElement, cloneElement,
-} from 'react';
+import React, { PureComponent, isValidElement, cloneElement } from 'react';
 import { findDOMNode } from 'react-dom';
+import ResizeObserver from 'resize-observer-polyfill';
+import rafSchd from 'raf-schd';
 import {
   bool, number, string, shape, func, any,
 } from 'prop-types';
-import ResizeObserver from 'resize-observer-polyfill';
-import rafSchd from 'raf-schd';
-import { getHandle, isFunction, checkIsHaveWindow } from 'lib/utils';
-import Reference from 'components/Reference';
+
+import { getHandle, isFunction, isSSR } from 'lib/utils';
+import ChildWrapper from 'components/ChildWrapper';
 
 class ResizeDetector extends PureComponent {
   constructor(props) {
     super(props);
 
     const {
-      skipOnMount,
-      refreshMode,
-      refreshRate,
-      refreshOptions,
+      skipOnMount, refreshMode, refreshRate, refreshOptions,
     } = props;
 
     this.state = {
@@ -40,11 +36,11 @@ class ResizeDetector extends PureComponent {
   }
 
   componentDidMount() {
-    this.toggleObserver(true);
+    this.toggleObserver('observe');
   }
 
   componentWillUnmount() {
-    this.toggleObserver(false);
+    this.toggleObserver('unobserve');
 
     this.rafClean();
 
@@ -54,47 +50,41 @@ class ResizeDetector extends PureComponent {
   }
 
   cancelHandler = () => {
-    const shouldCancel = !!(this.resizeHandler && this.resizeHandler.cancel);
-    if (shouldCancel) {
+    if (this.resizeHandler && this.resizeHandler.cancel) {
       // cancel debounced handler
       this.resizeHandler.cancel();
       this.resizeHandler = null;
     }
-  }
+  };
 
   rafClean = () => {
-    const shouldClean = !!(this.raf && this.raf.cancel);
-    if (shouldClean) {
+    if (this.raf && this.raf.cancel) {
       this.raf.cancel();
       this.raf = null;
     }
-  }
+  };
 
-  toggleObserver = (isOn) => {
+  toggleObserver = (type) => {
     const element = this.getElement();
-    if (!element) return;
-
-    const type = isOn ? 'observe' : 'unobserve';
-    const isValid = !!(this.resizeObserver[type]);
-    if (!isValid) return;
+    if (!element || !this.resizeObserver[type]) return;
 
     this.resizeObserver[type](element);
-  }
+  };
 
   getElement = () => {
     const { querySelector } = this.props;
 
-    const isHaveWindow = checkIsHaveWindow();
-    if (!isHaveWindow) return null;
+    if (isSSR()) return undefined;
 
-    const selectedElement = querySelector && document.querySelector(querySelector);
+    if (querySelector) return document.querySelector(querySelector);
 
     // eslint-disable-next-line react/no-find-dom-node
-    const currentElement = findDOMNode(this.element);
-    const parentElement = currentElement && currentElement.parentElement;
+    const currentElement = this.element && findDOMNode(this.element);
 
-    const element = selectedElement || parentElement;
-    return element;
+    if (!currentElement) return undefined;
+    const renderType = this.getRenderType();
+
+    return renderType === 'parent' ? currentElement.parentElement : currentElement;
   };
 
   createUpdater = () => {
@@ -107,23 +97,17 @@ class ResizeDetector extends PureComponent {
         onResize(width, height);
       }
 
-      if (!this.unmounted) {
-        this.setState({ width, height });
-      }
+      this.setState({ width, height });
     });
 
     return this.raf;
-  }
+  };
 
   createResizeHandler = (entries) => {
-    const {
-      width: widthCurrent,
-      height: heightCurrent,
-    } = this.state;
-    const {
-      handleWidth,
-      handleHeight,
-    } = this.props;
+    const { width: widthCurrent, height: heightCurrent } = this.state;
+    const { handleWidth, handleHeight } = this.props;
+
+    if (!handleWidth && !handleHeight) return;
 
     const updater = this.createUpdater();
 
@@ -134,9 +118,7 @@ class ResizeDetector extends PureComponent {
       const isHeightChanged = handleHeight && heightCurrent !== height;
       const isSizeChanged = isWidthChanged || isHeightChanged;
 
-      const isHaveWindow = checkIsHaveWindow();
-
-      const shouldSetSize = !this.skipOnMount && isSizeChanged && isHaveWindow;
+      const shouldSetSize = !this.skipOnMount && isSizeChanged && !isSSR();
       if (shouldSetSize) {
         updater({ width, height });
       }
@@ -149,34 +131,44 @@ class ResizeDetector extends PureComponent {
     this.element = el;
   };
 
-  getComponent = () => {
-    const { width, height } = this.state;
+  getRenderType = () => {
     const { render, children } = this.props;
+    if (isFunction(render)) {
+      return 'renderProp';
+    }
+
+    if (isFunction(children)) {
+      return 'childFunction';
+    }
+
+    if (isValidElement(children)) {
+      return 'child';
+    }
+
+    return 'parent';
+  };
+
+  getTargetComponent = () => {
+    const { render, children } = this.props;
+    const { width, height } = this.state;
 
     const childProps = { width, height };
-    const isRenderProps = isFunction(render);
-    const isFunctional = isFunction(children);
-    const isComponent = isValidElement(children);
+    const renderType = this.getRenderType();
 
-    let component;
-    if (!component && isRenderProps) {
-      component = cloneElement(render(childProps), { key: 'resize-detector' });
+    switch (renderType) {
+      case 'renderProp':
+        return cloneElement(render(childProps), { key: 'resize-detector' });
+      case 'childFunction':
+        return cloneElement(children(childProps));
+      case 'child':
+        return cloneElement(children, childProps);
+      default:
+        return <div />;
     }
-
-    if (!component && isFunctional) {
-      component = cloneElement(children(childProps));
-    }
-
-    if (!component && isComponent) {
-      component = cloneElement(children, childProps);
-    }
-
-    return component;
   };
 
   render() {
-    const component = this.getComponent();
-    return <Reference ref={this.onRef}>{component || <div />}</Reference>;
+    return <ChildWrapper ref={this.onRef}>{this.getTargetComponent()}</ChildWrapper>;
   }
 }
 
