@@ -1,9 +1,11 @@
-import React, { PureComponent, isValidElement, cloneElement } from 'react';
+import React, {
+  PureComponent, isValidElement, cloneElement, createElement,
+} from 'react';
 import { findDOMNode } from 'react-dom';
 import ResizeObserver from 'resize-observer-polyfill';
 import rafSchd from 'raf-schd';
 import {
-  bool, number, string, shape, func, any,
+  bool, number, string, shape, func, any, node,
 } from 'prop-types';
 
 import { getHandle, isFunction, isSSR } from 'lib/utils';
@@ -149,7 +151,7 @@ class ResizeDetector extends PureComponent {
   };
 
   getTargetComponent = () => {
-    const { render, children } = this.props;
+    const { render, children, nodeType } = this.props;
     const { width, height } = this.state;
 
     const childProps = { width, height };
@@ -163,7 +165,7 @@ class ResizeDetector extends PureComponent {
       case 'child':
         return cloneElement(children, childProps);
       default:
-        return <div />;
+        return createElement(nodeType);
     }
   };
 
@@ -186,6 +188,7 @@ ResizeDetector.propTypes = {
   onResize: func,
   render: func,
   children: any, // eslint-disable-line react/forbid-prop-types
+  nodeType: node,
 };
 
 ResizeDetector.defaultProps = {
@@ -199,6 +202,7 @@ ResizeDetector.defaultProps = {
   onResize: null,
   render: undefined,
   children: null,
+  nodeType: 'div',
 };
 
 export default ResizeDetector;
