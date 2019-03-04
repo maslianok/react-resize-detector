@@ -36,6 +36,7 @@ const s = {
 class App extends Component {
   state = {
     leftPanel: true,
+    mainFrame: true,
     count: 0,
     width: undefined,
     height: undefined,
@@ -45,24 +46,36 @@ class App extends Component {
 
   hideLeftPanel = () => this.setState(prevState => ({ leftPanel: !prevState.leftPanel }));
 
+  toggleMainFrame = () => this.setState(prevState => ({ mainFrame: !prevState.mainFrame }));
+
   render() {
-    const { count, width, height } = this.state;
+    const {
+      count, width, height, mainFrame, leftPanel,
+    } = this.state;
     return (
       <div style={s.wrapper}>
-        {this.state.leftPanel && <div style={s.leftColumn} />}
-        <div style={s.rightColumn}>
-          <div style={s.toggleLeftColumnBtn}>
-            <button onClick={this.hideLeftPanel} type="button">
-              Toggle left panel
+        {leftPanel && (
+          <div style={s.leftColumn}>
+            <button onClick={this.toggleMainFrame} type="button">
+              Toggle main frame
             </button>
-            <p>or resize window.</p>
           </div>
+        )}
+        {mainFrame && (
+          <div style={s.rightColumn}>
+            <div style={s.toggleLeftColumnBtn}>
+              <button onClick={this.hideLeftPanel} type="button">
+                Toggle left panel
+              </button>
+              <p>or resize window.</p>
+            </div>
 
-          <div>{`Main div resized ${count} times`}</div>
-          <div style={s.dimensions}>{`Width: ${width}, Height: ${height}`}</div>
+            <div>{`Main div resized ${count} times`}</div>
+            <div style={s.dimensions}>{`Width: ${width}, Height: ${height}`}</div>
 
-          <ResizeDetector handleWidth handleHeight onResize={this.onResize} />
-        </div>
+            <ResizeDetector handleWidth handleHeight onResize={this.onResize} />
+          </div>
+        )}
       </div>
     );
   }

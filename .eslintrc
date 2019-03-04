@@ -12,8 +12,11 @@
     "react/destructuring-assignment": 0
   },
   "settings": {
-    "import/resolve": {
-      "moduleDirectory": ["node_modules"]
+    "import/resolver": {
+      "node": {
+        "paths": [".", "src", "node_modules"],
+        "extensions": [".js", ".jsx"]
+      }
     }
   }
 }

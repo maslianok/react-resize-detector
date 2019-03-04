@@ -1,29 +1,51 @@
 {
-  "author": "Vitalii Maslianok <maslianok@gmail.com> (https://github.com/maslianok)",
-  "version": "3.4.0",
-  "bugs": {
-    "url": "https://github.com/maslianok/react-resize-detector/issues"
-  },
+  "name": "react-resize-detector",
   "description": "React resize detector",
-  "peerDependencies": {
-    "react": "^16.0.0"
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/maslianok/react-resize-detector.git"
+  },
+  "scripts": {
+    "build": "npm run build:cjs && npm run build:esm",
+    "build:cjs": "babel src --out-dir lib",
+    "build:esm": "BABEL_ENV=esm babel src --out-dir lib/esm",
+    "clean": "rimraf lib",
+    "lint": "eslint -c .eslintrc src",
+    "test": "npm run lint && npm run clean && npm run build"
+  },
+  "dependencies": {
+    "lodash": "^4.17.11",
+    "lodash-es": "^4.17.11",
+    "prop-types": "^15.7.2",
+    "raf-schd": "^4.0.0",
+    "resize-observer-polyfill": "^1.5.1"
   },
   "devDependencies": {
     "@babel/cli": "^7.2.3",
-    "@babel/core": "^7.2.2",
-    "@babel/plugin-proposal-class-properties": "^7.2.3",
-    "@babel/preset-env": "^7.2.3",
+    "@babel/core": "^7.3.4",
+    "@babel/plugin-proposal-class-properties": "^7.3.4",
+    "@babel/preset-env": "^7.3.4",
     "@babel/preset-react": "^7.0.0",
     "babel-eslint": "^10.0.1",
+    "babel-plugin-module-resolver": "^3.2.0",
     "babel-plugin-transform-imports": "^1.5.1",
-    "eslint": "^5.12.0",
+    "eslint": "^5.15.0",
     "eslint-config-airbnb": "^17.1.0",
-    "eslint-plugin-import": "^2.14.0",
-    "eslint-plugin-jsx-a11y": "^6.1.2",
-    "eslint-plugin-react": "^7.12.3",
-    "react": "^16.7.0",
-    "react-dom": "^16.7.0",
+    "eslint-plugin-import": "^2.16.0",
+    "eslint-plugin-jsx-a11y": "^6.2.1",
+    "eslint-plugin-react": "^7.12.4",
+    "react": "^16.8.3",
+    "react-dom": "^16.8.3",
     "rimraf": "^2.6.3"
+  },
+  "peerDependencies": {
+    "react": "^16.8.3",
+    "react-dom": "^16.8.3"
+  },
+  "author": "Vitalii Maslianok <maslianok@gmail.com> (https://github.com/maslianok)",
+  "version": "4.0.0",
+  "bugs": {
+    "url": "https://github.com/maslianok/react-resize-detector/issues"
   },
   "directories": {
     "example": "example"
@@ -53,24 +75,5 @@
       "email": "lamhieu.vk@gmail.com",
       "url": "https://lamhieu.info"
     }
-  ],
-  "name": "react-resize-detector",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/maslianok/react-resize-detector.git"
-  },
-  "scripts": {
-    "build": "npm run build:cjs && npm run build:esm",
-    "build:cjs": "babel src --out-dir lib",
-    "build:esm": "BABEL_ENV=esm babel src --out-dir lib/esm",
-    "clean": "rimraf lib",
-    "lint": "eslint -c .eslintrc src",
-    "prepublishOnly": "npm run lint && npm run clean && npm run build"
-  },
-  "dependencies": {
-    "lodash": "^4.17.11",
-    "lodash-es": "^4.17.11",
-    "prop-types": "^15.6.2",
-    "resize-observer-polyfill": "^1.5.1"
-  }
+  ]
 }
