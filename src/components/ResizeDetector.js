@@ -84,9 +84,8 @@ class ResizeDetector extends PureComponent {
     const currentElement = this.element && findDOMNode(this.element);
 
     if (!currentElement) return undefined;
-    const renderType = this.getRenderType();
 
-    return renderType === 'parent' ? currentElement.parentElement : currentElement;
+    return currentElement.parentElement;
   };
 
   createUpdater = () => {
