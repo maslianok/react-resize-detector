@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import ResizeDetector from 'components/ResizeDetector';
 
 const withResizeDetector = (
