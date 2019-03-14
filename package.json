@@ -43,7 +43,7 @@
     "react-dom": "^16.8.3"
   },
   "author": "Vitalii Maslianok <maslianok@gmail.com> (https://github.com/maslianok)",
-  "version": "4.0.2",
+  "version": "4.0.3",
   "bugs": {
     "url": "https://github.com/maslianok/react-resize-detector/issues"
   },
