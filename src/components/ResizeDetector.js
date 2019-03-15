@@ -146,6 +146,10 @@ class ResizeDetector extends PureComponent {
       return 'child';
     }
 
+    if (Array.isArray(children)) {
+      return 'childArray';
+    }
+
     return 'parent';
   };
 
@@ -163,6 +167,8 @@ class ResizeDetector extends PureComponent {
         return cloneElement(children(childProps));
       case 'child':
         return cloneElement(children, childProps);
+      case 'childArray':
+        return children.map(el => cloneElement(el, childProps));
       default:
         return createElement(nodeType);
     }

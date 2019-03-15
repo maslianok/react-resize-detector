@@ -53,7 +53,7 @@ render(<App />, document.getElementById('root'));
 
 ```jsx
 <ReactResizeDetector handleWidth handleHeight>
-  {(width, height) => <div>{`${width}x${height}`}</div>}
+  {({ width, height }) => <div>{`${width}x${height}`}</div>}
 </ReactResizeDetector>
 ```
 
