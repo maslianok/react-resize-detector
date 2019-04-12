@@ -34,6 +34,11 @@ const s = {
 };
 
 class App extends Component {
+  constructor() {
+    super();
+    this.parentRef = React.createRef();
+  }
+
   state = {
     leftPanel: true,
     mainFrame: true,
@@ -52,6 +57,7 @@ class App extends Component {
     const {
       count, width, height, mainFrame, leftPanel,
     } = this.state;
+
     return (
       <div style={s.wrapper}>
         {leftPanel && (
@@ -62,7 +68,7 @@ class App extends Component {
           </div>
         )}
         {mainFrame && (
-          <div style={s.rightColumn}>
+          <div style={s.rightColumn} ref={this.parentRef}>
             <div style={s.toggleLeftColumnBtn}>
               <button onClick={this.hideLeftPanel} type="button">
                 Toggle left panel
@@ -73,7 +79,7 @@ class App extends Component {
             <div>{`Main div resized ${count} times`}</div>
             <div style={s.dimensions}>{`Width: ${width}, Height: ${height}`}</div>
 
-            <ResizeDetector handleWidth handleHeight onResize={this.onResize} />
+            <ResizeDetector handleWidth handleHeight onResize={this.onResize} targetDomEl={this.parentRef.current} />
           </div>
         )}
       </div>
