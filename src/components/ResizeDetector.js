@@ -5,10 +5,12 @@ import { findDOMNode } from 'react-dom';
 import ResizeObserver from 'resize-observer-polyfill';
 import rafSchd from 'raf-schd';
 import {
-  bool, number, string, shape, func, any, node, instanceOf, oneOfType,
+  bool, number, string, shape, func, any, node,
 } from 'prop-types';
 
-import { getHandle, isFunction, isSSR } from 'lib/utils';
+import {
+  getHandle, isFunction, isSSR, isDOMElement,
+} from 'lib/utils';
 import ChildWrapper from 'components/ChildWrapper';
 
 class ResizeDetector extends PureComponent {
@@ -51,8 +53,6 @@ class ResizeDetector extends PureComponent {
     this.unmounted = true;
   }
 
-  isDOMElement = element => element instanceof Element || element instanceof HTMLDocument;
-
   cancelHandler = () => {
     if (this.resizeHandler && this.resizeHandler.cancel) {
       // cancel debounced handler
@@ -82,7 +82,7 @@ class ResizeDetector extends PureComponent {
 
     if (querySelector) return document.querySelector(querySelector);
 
-    if (targetDomEl && this.isDOMElement(targetDomEl)) return targetDomEl;
+    if (targetDomEl && isDOMElement(targetDomEl)) return targetDomEl;
 
     // eslint-disable-next-line react/no-find-dom-node
     const currentElement = this.element && findDOMNode(this.element);
@@ -194,7 +194,7 @@ ResizeDetector.propTypes = {
     trailing: bool,
   }),
   querySelector: string,
-  targetDomEl: oneOfType([instanceOf(Element), instanceOf(HTMLDocument)]),
+  targetDomEl: any, // eslint-disable-line react/forbid-prop-types
   onResize: func,
   render: func,
   children: any, // eslint-disable-line react/forbid-prop-types
