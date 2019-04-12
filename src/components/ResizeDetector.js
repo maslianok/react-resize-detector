@@ -172,7 +172,7 @@ class ResizeDetector extends PureComponent {
       case 'child':
         return cloneElement(children, childProps);
       case 'childArray':
-        return children.map(el => cloneElement(el, childProps));
+        return children.map(el => !!el && cloneElement(el, childProps));
       default:
         return createElement(nodeType);
     }
