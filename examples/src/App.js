@@ -4,11 +4,11 @@ import ResizeDetector from 'react-resize-detector';
 const s = {
   wrapper: {
     display: 'flex',
-    height: '100%',
+    height: '100vh'
   },
   leftColumn: {
     flexBasis: '200px',
-    backgroundColor: '#EAEAEA',
+    backgroundColor: '#EAEAEA'
   },
   rightColumn: {
     display: 'flex',
@@ -20,17 +20,17 @@ const s = {
     flexGrow: 1,
     backgroundColor: '#D9DBFF',
     fontSize: '30px',
-    textAlign: 'center',
+    textAlign: 'center'
   },
   toggleLeftColumnBtn: {
     position: 'absolute',
     top: '5px',
     left: '5px',
-    fontSize: '14px',
+    fontSize: '14px'
   },
   dimensions: {
-    fontSize: '18px',
-  },
+    fontSize: '18px'
+  }
 };
 
 class App extends Component {
@@ -44,7 +44,7 @@ class App extends Component {
     mainFrame: true,
     count: 0,
     width: undefined,
-    height: undefined,
+    height: undefined
   };
 
   onResize = (width, height) => this.setState(prevState => ({ count: prevState.count + 1, width, height }));
@@ -54,9 +54,7 @@ class App extends Component {
   toggleMainFrame = () => this.setState(prevState => ({ mainFrame: !prevState.mainFrame }));
 
   render() {
-    const {
-      count, width, height, mainFrame, leftPanel,
-    } = this.state;
+    const { count, width, height, mainFrame, leftPanel } = this.state;
 
     return (
       <div style={s.wrapper}>

@@ -8,7 +8,7 @@
   "scripts": {
     "build": "npm run build:cjs && npm run build:esm",
     "build:cjs": "babel src --out-dir lib",
-    "build:esm": "BABEL_ENV=esm babel src --out-dir lib/esm",
+    "build:esm": "cross-env BABEL_ENV=esm babel src --out-dir lib/esm",
     "clean": "rimraf lib",
     "lint": "eslint -c .eslintrc src",
     "test": "npm run lint && npm run clean && npm run build"
@@ -21,19 +21,20 @@
     "resize-observer-polyfill": "^1.5.1"
   },
   "devDependencies": {
-    "@babel/cli": "^7.2.3",
-    "@babel/core": "^7.3.4",
-    "@babel/plugin-proposal-class-properties": "^7.3.4",
-    "@babel/preset-env": "^7.3.4",
+    "@babel/cli": "^7.4.4",
+    "@babel/core": "^7.4.5",
+    "@babel/plugin-proposal-class-properties": "^7.4.4",
+    "@babel/preset-env": "^7.4.5",
     "@babel/preset-react": "^7.0.0",
     "babel-eslint": "^10.0.1",
     "babel-plugin-module-resolver": "^3.2.0",
     "babel-plugin-transform-imports": "^1.5.1",
+    "cross-env": "^5.2.0",
     "eslint": "^5.15.0",
     "eslint-config-airbnb": "^17.1.0",
-    "eslint-plugin-import": "^2.16.0",
+    "eslint-plugin-import": "^2.17.3",
     "eslint-plugin-jsx-a11y": "^6.2.1",
-    "eslint-plugin-react": "^7.12.4",
+    "eslint-plugin-react": "^7.13.0",
     "react": "^16.8.3",
     "react-dom": "^16.8.3",
     "rimraf": "^2.6.3"
