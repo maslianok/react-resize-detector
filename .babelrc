@@ -2,7 +2,8 @@
   "presets": ["@babel/env", "@babel/react"],
   "plugins": [
     "@babel/plugin-proposal-class-properties",
-    ["transform-imports",
+    [
+      "transform-imports",
       {
         "lodash": {
           "transform": "lodash/${member}",
@@ -13,23 +14,24 @@
     [
       "module-resolver",
       {
-        "root": [
-          "./",
-          "./src",
-        ],
-      },
+        "root": ["./", "./src"]
+      }
     ]
   ],
   "env": {
     "esm": {
       "presets": [
-        ["@babel/env", {
-          "modules": false
-        }],
+        [
+          "@babel/env",
+          {
+            "modules": false
+          }
+        ],
         "@babel/react"
       ],
       "plugins": [
-        ["transform-imports",
+        [
+          "transform-imports",
           {
             "lodash": {
               "transform": "lodash-es/${member}",
