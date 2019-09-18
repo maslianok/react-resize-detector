@@ -24,14 +24,37 @@ yarn add react-resize-detector
 
 ## Examples
 
-#### 1. Callback Pattern
+#### 1. HOC pattern
 
 ```jsx
-import React, { PureComponent } from 'react';
-import { render } from 'react-dom';
+import { withResizeDetector } from 'react-resize-detector';
+
+const CustomComponent = ({ width, height }) => <div>{`${width}x${height}`}</div>;
+
+export default withResizeDetector(CustomComponent);
+```
+
+#### 2. Child Function Pattern
+
+```jsx
 import ReactResizeDetector from 'react-resize-detector';
 
-class App extends PureComponent {
+// ...
+
+<ReactResizeDetector handleWidth handleHeight>
+  {({ width, height }) => <div>{`${width}x${height}`}</div>}
+</ReactResizeDetector>;
+```
+
+#### 3. Callback Pattern
+
+```jsx
+import ReactResizeDetector from 'react-resize-detector';
+
+class App extends Component {
+  onResize = () => {
+    // ...
+  };
   render() {
     return (
       <div>
@@ -40,24 +63,12 @@ class App extends PureComponent {
       </div>
     );
   }
-
-  onResize = () => {
-    ...
-  }
 }
 
 render(<App />, document.getElementById('root'));
 ```
 
-#### 2. Child Function Pattern
-
-```jsx
-<ReactResizeDetector handleWidth handleHeight>
-  {({ width, height }) => <div>{`${width}x${height}`}</div>}
-</ReactResizeDetector>
-```
-
-#### 3. Child Component Pattern
+#### 4. Child Component Pattern
 
 ```jsx
 const CustomComponent = ({ width, height }) => <div>{`${width}x${height}`}</div>;
@@ -67,16 +78,6 @@ const CustomComponent = ({ width, height }) => <div>{`${width}x${height}`}</div>
 <ReactResizeDetector handleWidth handleHeight>
   <CustomComponent />
 </ReactResizeDetector>;
-```
-
-#### 4. HOC pattern
-
-```jsx
-import { withResizeDetector } from 'react-resize-detector';
-
-const CustomComponent = ({ width, height }) => <div>{`${width}x${height}`}</div>;
-
-export default withResizeDetector(CustomComponent);
 ```
 
 #### 5. Render prop pattern
