@@ -1,29 +1,21 @@
-import React, {
-  PureComponent, isValidElement, cloneElement, createElement,
-} from 'react';
+import React, { PureComponent, isValidElement, cloneElement, createElement } from 'react';
 import { findDOMNode } from 'react-dom';
 import ResizeObserver from 'resize-observer-polyfill';
 import rafSchd from 'raf-schd';
-import {
-  bool, number, string, shape, func, any, node,
-} from 'prop-types';
+import { bool, number, string, shape, func, any, node } from 'prop-types';
 
-import {
-  getHandle, isFunction, isSSR, isDOMElement,
-} from 'lib/utils';
+import { getHandle, isFunction, isSSR, isDOMElement } from 'lib/utils';
 import ChildWrapper from 'components/ChildWrapper';
 
 class ResizeDetector extends PureComponent {
   constructor(props) {
     super(props);
 
-    const {
-      skipOnMount, refreshMode, refreshRate, refreshOptions,
-    } = props;
+    const { skipOnMount, refreshMode, refreshRate, refreshOptions } = props;
 
     this.state = {
       width: undefined,
-      height: undefined,
+      height: undefined
     };
 
     this.skipOnMount = skipOnMount;
@@ -68,7 +60,7 @@ class ResizeDetector extends PureComponent {
     }
   };
 
-  toggleObserver = (type) => {
+  toggleObserver = type => {
     const element = this.getElement();
     if (!element || !this.resizeObserver[type]) return;
 
@@ -108,7 +100,7 @@ class ResizeDetector extends PureComponent {
     return this.raf;
   };
 
-  createResizeHandler = (entries) => {
+  createResizeHandler = entries => {
     const { width: widthCurrent, height: heightCurrent } = this.state;
     const { handleWidth, handleHeight } = this.props;
 
@@ -116,7 +108,7 @@ class ResizeDetector extends PureComponent {
 
     const updater = this.createUpdater();
 
-    entries.forEach((entry) => {
+    entries.forEach(entry => {
       const { width, height } = (entry && entry.contentRect) || {};
 
       const isWidthChanged = handleWidth && widthCurrent !== width;
@@ -132,7 +124,7 @@ class ResizeDetector extends PureComponent {
     });
   };
 
-  onRef = (el) => {
+  onRef = el => {
     this.element = el;
   };
 
@@ -191,14 +183,14 @@ ResizeDetector.propTypes = {
   refreshMode: string,
   refreshOptions: shape({
     leading: bool,
-    trailing: bool,
+    trailing: bool
   }),
   querySelector: string,
   targetDomEl: any, // eslint-disable-line react/forbid-prop-types
   onResize: func,
   render: func,
   children: any, // eslint-disable-line react/forbid-prop-types
-  nodeType: node,
+  nodeType: node
 };
 
 ResizeDetector.defaultProps = {
@@ -213,7 +205,7 @@ ResizeDetector.defaultProps = {
   onResize: null,
   render: undefined,
   children: null,
-  nodeType: 'div',
+  nodeType: 'div'
 };
 
 export default ResizeDetector;
