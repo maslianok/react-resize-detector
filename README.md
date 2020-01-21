@@ -1,4 +1,4 @@
-# Handle element resizes like it's 2019!
+# Handle element resizes like it's 2020!
 
 Nowadays browsers have started to support element resize handling natively using [ResizeObservers](https://wicg.github.io/ResizeObserver/). We use this feature (with a [polyfill](https://github.com/que-etc/resize-observer-polyfill)) to help you handle element resizes in React.
 
