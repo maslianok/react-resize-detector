@@ -5,3 +5,7 @@ src
 test
 examples
 .babelrc
+yarn.lock
+.eslintignore
+.eslintrc
+.travis.yml
