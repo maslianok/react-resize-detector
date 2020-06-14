@@ -184,3 +184,7 @@ import ReactResizeDetector from 'react-resize-detector';
 ## License
 
 MIT
+
+## ❤️
+
+Show us some love and STAR ⭐the project if you find it useful
