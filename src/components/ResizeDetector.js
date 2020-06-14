@@ -181,6 +181,13 @@ class ResizeDetector extends PureComponent {
       case 'childFunction':
         return children(childProps);
       case 'child':
+        // @TODO bug prone logic
+        if (typeof children.type === 'string') {
+          // child is a native DOM elements such as div, span etc
+          const { targetRef, ...nativeProps } = childProps;
+          return cloneElement(children, nativeProps);
+        }
+        // class or functional component otherwise
         return cloneElement(children, childProps);
       case 'childArray':
         return children.map(el => !!el && cloneElement(el, childProps));
