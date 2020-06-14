@@ -1,11 +1,10 @@
-import React, { PureComponent, isValidElement, cloneElement, createElement } from 'react';
+import React, { PureComponent, isValidElement, cloneElement, createRef } from 'react';
 import { findDOMNode } from 'react-dom';
 import ResizeObserver from 'resize-observer-polyfill';
 import rafSchd from 'raf-schd';
-import { bool, number, string, shape, func, any, node } from 'prop-types';
+import { bool, number, string, shape, func, any, node, oneOfType, instanceOf } from 'prop-types';
 
 import { getHandle, isFunction, isSSR, isDOMElement } from 'lib/utils';
-import ChildWrapper from 'components/ChildWrapper';
 
 class ResizeDetector extends PureComponent {
   constructor(props) {
@@ -20,8 +19,8 @@ class ResizeDetector extends PureComponent {
 
     this.skipOnMount = skipOnMount;
     this.raf = null;
-    this.element = null;
     this.unmounted = false;
+    this.targetRef = createRef();
 
     const handle = getHandle(refreshMode);
     this.resizeHandler = handle
@@ -32,6 +31,10 @@ class ResizeDetector extends PureComponent {
   }
 
   componentDidMount() {
+    const { targetRef } = this.props;
+    if (targetRef && targetRef.current) {
+      this.targetRef.current = targetRef.current;
+    }
     this.toggleObserver('observe');
   }
 
@@ -72,16 +75,33 @@ class ResizeDetector extends PureComponent {
 
     if (isSSR()) return undefined;
 
+    // in case we pass a querySelector
     if (querySelector) return document.querySelector(querySelector);
-
+    // in case we pass a DOM element
     if (targetDomEl && isDOMElement(targetDomEl)) return targetDomEl;
+    // in case we pass a React ref using React.createRef()
+    if (this.targetRef && isDOMElement(this.targetRef.current)) return this.targetRef.current;
 
+    // the worse case when we don't receive any information from the parent and the library doesn't add any wrappers
+    // we have to use a deprecated `findDOMNode` method in order to find a DOM element to attach to
     // eslint-disable-next-line react/no-find-dom-node
-    const currentElement = this.element && findDOMNode(this.element);
+    const currentElement = findDOMNode(this);
 
     if (!currentElement) return undefined;
 
-    return currentElement.parentElement;
+    const renderType = this.getRenderType();
+    switch (renderType) {
+      case 'renderProp':
+        return currentElement;
+      case 'childFunction':
+        return currentElement;
+      case 'child':
+        return currentElement;
+      case 'childArray':
+        return currentElement;
+      default:
+        return currentElement.parentElement;
+    }
   };
 
   createUpdater = () => {
@@ -124,13 +144,10 @@ class ResizeDetector extends PureComponent {
     });
   };
 
-  onRef = el => {
-    this.element = el;
-  };
-
   getRenderType = () => {
     const { render, children } = this.props;
     if (isFunction(render)) {
+      // DEPRECATED. Use `Child Function Pattern` instead
       return 'renderProp';
     }
 
@@ -143,35 +160,33 @@ class ResizeDetector extends PureComponent {
     }
 
     if (Array.isArray(children)) {
+      // DEPRECATED. Wrap children with a single parent
       return 'childArray';
     }
 
+    // DEPRECATED. Use `Child Function Pattern` instead
     return 'parent';
   };
 
-  getTargetComponent = () => {
-    const { render, children, nodeType } = this.props;
+  render() {
+    const { render, children, nodeType: WrapperTag } = this.props;
     const { width, height } = this.state;
 
-    const childProps = { width, height };
+    const childProps = { width, height, targetRef: this.targetRef };
     const renderType = this.getRenderType();
 
     switch (renderType) {
       case 'renderProp':
-        return cloneElement(render(childProps), { key: 'resize-detector' });
+        return render(childProps);
       case 'childFunction':
-        return cloneElement(children(childProps));
+        return children(childProps);
       case 'child':
         return cloneElement(children, childProps);
       case 'childArray':
         return children.map(el => !!el && cloneElement(el, childProps));
       default:
-        return createElement(nodeType);
+        return <WrapperTag />;
     }
-  };
-
-  render() {
-    return <ChildWrapper ref={this.onRef}>{this.getTargetComponent()}</ChildWrapper>;
   }
 }
 
@@ -187,6 +202,7 @@ ResizeDetector.propTypes = {
   }),
   querySelector: string,
   targetDomEl: any, // eslint-disable-line react/forbid-prop-types
+  targetRef: oneOfType([func, shape({ current: instanceOf(Element) })]),
   onResize: func,
   render: func,
   children: any, // eslint-disable-line react/forbid-prop-types
@@ -194,14 +210,15 @@ ResizeDetector.propTypes = {
 };
 
 ResizeDetector.defaultProps = {
-  handleWidth: false,
-  handleHeight: false,
+  handleWidth: true,
+  handleHeight: true,
   skipOnMount: false,
   refreshRate: 1000,
   refreshMode: undefined,
   refreshOptions: undefined,
   querySelector: null,
   targetDomEl: null,
+  targetRef: null,
   onResize: null,
   render: undefined,
   children: null,
