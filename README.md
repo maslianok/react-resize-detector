@@ -187,4 +187,4 @@ MIT
 
 ## ❤️
 
-Show us some love and STAR ⭐the project if you find it useful
+Show us some love and STAR ⭐ the project if you find it useful
