@@ -197,6 +197,12 @@ class ResizeDetector extends PureComponent {
   }
 }
 
+if (typeof Element === 'undefined') {
+  // server-side polyfill
+  // eslint-disable-next-line no-global-assign
+  Element = function () {};
+}
+
 ResizeDetector.propTypes = {
   handleWidth: bool,
   handleHeight: bool,
