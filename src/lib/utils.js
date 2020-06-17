@@ -2,7 +2,7 @@ import { debounce, throttle } from 'lodash';
 
 export const listHandle = {
   debounce,
-  throttle,
+  throttle
 };
 
 export const getHandle = type => listHandle[type];

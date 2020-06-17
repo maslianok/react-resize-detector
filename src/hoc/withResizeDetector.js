@@ -1,5 +1,5 @@
 import React, { createRef, forwardRef } from 'react';
-import { shape, func, oneOfType, instanceOf } from 'prop-types';
+import { shape, func, oneOfType, any } from 'prop-types';
 
 import ResizeDetector from 'components/ResizeDetector';
 
@@ -27,7 +27,7 @@ function withResizeDetector(Component, options = { handleWidth: true, handleHeig
   forwardRefWrapper.displayName = `withResizeDetector(${name})`;
 
   ResizeDetectorHOC.propTypes = {
-    forwardedRef: oneOfType([func, shape({ current: instanceOf(Element) })])
+    forwardedRef: oneOfType([func, shape({ current: any })])
   };
 
   ResizeDetectorHOC.defaultProps = {
