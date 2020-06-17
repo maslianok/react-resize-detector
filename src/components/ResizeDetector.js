@@ -2,7 +2,7 @@ import React, { PureComponent, isValidElement, cloneElement, createRef } from 'r
 import { findDOMNode } from 'react-dom';
 import ResizeObserver from 'resize-observer-polyfill';
 import rafSchd from 'raf-schd';
-import { bool, number, string, shape, func, any, node, oneOfType, instanceOf } from 'prop-types';
+import { bool, number, string, shape, func, any, node, oneOfType } from 'prop-types';
 
 import { getHandle, isFunction, isSSR, isDOMElement } from 'lib/utils';
 
@@ -197,12 +197,6 @@ class ResizeDetector extends PureComponent {
   }
 }
 
-if (typeof Element === 'undefined') {
-  // server-side polyfill
-  // eslint-disable-next-line no-global-assign
-  Element = function () {};
-}
-
 ResizeDetector.propTypes = {
   handleWidth: bool,
   handleHeight: bool,
@@ -215,7 +209,7 @@ ResizeDetector.propTypes = {
   }),
   querySelector: string,
   targetDomEl: any, // eslint-disable-line react/forbid-prop-types
-  targetRef: oneOfType([func, shape({ current: instanceOf(Element) })]),
+  targetRef: oneOfType([func, shape({ current: any })]),
   onResize: func,
   render: func,
   children: any, // eslint-disable-line react/forbid-prop-types
