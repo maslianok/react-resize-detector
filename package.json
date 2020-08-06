@@ -14,7 +14,7 @@
     "test": "npm run lint && npm run clean && npm run build"
   },
   "dependencies": {
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.19",
     "lodash-es": "^4.17.15",
     "prop-types": "^15.7.2",
     "raf-schd": "^4.0.2",
