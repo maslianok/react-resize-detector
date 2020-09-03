@@ -21,6 +21,7 @@ class ResizeDetector extends PureComponent {
     this.raf = null;
     this.unmounted = false;
     this.targetRef = createRef();
+    this.observableElement = null;
 
     const handle = getHandle(refreshMode);
     this.resizeHandler = handle
@@ -31,20 +32,17 @@ class ResizeDetector extends PureComponent {
   }
 
   componentDidMount() {
-    const { targetRef } = this.props;
-    if (targetRef && targetRef.current) {
-      this.targetRef.current = targetRef.current;
-    }
-    this.toggleObserver('observe');
+    this.attachObserver();
+  }
+
+  componentDidUpdate() {
+    this.attachObserver();
   }
 
   componentWillUnmount() {
-    this.toggleObserver('unobserve');
-
+    this.resizeObserver.disconnect();
     this.rafClean();
-
     this.cancelHandler();
-
     this.unmounted = true;
   }
 
@@ -63,11 +61,27 @@ class ResizeDetector extends PureComponent {
     }
   };
 
-  toggleObserver = type => {
-    const element = this.getElement();
-    if (!element || !this.resizeObserver[type]) return;
+  attachObserver = () => {
+    const { targetRef } = this.props;
+    if (targetRef && targetRef.current) {
+      this.targetRef.current = targetRef.current;
+    }
 
-    this.resizeObserver[type](element);
+    const element = this.getElement();
+    if (!element) {
+      // can't find element to observe
+      return;
+    }
+
+    if (this.observableElement && this.observableElement === element) {
+      // element is already observed
+      console.log(1);
+      return;
+    }
+
+    console.log(2);
+    this.observableElement = element;
+    this.resizeObserver.observe(element);
   };
 
   getElement = () => {
