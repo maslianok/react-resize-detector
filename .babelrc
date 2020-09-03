@@ -16,6 +16,13 @@
       {
         "root": ["./", "./src"]
       }
+    ],
+    [
+      "transform-react-remove-prop-types",
+      {
+        "removeImport": true,
+        "ignoreFilenames": ["node_modules"]
+      }
     ]
   ],
   "env": {
