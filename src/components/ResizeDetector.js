@@ -75,11 +75,9 @@ class ResizeDetector extends PureComponent {
 
     if (this.observableElement && this.observableElement === element) {
       // element is already observed
-      console.log(1);
       return;
     }
 
-    console.log(2);
     this.observableElement = element;
     this.resizeObserver.observe(element);
   };
