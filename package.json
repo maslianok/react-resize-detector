@@ -15,7 +15,6 @@
   },
   "dependencies": {
     "lodash": "^4.17.20",
-    "lodash-es": "^4.17.15",
     "prop-types": "^15.7.2",
     "raf-schd": "^4.0.2",
     "resize-observer-polyfill": "^1.5.1"

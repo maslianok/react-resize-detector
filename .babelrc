@@ -35,17 +35,6 @@
           }
         ],
         "@babel/react"
-      ],
-      "plugins": [
-        [
-          "transform-imports",
-          {
-            "lodash": {
-              "transform": "lodash-es/${member}",
-              "preventFullImport": true
-            }
-          }
-        ]
       ]
     }
   }
