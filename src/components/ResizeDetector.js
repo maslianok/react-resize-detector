@@ -184,7 +184,7 @@ class ResizeDetector extends PureComponent {
     const { render, children, nodeType: WrapperTag } = this.props;
     const { width, height } = this.state;
 
-    const childProps = { width, height, targetRef: this.targetRef };
+    const childProps = { width, height };
     const renderType = this.getRenderType();
 
     switch (renderType) {
@@ -193,9 +193,7 @@ class ResizeDetector extends PureComponent {
       case 'childFunction':
         return children(childProps);
       case 'child':
-        // targetRef must be removed from the props
-        const { targetRef, ...nativeProps } = childProps;
-        return cloneElement(children, nativeProps);
+        return cloneElement(children, childProps);
       case 'childArray':
         return children.map(el => !!el && cloneElement(el, childProps));
       default:
