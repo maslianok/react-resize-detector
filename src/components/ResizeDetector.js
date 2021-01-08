@@ -4,7 +4,7 @@ import ResizeObserver from 'resize-observer-polyfill';
 import rafSchd from 'raf-schd';
 import { bool, number, string, shape, func, any, node, oneOfType } from 'prop-types';
 
-import { getHandle, isFunction, isSSR, isDOMElement } from 'lib/utils';
+import { getRefreshScheduler, isFunction, isSSR, isDOMElement } from '../lib/utils';
 
 class ResizeDetector extends PureComponent {
   constructor(props) {
@@ -19,13 +19,12 @@ class ResizeDetector extends PureComponent {
 
     this.skipOnMount = skipOnMount;
     this.raf = null;
-    this.unmounted = false;
     this.targetRef = createRef();
     this.observableElement = null;
 
-    const handle = getHandle(refreshMode);
-    this.resizeHandler = handle
-      ? handle(this.createResizeHandler, refreshRate, refreshOptions)
+    const refreshScheduler = getRefreshScheduler(refreshMode);
+    this.resizeHandler = refreshScheduler
+      ? refreshScheduler(this.createResizeHandler, refreshRate, refreshOptions)
       : this.createResizeHandler;
 
     this.resizeObserver = new ResizeObserver(this.resizeHandler);
@@ -43,7 +42,6 @@ class ResizeDetector extends PureComponent {
     this.resizeObserver.disconnect();
     this.rafClean();
     this.cancelHandler();
-    this.unmounted = true;
   }
 
   cancelHandler = () => {

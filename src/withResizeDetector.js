@@ -1,7 +1,7 @@
 import React, { createRef, forwardRef } from 'react';
 import { shape, func, oneOfType, any } from 'prop-types';
 
-import ResizeDetector from 'components/ResizeDetector';
+import ResizeDetector from './components/ResizeDetector';
 
 function withResizeDetector(Component, options = { handleWidth: true, handleHeight: true }) {
   class ResizeDetectorHOC extends React.Component {

@@ -18,9 +18,22 @@ yarn add react-resize-detector
 
 ## Examples
 
-Starting from v5.0.0 there are 2 recommended ways to work with `resize-detector` library:
+Starting from v6.0.0 there are 3 recommended ways to work with `resize-detector` library:
 
-#### 1. HOC pattern
+#### 1. React hook (new in v6.0.0)
+
+```jsx
+import { useResizeDetector } from 'react-resize-detector';
+
+const CustomComponent = () => {
+  const { width, height, ref } = useResizeDetector();
+  return <div ref={ref}>{`${width}x${height}`}</div>;
+};
+```
+
+you can pass props as an object to useResizeDetector. For example, `useResizeDetector({ refreshMode: 'debounce', refreshRate: 1000 })`
+
+#### 2. HOC pattern
 
 ```jsx
 import { withResizeDetector } from 'react-resize-detector';
@@ -30,7 +43,7 @@ const CustomComponent = ({ width, height }) => <div>{`${width}x${height}`}</div>
 export default withResizeDetector(CustomComponent);
 ```
 
-#### 2. Child Function Pattern
+#### 3. Child Function Pattern
 
 ```jsx
 import ReactResizeDetector from 'react-resize-detector';

@@ -1,12 +1,12 @@
 import debounce from 'lodash/debounce';
 import throttle from 'lodash/throttle';
 
-export const listHandle = {
+export const refreshSchedulers = {
   debounce,
   throttle
 };
 
-export const getHandle = type => listHandle[type];
+export const getRefreshScheduler = type => refreshSchedulers[type];
 
 export const isFunction = fn => typeof fn === 'function';
 
