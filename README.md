@@ -1,19 +1,37 @@
-# Handle element resizes like it's 2020!
+# Handle element resizes like it's 2021!
 
 <img src="https://img.shields.io/npm/dy/react-resize-detector?style=flat-square">
 <img src="https://img.shields.io/npm/dm/react-resize-detector?style=flat-square">
 
 #### [Live demo](http://maslianok.github.io/react-resize-detector/)
 
-Nowadays browsers have started to support element resize handling natively using [ResizeObservers](https://wicg.github.io/ResizeObserver/). We use this feature (with a [polyfill](https://github.com/que-etc/resize-observer-polyfill)) to help you handle element resizes in React.  
-No `window.resize` listeners! No timeouts! Just a pure implementation with a lightning-fast polyfill!
+Nowadays browsers support element resize handling natively using [ResizeObservers](https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserver). The library uses these observers to help you handle element resizes in React.
+
+🐥 Tiny [~6kb](https://bundlephobia.com/result?p=react-resize-detector)
+
+🐼 Written in TypeScript
+
+🦁 Supports Function and Class Components
+
+🐠 Trusted by [many different projects](https://www.npmjs.com/browse/depended/react-resize-detector)
+
+No `window.resize` listeners! No timeouts! No 👑 viruses! :)
 
 ## Installation
 
-```
+```ssh
 npm i react-resize-detector
 // OR
 yarn add react-resize-detector
+```
+
+and
+
+```jsx
+import ResizeObserver from 'react-resize-detector';
+
+// or, in case you need IE support and ready to load extra kilobytes
+import ResizeObserver from 'react-resize-detector/withPolyfill';
 ```
 
 ## Examples

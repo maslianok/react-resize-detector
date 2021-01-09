@@ -1,10 +1,16 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef, MutableRefObject } from 'react';
 import rafSchd from 'raf-schd';
 
-import { getRefreshScheduler, isFunction, isSSR } from './lib/utils';
+import { patchResizeHandler, isFunction, isSSR, patchResizeHandlerType } from './utils';
+
+import { Props, ReactResizeDetectorDimensions } from './ResizeDetector';
+
+type resizeHandlerType = MutableRefObject<null | patchResizeHandlerType>;
+interface returnType extends ReactResizeDetectorDimensions {
+  ref: MutableRefObject<undefined | Element>
+}
 
 const createAsyncNotifier = (onResize, setSize) =>
-  // eslint-disable-next-line implicit-arrow-linebreak
   rafSchd(({ width, height }) => {
     if (isFunction(onResize)) {
       onResize(width, height);
@@ -13,20 +19,20 @@ const createAsyncNotifier = (onResize, setSize) =>
     setSize({ width, height });
   });
 
-function useResizeDetector(props = {}) {
+function useResizeDetector(props: Props = {}): returnType {
   const {
     skipOnMount = false,
     refreshMode,
-    refreshRate,
+    refreshRate = 1000,
     refreshOptions,
     handleWidth = true,
     handleHeight = true,
     onResize
   } = props;
 
-  const skipResize = useRef(null);
-  const ref = useRef(null);
-  const resizeHandler = useRef(null);
+  const skipResize: MutableRefObject<null | boolean> = useRef(null);
+  const ref: MutableRefObject<undefined | Element> = useRef();
+  const resizeHandler: resizeHandlerType = useRef(null);
   const onResizeCallback = useRef(onResize);
 
   useEffect(() => {
@@ -43,7 +49,7 @@ function useResizeDetector(props = {}) {
   useEffect(() => {
     const notifyResizeAsync = createAsyncNotifier(onResizeCallback.current, setSize);
 
-    const createResizeHandler = entries => {
+    const resizeCallback: ResizeObserverCallback = entries => {
       if (!handleWidth && !handleHeight) return;
 
       entries.forEach(entry => {
@@ -58,20 +64,19 @@ function useResizeDetector(props = {}) {
       });
     };
 
-    const refreshScheduler = getRefreshScheduler(refreshMode);
-
-    resizeHandler.current = refreshScheduler
-      ? refreshScheduler(createResizeHandler, refreshRate, refreshOptions)
-      : createResizeHandler;
+    resizeHandler.current = patchResizeHandler(resizeCallback, refreshMode, refreshRate, refreshOptions);
 
     const resizeObserver = new ResizeObserver(resizeHandler.current);
-    resizeObserver.observe(ref.current);
+    if (ref.current) {
+      resizeObserver.observe(ref.current);
+    }
 
     return () => {
       resizeObserver.disconnect();
       notifyResizeAsync.cancel();
-      if (resizeHandler.current && resizeHandler.current.cancel) {
-        resizeHandler.current.cancel();
+      const patchedResizeHandler = resizeHandler.current as any;
+      if (patchedResizeHandler && patchedResizeHandler.cancel) {
+        patchedResizeHandler.cancel();
       }
     };
   }, [refreshMode, refreshRate, refreshOptions, handleWidth, handleHeight, onResizeCallback]);

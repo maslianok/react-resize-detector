@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useResizeDetector, withResizeDetector } from 'react-resize-detector';
+import { useResizeDetector, withResizeDetector } from './build';
 
 const s = {
   wrapper: {
@@ -34,42 +34,19 @@ const s = {
   }
 };
 
-// const MainFrame = ({ onHideLeftPanel }) => {
-//   const [count, setCount] = useState(0);
-//   const { width, height, ref } = useResizeDetector();
-
-//   useEffect(() => {
-//     if (width || height) {
-//       setCount(count => count + 1);
-//     }
-//   }, [width, height]);
-
-//   return (
-//     <div style={s.rightColumn} ref={ref}>
-//       <div style={s.toggleLeftColumnBtn}>
-//         <button onClick={onHideLeftPanel} type="button">
-//           Toggle left panel
-//         </button>
-//         <span> or resize window.</span>
-//       </div>
-
-//       <div>{`Main div resized ${count} times`}</div>
-//       <div style={s.dimensions}>{`Width: ${width}, Height: ${height}`}</div>
-//     </div>
-//   );
-// };
-
-const MainFrameInner = ({ onHideLeftPanel, width, height }) => {
+const MainFrame = ({ onHideLeftPanel }) => {
   const [count, setCount] = useState(0);
+  const { width, height, ref } = useResizeDetector();
+  // { refreshMode: 'debounce', refreshRate: 2000, skipOnMount: true }
 
   useEffect(() => {
     if (width || height) {
       setCount(count => count + 1);
     }
-  }, [width, height, setCount]);
+  }, [width, height]);
 
   return (
-    <div style={s.rightColumn}>
+    <div style={s.rightColumn} ref={ref}>
       <div style={s.toggleLeftColumnBtn}>
         <button onClick={onHideLeftPanel} type="button">
           Toggle left panel
@@ -83,7 +60,31 @@ const MainFrameInner = ({ onHideLeftPanel, width, height }) => {
   );
 };
 
-const MainFrame = withResizeDetector(MainFrameInner);
+// const MainFrameInner = ({ onHideLeftPanel, width, height }) => {
+//   const [count, setCount] = useState(0);
+
+//   useEffect(() => {
+//     if (width || height) {
+//       setCount(count => count + 1);
+//     }
+//   }, [width, height, setCount]);
+
+//   return (
+//     <div style={s.rightColumn}>
+//       <div style={s.toggleLeftColumnBtn}>
+//         <button onClick={onHideLeftPanel} type="button">
+//           Toggle left panel
+//         </button>
+//         <span> or resize window.</span>
+//       </div>
+
+//       <div>{`Main div resized ${count} times`}</div>
+//       <div style={s.dimensions}>{`Width: ${width}, Height: ${height}`}</div>
+//     </div>
+//   );
+// };
+
+// const MainFrame = withResizeDetector(MainFrameInner);
 
 const App = () => {
   const [isLeftPanelVisible, setLeftPanelVisibility] = useState(true);

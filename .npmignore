@@ -4,8 +4,10 @@ node_modules
 src
 test
 examples
-.babelrc
 yarn.lock
+tsconfig.json
+.babelrc
 .eslintignore
 .eslintrc
+.gitignore
 .travis.yml
