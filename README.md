@@ -7,7 +7,7 @@
 
 Nowadays browsers support element resize handling natively using [ResizeObservers](https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserver). The library uses these observers to help you handle element resizes in React.
 
-🐥 Tiny [~6kb](https://bundlephobia.com/result?p=react-resize-detector)
+🐥 Tiny [~3kb](https://bundlephobia.com/result?p=react-resize-detector)
 
 🐼 Written in TypeScript
 
