@@ -17,6 +17,8 @@ Nowadays browsers support element resize handling natively using [ResizeObserver
 
 No `window.resize` listeners! No timeouts! No 👑 viruses! :)
 
+<i>TypeScript-lovers notice: starting from v6.0.0 you may safely remove `@types/react-resize-detector` from you deps list.</i>
+
 ## Installation
 
 ```ssh
