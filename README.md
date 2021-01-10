@@ -1,7 +1,6 @@
 # Handle element resizes like it's 2021!
 
-<img src="https://img.shields.io/npm/dy/react-resize-detector?style=flat-square">
-<img src="https://img.shields.io/npm/dm/react-resize-detector?style=flat-square">
+<img src="https://img.shields.io/npm/dy/react-resize-detector?style=flat-square"> <img src="https://img.shields.io/npm/dm/react-resize-detector?style=flat-square"> <img src="https://badgen.net/bundlephobia/minzip/react-resize-detector?style=flat-square"> <img src="https://badgen.net/bundlephobia/tree-shaking/react-resize-detector?style=flat-square">
 
 #### [Live demo](http://maslianok.github.io/react-resize-detector/)
 
