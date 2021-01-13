@@ -1,18 +1,20 @@
 # Handle element resizes like it's 2021!
 
-<img src="https://img.shields.io/npm/dy/react-resize-detector?style=flat-square"> <img src="https://img.shields.io/npm/dm/react-resize-detector?style=flat-square"> <img src="https://badgen.net/bundlephobia/minzip/react-resize-detector?style=flat-square"> <img src="https://badgen.net/bundlephobia/tree-shaking/react-resize-detector?style=flat-square">
+<img src="https://img.shields.io/npm/dm/react-resize-detector?style=flat-square"> <img src="https://badgen.net/bundlephobia/minzip/react-resize-detector?style=flat-square"> <img src="https://badgen.net/bundlephobia/tree-shaking/react-resize-detector?style=flat-square">
 
 #### [Live demo](http://maslianok.github.io/react-resize-detector/)
 
 Nowadays browsers support element resize handling natively using [ResizeObservers](https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserver). The library uses these observers to help you handle element resizes in React.
 
-🐥 Tiny [~3kb](https://bundlephobia.com/result?p=react-resize-detector)
+🐥 Tiny <a href="https://bundlephobia.com/result?p=react-resize-detector" target="__blank">~3kb</a>
 
 🐼 Written in TypeScript
 
 🦁 Supports Function and Class Components
 
-🐠 Trusted by [many different projects](https://www.npmjs.com/browse/depended/react-resize-detector)
+🐠 Used by <a href="https://github.com/maslianok/react-resize-detector/network/dependents" target="__blank">20k+ repositories</a>
+
+🦄 Generating 35M+ downloads/year
 
 No `window.resize` listeners! No timeouts! No 👑 viruses! :)
 

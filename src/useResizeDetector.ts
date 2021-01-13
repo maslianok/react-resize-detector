@@ -47,6 +47,10 @@ function useResizeDetector(props: Props = {}): returnType {
   });
 
   useEffect(() => {
+    if (isSSR()) {
+      return;
+    }
+
     const notifyResizeAsync = createAsyncNotifier(onResizeCallback.current, setSize);
 
     const resizeCallback: ResizeObserverCallback = entries => {
@@ -66,7 +70,7 @@ function useResizeDetector(props: Props = {}): returnType {
 
     resizeHandler.current = patchResizeHandler(resizeCallback, refreshMode, refreshRate, refreshOptions);
 
-    const resizeObserver = new ResizeObserver(resizeHandler.current);
+    const resizeObserver = new window.ResizeObserver(resizeHandler.current);
     if (ref.current) {
       resizeObserver.observe(ref.current);
     }

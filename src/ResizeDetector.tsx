@@ -123,9 +123,12 @@ class ResizeDetector extends PureComponent<ComponentsProps, ReactResizeDetectorD
     this.targetRef = createRef();
     this.observableElement = null;
 
-    this.resizeHandler = patchResizeHandler(this.createResizeHandler, refreshMode, refreshRate, refreshOptions);
+    if (isSSR()) {
+      return;
+    }
 
-    this.resizeObserver = new ResizeObserver(this.resizeHandler);
+    this.resizeHandler = patchResizeHandler(this.createResizeHandler, refreshMode, refreshRate, refreshOptions);
+    this.resizeObserver = new window.ResizeObserver(this.resizeHandler);
   }
 
   componentDidMount(): void {
@@ -137,6 +140,9 @@ class ResizeDetector extends PureComponent<ComponentsProps, ReactResizeDetectorD
   }
 
   componentWillUnmount(): void {
+    if (isSSR()) {
+      return;
+    }
     this.resizeObserver.disconnect();
     this.rafClean();
     this.cancelHandler();
@@ -159,6 +165,11 @@ class ResizeDetector extends PureComponent<ComponentsProps, ReactResizeDetectorD
 
   attachObserver = (): void => {
     const { targetRef } = this.props;
+
+    if (isSSR()) {
+      return;
+    }
+
     if (targetRef && targetRef.current) {
       this.targetRef.current = targetRef.current;
     }
