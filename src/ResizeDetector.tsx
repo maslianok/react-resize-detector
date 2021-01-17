@@ -17,6 +17,10 @@ export interface ReactResizeDetectorDimensions {
   width?: number;
 }
 
+interface ChildFunctionProps extends ReactResizeDetectorDimensions {
+  targetRef?: RefObject<HTMLElement>
+}
+
 export interface Props {
   /**
    * Function that will be invoked with observable element's width and height.
@@ -98,7 +102,7 @@ export interface ComponentsProps extends Props {
 
   render?: (props: ReactResizeDetectorDimensions) => ReactNode;
 
-  children: ReactNode | ((width: number, height: number, targetRef) => ReactNode);
+  children: ReactNode | ((props: ChildFunctionProps) => ReactNode);
 }
 
 class ResizeDetector extends PureComponent<ComponentsProps, ReactResizeDetectorDimensions> {
@@ -299,7 +303,7 @@ class ResizeDetector extends PureComponent<ComponentsProps, ReactResizeDetectorD
       case 'renderProp':
         return render && render(childProps);
       case 'childFunction':
-        typedChildren = children as (props: { width?: number; height?: number; targetRef?: any }) => ReactNode;
+        typedChildren = children as (props: ChildFunctionProps) => ReactNode;
         return typedChildren(childProps);
       case 'child':
         // @TODO bug prone logic

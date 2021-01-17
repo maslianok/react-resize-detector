@@ -6,20 +6,20 @@ import { patchResizeHandler, isFunction, isSSR, patchResizeHandlerType } from '.
 import { Props, ReactResizeDetectorDimensions } from './ResizeDetector';
 
 type resizeHandlerType = MutableRefObject<null | patchResizeHandlerType>;
-interface returnType extends ReactResizeDetectorDimensions {
-  ref: MutableRefObject<undefined | Element>
+interface returnType<RefType> extends ReactResizeDetectorDimensions {
+  ref: MutableRefObject<null | RefType>
 }
 
-const createAsyncNotifier = (onResize, setSize) =>
+const createAsyncNotifier = (onResize: Props['onResize'], setSize: (size: ReactResizeDetectorDimensions) => void) =>
   rafSchd(({ width, height }) => {
-    if (isFunction(onResize)) {
+    if (onResize && isFunction(onResize)) {
       onResize(width, height);
     }
 
     setSize({ width, height });
   });
 
-function useResizeDetector(props: Props = {}): returnType {
+function useResizeDetector<RefType extends Element = Element>(props: Props = {}): returnType<RefType> {
   const {
     skipOnMount = false,
     refreshMode,
@@ -31,7 +31,7 @@ function useResizeDetector(props: Props = {}): returnType {
   } = props;
 
   const skipResize: MutableRefObject<null | boolean> = useRef(null);
-  const ref: MutableRefObject<undefined | Element> = useRef();
+  const ref: MutableRefObject<null | RefType> = useRef<RefType>(null);
   const resizeHandler: resizeHandlerType = useRef(null);
   const onResizeCallback = useRef(onResize);
 
@@ -41,7 +41,7 @@ function useResizeDetector(props: Props = {}): returnType {
     }
   }, [skipOnMount]);
 
-  const [size, setSize] = useState({
+  const [size, setSize] = useState<ReactResizeDetectorDimensions>({
     width: undefined,
     height: undefined
   });
@@ -72,7 +72,7 @@ function useResizeDetector(props: Props = {}): returnType {
 
     const resizeObserver = new window.ResizeObserver(resizeHandler.current);
     if (ref.current) {
-      resizeObserver.observe(ref.current);
+      resizeObserver.observe(ref.current as Element);
     }
 
     return () => {
