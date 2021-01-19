@@ -14,9 +14,10 @@
   "scripts": {
     "build": "rollup -c",
     "link": "npm link react react-dom",
-    "prerelease": "npm version premajor --preid=alpha"
+    "prerelease": "npm version prerelease --preid=rc"
   },
   "dependencies": {
+    "@types/resize-observer-browser": "^0.1.5",
     "lodash.debounce": "^4.0.8",
     "lodash.throttle": "^4.1.1",
     "raf-schd": "^4.0.2",
@@ -33,7 +34,6 @@
     "@types/raf-schd": "^4.0.0",
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
-    "@types/resize-observer-browser": "^0.1.4",
     "@typescript-eslint/eslint-plugin": "^4.12.0",
     "@typescript-eslint/parser": "^4.12.0",
     "babel-eslint": "^10.0.3",
