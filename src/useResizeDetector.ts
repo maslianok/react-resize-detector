@@ -10,13 +10,22 @@ interface returnType<RefType> extends ReactResizeDetectorDimensions {
   ref: MutableRefObject<null | RefType>
 }
 
-const createAsyncNotifier = (onResize: Props['onResize'], setSize: (size: ReactResizeDetectorDimensions) => void) =>
+const createAsyncNotifier = (
+  onResize: Props['onResize'],
+  setSize: React.Dispatch<React.SetStateAction<ReactResizeDetectorDimensions>>
+) =>
   rafSchd(({ width, height }) => {
     if (onResize && isFunction(onResize)) {
       onResize(width, height);
     }
 
-    setSize({ width, height });
+    setSize(prev => {
+      if (prev.width === width && prev.height === height) {
+        return prev;
+      } else {
+        return { width, height };
+      }
+    });
   });
 
 function useResizeDetector<RefType extends Element = Element>(props: Props = {}): returnType<RefType> {
