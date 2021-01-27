@@ -22,9 +22,8 @@ const createAsyncNotifier = (
     setSize(prev => {
       if (prev.width === width && prev.height === height) {
         return prev;
-      } else {
-        return { width, height };
       }
+      return { width, height };
     });
   });
 
