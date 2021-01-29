@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useResizeDetector, withResizeDetector } from './build';
+import { useResizeDetector, withResizeDetector } from 'react-resize-detector/build/withPolyfill';
 
 const s = {
   wrapper: {
