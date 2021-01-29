@@ -35,9 +35,7 @@ export const createNotifier = (
     onResize(width, height);
   }
 
-  console.log('111111');
   setSize(prev => {
-    console.log('prev', prev);
     if (prev.width === width && prev.height === height) {
       return prev;
     }
