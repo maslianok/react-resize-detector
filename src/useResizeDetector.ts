@@ -1,31 +1,13 @@
 import { useEffect, useState, useRef, MutableRefObject } from 'react';
-import rafSchd from 'raf-schd';
 
-import { patchResizeHandler, isFunction, isSSR, patchResizeHandlerType } from './utils';
+import { patchResizeHandler, createNotifier, isSSR, patchResizeHandlerType } from './utils';
 
 import { Props, ReactResizeDetectorDimensions } from './ResizeDetector';
 
 type resizeHandlerType = MutableRefObject<null | patchResizeHandlerType>;
 interface returnType<RefType> extends ReactResizeDetectorDimensions {
-  ref: MutableRefObject<null | RefType>
+  ref: MutableRefObject<null | RefType>;
 }
-
-const createAsyncNotifier = (
-  onResize: Props['onResize'],
-  setSize: React.Dispatch<React.SetStateAction<ReactResizeDetectorDimensions>>
-) =>
-  rafSchd(({ width, height }) => {
-    if (onResize && isFunction(onResize)) {
-      onResize(width, height);
-    }
-
-    setSize(prev => {
-      if (prev.width === width && prev.height === height) {
-        return prev;
-      }
-      return { width, height };
-    });
-  });
 
 function useResizeDetector<RefType extends Element = Element>(props: Props = {}): returnType<RefType> {
   const {
@@ -59,7 +41,7 @@ function useResizeDetector<RefType extends Element = Element>(props: Props = {})
       return;
     }
 
-    const notifyResizeAsync = createAsyncNotifier(onResizeCallback.current, setSize);
+    const notifyResize = createNotifier(onResizeCallback.current, setSize);
 
     const resizeCallback: ResizeObserverCallback = entries => {
       if (!handleWidth && !handleHeight) return;
@@ -69,7 +51,7 @@ function useResizeDetector<RefType extends Element = Element>(props: Props = {})
 
         const shouldSetSize = !skipResize.current && !isSSR();
         if (shouldSetSize) {
-          notifyResizeAsync({ width, height });
+          notifyResize({ width, height });
         }
 
         skipResize.current = false;
@@ -85,7 +67,6 @@ function useResizeDetector<RefType extends Element = Element>(props: Props = {})
 
     return () => {
       resizeObserver.disconnect();
-      notifyResizeAsync.cancel();
       const patchedResizeHandler = resizeHandler.current as any;
       if (patchedResizeHandler && patchedResizeHandler.cancel) {
         patchedResizeHandler.cancel();

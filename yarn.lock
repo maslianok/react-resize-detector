@@ -494,11 +494,6 @@
   resolved "https://registry.yarnpkg.com/@types/prop-types/-/prop-types-15.7.3.tgz#2ab0d5da2e5815f94b0b9d4b95d1e5f243ab2ca7"
   integrity sha512-KfRL3PuHmqQLOG+2tGpRO26Ctg+Cq1E01D2DMriKEATHgWLfeNDmq9e29Q9WIky0dQ3NPkd1mzYH8Lm936Z9qw==
 
-"@types/raf-schd@^4.0.0":
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/@types/raf-schd/-/raf-schd-4.0.0.tgz#0f3f7a68aa385cc0eb52d257b56fe526134261ff"
-  integrity sha512-EsXE+pu4MjOhU+H2Ut/8zOGUtictm87anwxOcNY1HjxkH8ipLR+SzYnCzT4lQvyKJdcMwIGxhb8w/KZhOy6vaQ==
-
 "@types/react-dom@^17.0.0":
   version "17.0.0"
   resolved "https://registry.yarnpkg.com/@types/react-dom/-/react-dom-17.0.0.tgz#b3b691eb956c4b3401777ee67b900cb28415d95a"
@@ -2622,11 +2617,6 @@ punycode@^2.1.0:
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/punycode/-/punycode-2.1.1.tgz#b58b010ac40c22c5657616c8d2c2c02c7bf479ec"
   integrity sha512-XRsRjdf+j5ml+y/6GKHPZbrF/8p2Yga0JPtdqTIY2Xe5ohJPD9saDJJLPvp9+NSBprVvevdXZybnj2cv8OEd0A==
-
-raf-schd@^4.0.2:
-  version "4.0.2"
-  resolved "https://registry.yarnpkg.com/raf-schd/-/raf-schd-4.0.2.tgz#bd44c708188f2e84c810bf55fcea9231bcaed8a0"
-  integrity sha512-VhlMZmGy6A6hrkJWHLNTGl5gtgMUm+xfGza6wbwnE914yeQ5Ybm18vgM734RZhMgfw4tacUrWseGZlpUrrakEQ==
 
 react-is@^16.8.1:
   version "16.13.1"

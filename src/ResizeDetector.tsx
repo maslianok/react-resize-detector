@@ -8,9 +8,8 @@ import React, {
   RefObject
 } from 'react';
 import { findDOMNode } from 'react-dom';
-import rafSchd from 'raf-schd';
 
-import { patchResizeHandler, isFunction, isSSR, isDOMElement } from './utils';
+import { patchResizeHandler, isFunction, isSSR, isDOMElement, createNotifier } from './utils';
 
 export interface ReactResizeDetectorDimensions {
   height?: number;
@@ -18,7 +17,7 @@ export interface ReactResizeDetectorDimensions {
 }
 
 interface ChildFunctionProps extends ReactResizeDetectorDimensions {
-  targetRef?: RefObject<HTMLElement>
+  targetRef?: RefObject<HTMLElement>;
 }
 
 export interface Props {
@@ -26,7 +25,7 @@ export interface Props {
    * Function that will be invoked with observable element's width and height.
    * Default: undefined
    */
-  onResize?: (width: number, height: number) => void;
+  onResize?: (width?: number, height?: number) => void;
   /**
    * Trigger update on height change.
    * Default: true
@@ -107,7 +106,6 @@ export interface ComponentsProps extends Props {
 
 class ResizeDetector extends PureComponent<ComponentsProps, ReactResizeDetectorDimensions> {
   skipOnMount: boolean | undefined;
-  raf;
   targetRef;
   observableElement;
   resizeHandler;
@@ -123,7 +121,6 @@ class ResizeDetector extends PureComponent<ComponentsProps, ReactResizeDetectorD
     };
 
     this.skipOnMount = skipOnMount;
-    this.raf = null;
     this.targetRef = createRef();
     this.observableElement = null;
 
@@ -148,7 +145,6 @@ class ResizeDetector extends PureComponent<ComponentsProps, ReactResizeDetectorD
       return;
     }
     this.resizeObserver.disconnect();
-    this.rafClean();
     this.cancelHandler();
   }
 
@@ -157,13 +153,6 @@ class ResizeDetector extends PureComponent<ComponentsProps, ReactResizeDetectorD
       // cancel debounced handler
       this.resizeHandler.cancel();
       this.resizeHandler = null;
-    }
-  };
-
-  rafClean = (): void => {
-    if (this.raf && this.raf.cancel) {
-      this.raf.cancel();
-      this.raf = null;
     }
   };
 
@@ -226,29 +215,13 @@ class ResizeDetector extends PureComponent<ComponentsProps, ReactResizeDetectorD
     }
   };
 
-  createUpdater = (): ReturnType<typeof rafSchd> => {
-    this.rafClean();
-
-    this.raf = rafSchd(({ width, height }) => {
-      const { onResize } = this.props;
-
-      if (onResize && isFunction(onResize)) {
-        onResize(width, height);
-      }
-
-      this.setState({ width, height });
-    });
-
-    return this.raf;
-  };
-
   createResizeHandler: ResizeObserverCallback = (entries): void => {
     const { width: widthCurrent, height: heightCurrent } = this.state;
-    const { handleWidth = true, handleHeight = true } = this.props;
+    const { handleWidth = true, handleHeight = true, onResize } = this.props;
 
     if (!handleWidth && !handleHeight) return;
 
-    const updater = this.createUpdater();
+    const notifyResize = createNotifier(onResize, this.setState.bind(this));
 
     entries.forEach(entry => {
       const { width, height } = (entry && entry.contentRect) || {};
@@ -259,7 +232,7 @@ class ResizeDetector extends PureComponent<ComponentsProps, ReactResizeDetectorD
 
       const shouldSetSize = !this.skipOnMount && isSizeChanged && !isSSR();
       if (shouldSetSize) {
-        updater({ width, height });
+        notifyResize({ width, height });
       }
 
       this.skipOnMount = false;

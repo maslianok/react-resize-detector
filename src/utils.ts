@@ -1,12 +1,9 @@
 import debounce from 'lodash.debounce';
 import throttle from 'lodash.throttle';
 
-import { Props } from './ResizeDetector';
+import { Props, ReactResizeDetectorDimensions } from './ResizeDetector';
 
-export type patchResizeHandlerType =
-  ReturnType<typeof debounce> |
-  ReturnType<typeof throttle> |
-  ResizeObserverCallback;
+export type patchResizeHandlerType = ReturnType<typeof debounce> | ReturnType<typeof throttle> | ResizeObserverCallback;
 
 export const patchResizeHandler = (
   resizeCallback: ResizeObserverCallback,
@@ -29,3 +26,21 @@ export const isFunction = (fn: any): boolean => typeof fn === 'function';
 export const isSSR = (): boolean => typeof window === 'undefined';
 
 export const isDOMElement = (element: any): boolean => element instanceof Element || element instanceof HTMLDocument;
+
+export const createNotifier = (
+  onResize: Props['onResize'],
+  setSize: React.Dispatch<React.SetStateAction<ReactResizeDetectorDimensions>>
+) => ({ width, height }: ReactResizeDetectorDimensions): void => {
+  if (onResize && isFunction(onResize)) {
+    onResize(width, height);
+  }
+
+  console.log('111111');
+  setSize(prev => {
+    console.log('prev', prev);
+    if (prev.width === width && prev.height === height) {
+      return prev;
+    }
+    return { width, height };
+  });
+};
