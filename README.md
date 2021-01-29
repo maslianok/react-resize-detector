@@ -34,7 +34,7 @@ and
 import ResizeObserver from 'react-resize-detector';
 
 // or, in case you need IE support and ready to load extra kilobytes
-import ResizeObserver from 'react-resize-detector/withPolyfill';
+import ResizeObserver from 'react-resize-detector/build/withPolyfill';
 ```
 
 ## Examples
