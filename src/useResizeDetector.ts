@@ -65,7 +65,7 @@ function useResizeDetector<RefType extends Element = Element>(props: FunctionPro
     resizeHandler.current = patchResizeHandler(resizeCallback, refreshMode, refreshRate, refreshOptions);
 
     const resizeObserver = new window.ResizeObserver(resizeHandler.current);
-    console.log('CHECK ref', ref.current);
+
     if (ref.current) {
       resizeObserver.observe(ref.current as Element);
     }
