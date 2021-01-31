@@ -52,7 +52,39 @@ const CustomComponent = () => {
 };
 ```
 
-you can pass props as an object to useResizeDetector. For example, `useResizeDetector({ refreshMode: 'debounce', refreshRate: 1000 })`
+<details><summary>With props</summary>
+
+```js
+import { useResizeDetector } from 'react-resize-detector';
+
+const CustomComponent = () => {
+  const { width, height, ref } = useResizeDetector({
+    handleHeight: false,
+    refreshMode: 'debounce',
+    refreshRate: 1000,
+    onResize: (width, height) => {
+      /* Handle resize */
+    }
+  });
+  return <div ref={ref}>{`${width}x${height}`}</div>;
+};
+```
+
+</details>
+
+<details><summary>With custom ref</summary>
+
+```js
+import { useResizeDetector } from 'react-resize-detector';
+
+const CustomComponent = () => {
+  const targetRef = userRef();
+  const { width, height } = useResizeDetector({ targetRef });
+  return <div ref={targetRef}>{`${width}x${height}`}</div>;
+};
+```
+
+</details>
 
 #### 2. HOC pattern
 

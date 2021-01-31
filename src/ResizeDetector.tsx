@@ -216,21 +216,16 @@ class ResizeDetector extends PureComponent<ComponentsProps, ReactResizeDetectorD
   };
 
   createResizeHandler: ResizeObserverCallback = (entries): void => {
-    const { width: widthCurrent, height: heightCurrent } = this.state;
     const { handleWidth = true, handleHeight = true, onResize } = this.props;
 
     if (!handleWidth && !handleHeight) return;
 
-    const notifyResize = createNotifier(onResize, this.setState.bind(this));
+    const notifyResize = createNotifier(onResize, this.setState.bind(this), handleWidth, handleHeight);
 
     entries.forEach(entry => {
       const { width, height } = (entry && entry.contentRect) || {};
 
-      const isWidthChanged = handleWidth && widthCurrent !== width;
-      const isHeightChanged = handleHeight && heightCurrent !== height;
-      const isSizeChanged = isWidthChanged || isHeightChanged;
-
-      const shouldSetSize = !this.skipOnMount && isSizeChanged && !isSSR();
+      const shouldSetSize = !this.skipOnMount && !isSSR();
       if (shouldSetSize) {
         notifyResize({ width, height });
       }

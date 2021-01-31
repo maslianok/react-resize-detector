@@ -29,16 +29,25 @@ export const isDOMElement = (element: any): boolean => element instanceof Elemen
 
 export const createNotifier = (
   onResize: Props['onResize'],
-  setSize: React.Dispatch<React.SetStateAction<ReactResizeDetectorDimensions>>
+  setSize: React.Dispatch<React.SetStateAction<ReactResizeDetectorDimensions>>,
+  handleWidth: boolean,
+  handleHeight: boolean
 ) => ({ width, height }: ReactResizeDetectorDimensions): void => {
-  if (onResize && isFunction(onResize)) {
-    onResize(width, height);
-  }
-
   setSize(prev => {
     if (prev.width === width && prev.height === height) {
+      // skip if dimensions haven't changed
       return prev;
     }
+
+    if ((prev.width === width && !handleHeight) || (prev.height === height && !handleWidth)) {
+      // process `handleHeight/handleWidth` props
+      return prev;
+    }
+
+    if (onResize && isFunction(onResize)) {
+      onResize(width, height);
+    }
+
     return { width, height };
   });
 };

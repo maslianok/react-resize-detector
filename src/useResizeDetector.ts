@@ -9,7 +9,11 @@ interface returnType<RefType> extends ReactResizeDetectorDimensions {
   ref: MutableRefObject<null | RefType>;
 }
 
-function useResizeDetector<RefType extends Element = Element>(props: Props = {}): returnType<RefType> {
+interface FunctionProps<RefType> extends Props {
+  targetRef?: MutableRefObject<null | RefType>;
+}
+
+function useResizeDetector<RefType extends Element = Element>(props: FunctionProps<RefType> = {}): returnType<RefType> {
   const {
     skipOnMount = false,
     refreshMode,
@@ -17,13 +21,13 @@ function useResizeDetector<RefType extends Element = Element>(props: Props = {})
     refreshOptions,
     handleWidth = true,
     handleHeight = true,
+    targetRef,
     onResize
   } = props;
 
   const skipResize: MutableRefObject<null | boolean> = useRef(null);
-  const ref: MutableRefObject<null | RefType> = useRef<RefType>(null);
+  const ref: MutableRefObject<null | RefType> = targetRef || useRef<RefType>(null);
   const resizeHandler: resizeHandlerType = useRef(null);
-  const onResizeCallback = useRef(onResize);
 
   useEffect(() => {
     if (skipResize.current === null) {
@@ -41,7 +45,7 @@ function useResizeDetector<RefType extends Element = Element>(props: Props = {})
       return;
     }
 
-    const notifyResize = createNotifier(onResizeCallback.current, setSize);
+    const notifyResize = createNotifier(onResize, setSize, handleWidth, handleHeight);
 
     const resizeCallback: ResizeObserverCallback = entries => {
       if (!handleWidth && !handleHeight) return;
@@ -61,6 +65,7 @@ function useResizeDetector<RefType extends Element = Element>(props: Props = {})
     resizeHandler.current = patchResizeHandler(resizeCallback, refreshMode, refreshRate, refreshOptions);
 
     const resizeObserver = new window.ResizeObserver(resizeHandler.current);
+    console.log('CHECK ref', ref.current);
     if (ref.current) {
       resizeObserver.observe(ref.current as Element);
     }
@@ -72,7 +77,7 @@ function useResizeDetector<RefType extends Element = Element>(props: Props = {})
         patchedResizeHandler.cancel();
       }
     };
-  }, [refreshMode, refreshRate, refreshOptions, handleWidth, handleHeight, onResizeCallback]);
+  }, [refreshMode, refreshRate, refreshOptions, handleWidth, handleHeight, onResize]);
 
   return { ref, ...size };
 }
