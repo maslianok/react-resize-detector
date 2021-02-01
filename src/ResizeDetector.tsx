@@ -101,7 +101,7 @@ export interface ComponentsProps extends Props {
 
   render?: (props: ReactResizeDetectorDimensions) => ReactNode;
 
-  children: ReactNode | ((props: ChildFunctionProps) => ReactNode);
+  children?: ReactNode | ((props: ChildFunctionProps) => ReactNode);
 }
 
 class ResizeDetector extends PureComponent<ComponentsProps, ReactResizeDetectorDimensions> {
