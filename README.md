@@ -58,14 +58,17 @@ const CustomComponent = () => {
 import { useResizeDetector } from 'react-resize-detector';
 
 const CustomComponent = () => {
+  const onResize = useCallback(() => {
+    // on resize logic
+  }, []);
+
   const { width, height, ref } = useResizeDetector({
     handleHeight: false,
     refreshMode: 'debounce',
     refreshRate: 1000,
-    onResize: (width, height) => {
-      /* Handle resize */
-    }
+    onResize
   });
+
   return <div ref={ref}>{`${width}x${height}`}</div>;
 };
 ```
@@ -202,11 +205,37 @@ export default App;
 
 We still support [other ways](https://github.com/maslianok/react-resize-detector/tree/v4.2.1#examples) to work with this library, but in the future consider using the ones described above. Please let me know if the examples above don't fit your needs.
 
+## Performance optimization
+
+This library uses the native [ResizeObserver](https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserver) API.
+
+DOM nodes get attached to `ResizeObserver.observe` every time the component mounts and every time any property gets changed.
+
+It means you should try to avoid passing anonymous functions to `ResizeDetector`, because they will trigger the whole initialization process every time the component rerenders. Use `useCallback` whenever it's possible.
+
+```jsx
+// WRONG - anonymous function
+const { ref, width, height } = useResizeDetector({
+  onResize: () => {
+    // on resize logic
+  }
+});
+
+// CORRECT - `useCallback` approach
+const onResize = useCallback(() => {
+  // on resize logic
+}, []);
+
+const { ref, width, height } = useResizeDetector({ onResize });
+```
+
 ## Refs
 
-The library is trying to be smart and to not add any extra DOM elements to not break your layouts. That's why we use [`findDOMNode`](https://reactjs.org/docs/react-dom.html#finddomnode) method to find and attach listeners to the existing DOM elements. Unfortunately, this method has been deprecated and throws a warning in StrictMode.
+_The below explanation doesn't apply to `useResizeDetector`_
 
-For those who wants to avoid this warning we are introducing an additional property `targetRef`. You have to set this prop as a `ref` of your target DOM element and the library will use this reference instead of serching the DOM element with help of `findDOMNode`
+The library is trying to be smart and to not add any extra DOM elements to not break your layouts. That's why we use [`findDOMNode`](https://reactjs.org/docs/reactdom.html#finddomnode) method to find and attach listeners to the existing DOM elements. Unfortunately, this method has been deprecated and throws a warning in StrictMode.
+
+For those who wants to avoid this warning we are introducing an additional property - `targetRef`. You have to set this prop as a `ref` of your target DOM element and the library will use this reference instead of serching the DOM element with help of `findDOMNode`
 
 <details><summary>HOC pattern example</summary>
 

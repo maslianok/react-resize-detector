@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef, MutableRefObject } from 'react';
+import { useLayoutEffect, useState, useRef, MutableRefObject } from 'react';
 
 import { patchResizeHandler, createNotifier, isSSR, patchResizeHandlerType } from './utils';
 
@@ -25,22 +25,16 @@ function useResizeDetector<RefType extends Element = Element>(props: FunctionPro
     onResize
   } = props;
 
-  const skipResize: MutableRefObject<null | boolean> = useRef(null);
+  const skipResize: MutableRefObject<null | boolean> = useRef(skipOnMount);
   const ref: MutableRefObject<null | RefType> = targetRef || useRef<RefType>(null);
   const resizeHandler: resizeHandlerType = useRef(null);
-
-  useEffect(() => {
-    if (skipResize.current === null) {
-      skipResize.current = skipOnMount;
-    }
-  }, [skipOnMount]);
 
   const [size, setSize] = useState<ReactResizeDetectorDimensions>({
     width: undefined,
     height: undefined
   });
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (isSSR()) {
       return;
     }
