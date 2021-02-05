@@ -22,6 +22,7 @@ function useResizeDetector<RefType extends Element = Element>(props: FunctionPro
     handleWidth = true,
     handleHeight = true,
     targetRef,
+    observeOptions,
     onResize
   } = props;
 
@@ -62,7 +63,7 @@ function useResizeDetector<RefType extends Element = Element>(props: FunctionPro
     const resizeObserver = new window.ResizeObserver(resizeHandler.current);
 
     if (ref.current) {
-      resizeObserver.observe(ref.current as Element);
+      resizeObserver.observe(ref.current as Element, observeOptions);
     }
 
     return () => {
@@ -72,7 +73,7 @@ function useResizeDetector<RefType extends Element = Element>(props: FunctionPro
         patchedResizeHandler.cancel();
       }
     };
-  }, [refreshMode, refreshRate, refreshOptions, handleWidth, handleHeight, onResize]);
+  }, [refreshMode, refreshRate, refreshOptions, handleWidth, handleHeight, onResize, observeOptions]);
 
   return { ref, ...size };
 }

@@ -58,6 +58,12 @@ export interface Props {
    * Default: undefined
    */
   refreshOptions?: { leading?: boolean; trailing?: boolean };
+  /**
+   * These options will be used as a second parameter of `resizeObserver.observe` method
+   * @see https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserver/observe
+   * Default: undefined
+   */
+  observeOptions?: ResizeObserverOptions;
 }
 
 export interface ComponentsProps extends Props {
@@ -157,7 +163,7 @@ class ResizeDetector extends PureComponent<ComponentsProps, ReactResizeDetectorD
   };
 
   attachObserver = (): void => {
-    const { targetRef } = this.props;
+    const { targetRef, observeOptions } = this.props;
 
     if (isSSR()) {
       return;
@@ -179,7 +185,7 @@ class ResizeDetector extends PureComponent<ComponentsProps, ReactResizeDetectorD
     }
 
     this.observableElement = element;
-    this.resizeObserver.observe(element);
+    this.resizeObserver.observe(element, observeOptions);
   };
 
   getElement = (): Element | Text | null => {

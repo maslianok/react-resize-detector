@@ -274,6 +274,7 @@ import ReactResizeDetector from 'react-resize-detector';
 | refreshMode    | String | Possible values: `throttle` and `debounce` See [lodash docs](https://lodash.com/docs#debounce) for more information. `undefined` - callback will be fired for every frame                      | `undefined` |
 | refreshRate    | Number | Use this in conjunction with `refreshMode`. Important! It's a numeric prop so set it accordingly, e.g. `refreshRate={500}`                                                                     | `1000`      |
 | refreshOptions | Object | Use this in conjunction with `refreshMode`. An object in shape of `{ leading: bool, trailing: bool }`. Please refer to [lodash's docs](https://lodash.com/docs/4.17.11#throttle) for more info | `undefined` |
+| observeOptions | Object | These options will be used as a second parameter of [`resizeObserver.observe`](https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserver/observe) method. | `undefined` |
 | targetRef      | Ref    | Use this prop to pass a reference to the element you want to attach resize handlers to. It must be an instance of `React.useRef` or `React.createRef` functions                                | `undefined` |
 
 ## License
