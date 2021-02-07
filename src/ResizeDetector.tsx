@@ -63,7 +63,7 @@ export interface Props {
    * @see https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserver/observe
    * Default: undefined
    */
-  observeOptions?: ResizeObserverOptions;
+  observerOptions?: ResizeObserverOptions;
 }
 
 export interface ComponentsProps extends Props {
@@ -163,7 +163,7 @@ class ResizeDetector extends PureComponent<ComponentsProps, ReactResizeDetectorD
   };
 
   attachObserver = (): void => {
-    const { targetRef, observeOptions } = this.props;
+    const { targetRef, observerOptions } = this.props;
 
     if (isSSR()) {
       return;
@@ -185,7 +185,7 @@ class ResizeDetector extends PureComponent<ComponentsProps, ReactResizeDetectorD
     }
 
     this.observableElement = element;
-    this.resizeObserver.observe(element, observeOptions);
+    this.resizeObserver.observe(element, observerOptions);
   };
 
   getElement = (): Element | Text | null => {
