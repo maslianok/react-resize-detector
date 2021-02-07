@@ -31,7 +31,8 @@ export const createNotifier = (
   onResize: Props['onResize'],
   setSize: React.Dispatch<React.SetStateAction<ReactResizeDetectorDimensions>>,
   handleWidth: boolean,
-  handleHeight: boolean
+  handleHeight: boolean,
+  refNode?: Element | null | undefined,
 ) => ({ width, height }: ReactResizeDetectorDimensions): void => {
   setSize(prev => {
     if (prev.width === width && prev.height === height) {
@@ -45,7 +46,7 @@ export const createNotifier = (
     }
 
     if (onResize && isFunction(onResize)) {
-      onResize(width, height);
+      onResize(width, height, refNode);
     }
 
     return { width, height };

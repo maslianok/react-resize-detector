@@ -25,7 +25,7 @@ export interface Props {
    * Function that will be invoked with observable element's width and height.
    * Default: undefined
    */
-  onResize?: (width?: number, height?: number) => void;
+  onResize?: (width?: number, height?: number, refNode?: null|Element) => void;
   /**
    * Trigger update on height change.
    * Default: true

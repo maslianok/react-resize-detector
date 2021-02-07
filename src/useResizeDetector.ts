@@ -1,19 +1,18 @@
-import { useLayoutEffect, useState, useRef, MutableRefObject } from 'react';
+import { useLayoutEffect, useState, useRef, MutableRefObject, useCallback } from 'react';
 
 import { patchResizeHandler, createNotifier, isSSR, patchResizeHandlerType } from './utils';
 
 import { Props, ReactResizeDetectorDimensions } from './ResizeDetector';
 
 type resizeHandlerType = MutableRefObject<null | patchResizeHandlerType>;
+interface RefCallback {
+  (node: null | Element): void;
+} 
 interface returnType<RefType> extends ReactResizeDetectorDimensions {
-  ref: MutableRefObject<null | RefType>;
+  ref: RefCallback;
 }
 
-interface FunctionProps<RefType> extends Props {
-  targetRef?: MutableRefObject<null | RefType>;
-}
-
-function useResizeDetector<RefType extends Element = Element>(props: FunctionProps<RefType> = {}): returnType<RefType> {
+const useResizeDetector =<RefType extends Element = Element>(props: Props = {}): returnType<RefCallback> => {
   const {
     skipOnMount = false,
     refreshMode,
@@ -21,15 +20,14 @@ function useResizeDetector<RefType extends Element = Element>(props: FunctionPro
     refreshOptions,
     handleWidth = true,
     handleHeight = true,
-    targetRef,
     observerOptions,
     onResize
   } = props;
 
   const skipResize: MutableRefObject<null | boolean> = useRef(skipOnMount);
-  const localRef: MutableRefObject<null | RefType> = useRef(null);
-  const ref: MutableRefObject<null | RefType> = targetRef ?? localRef;
   const resizeHandler: resizeHandlerType = useRef(null);
+
+  const [refNode, setRefNode] = useState<null|Element>(null)
 
   const [size, setSize] = useState<ReactResizeDetectorDimensions>({
     width: undefined,
@@ -41,7 +39,7 @@ function useResizeDetector<RefType extends Element = Element>(props: FunctionPro
       return;
     }
 
-    const notifyResize = createNotifier(onResize, setSize, handleWidth, handleHeight);
+    const notifyResize = createNotifier(onResize, setSize, handleWidth, handleHeight, refNode);
 
     const resizeCallback: ResizeObserverCallback = entries => {
       if (!handleWidth && !handleHeight) return;
@@ -62,8 +60,8 @@ function useResizeDetector<RefType extends Element = Element>(props: FunctionPro
 
     const resizeObserver = new window.ResizeObserver(resizeHandler.current);
 
-    if (ref.current) {
-      resizeObserver.observe(ref.current as Element, observerOptions);
+    if (refNode) {
+      resizeObserver.observe(refNode as Element, observerOptions);
     }
 
     return () => {
@@ -73,7 +71,11 @@ function useResizeDetector<RefType extends Element = Element>(props: FunctionPro
         patchedResizeHandler.cancel();
       }
     };
-  }, [refreshMode, refreshRate, refreshOptions, handleWidth, handleHeight, onResize, observerOptions]);
+  }, [refreshMode, refreshRate, refreshOptions, handleWidth, handleHeight, onResize, observerOptions, refNode]);
+
+  const ref = useCallback(node => {
+    setRefNode(node)
+  }, [setRefNode]);
 
   return { ref, ...size };
 }
