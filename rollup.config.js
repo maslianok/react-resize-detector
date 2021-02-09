@@ -22,7 +22,7 @@ const getConfig = withPolyfill => ({
     : [getOutput(packageJson.main, 'cjs'), getOutput(packageJson.module, 'esm')],
   external: externalDeps,
   plugins: [resolve(), commonjs(), typescript({ useTsconfigDeclarationDir: true })].concat(
-    withPolyfill ? [inject({ ResizeObserver: 'resize-observer-polyfill' })] : []
+    withPolyfill ? [inject({ 'window.ResizeObserver': 'resize-observer-polyfill' })] : []
   )
 });
 
