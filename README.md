@@ -81,7 +81,7 @@ const CustomComponent = () => {
 import { useResizeDetector } from 'react-resize-detector';
 
 const CustomComponent = () => {
-  const targetRef = userRef();
+  const targetRef = useRef();
   const { width, height } = useResizeDetector({ targetRef });
   return <div ref={targetRef}>{`${width}x${height}`}</div>;
 };
