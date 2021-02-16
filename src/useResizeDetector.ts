@@ -1,8 +1,10 @@
-import { useLayoutEffect, useState, useRef, MutableRefObject } from 'react';
+import { useLayoutEffect, useEffect, useState, useRef, MutableRefObject } from 'react';
 
 import { patchResizeHandler, createNotifier, isSSR, patchResizeHandlerType } from './utils';
 
 import { Props, ReactResizeDetectorDimensions } from './ResizeDetector';
+
+const useEnhancedEffect = isSSR() ? useEffect: useLayoutEffect;
 
 type resizeHandlerType = MutableRefObject<null | patchResizeHandlerType>;
 interface returnType<RefType> extends ReactResizeDetectorDimensions {
@@ -36,7 +38,7 @@ function useResizeDetector<RefType extends Element = Element>(props: FunctionPro
     height: undefined
   });
 
-  useLayoutEffect(() => {
+  useEnhancedEffect(() => {
     if (isSSR()) {
       return;
     }
@@ -73,7 +75,7 @@ function useResizeDetector<RefType extends Element = Element>(props: FunctionPro
         patchedResizeHandler.cancel();
       }
     };
-  }, [refreshMode, refreshRate, refreshOptions, handleWidth, handleHeight, onResize, observerOptions]);
+  }, [refreshMode, refreshRate, refreshOptions, handleWidth, handleHeight, onResize, observerOptions, ref.current]);
 
   return { ref, ...size };
 }
