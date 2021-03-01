@@ -33,7 +33,7 @@ and
 ```jsx
 import ResizeObserver from 'react-resize-detector';
 
-// or, in case you need IE support and ready to load extra kilobytes
+// or, in case you need to support some old browsers
 import ResizeObserver from 'react-resize-detector/build/withPolyfill';
 ```
 
