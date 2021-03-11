@@ -1,4 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { ReactElement, useEffect, useState } from 'react';
+import { useRef } from 'react';
+import { createRef } from 'react';
+import { RefObject } from 'react';
 import ReactResizeDetector, { useResizeDetector, withResizeDetector } from 'react-resize-detector/build/withPolyfill';
 
 const s = {
@@ -34,9 +37,14 @@ const s = {
   }
 };
 
-// #### 1. React hook (new in v6.0.0)
+type MainFramePropsType = {
+  onHideLeftPanel: () => void;
+  width?: number;
+  height?: number;
+};
 
-const MainFrame = ({ onHideLeftPanel }) => {
+// #### 1. React hook (new in v6.0.0)
+const MainFrame = ({ onHideLeftPanel }: MainFramePropsType) => {
   const [count, setCount] = useState(0);
   const { width, height, ref } = useResizeDetector();
   // { refreshMode: 'debounce', refreshRate: 2000, skipOnMount: true }
@@ -48,8 +56,8 @@ const MainFrame = ({ onHideLeftPanel }) => {
   }, [width, height]);
 
   return (
-    <div style={s.rightColumn} ref={ref}>
-      <div style={s.toggleLeftColumnBtn}>
+    <div style={s.rightColumn as React.CSSProperties} ref={ref}>
+      <div style={s.toggleLeftColumnBtn as React.CSSProperties}>
         <button onClick={onHideLeftPanel} type="button">
           Toggle left panel
         </button>
@@ -67,7 +75,7 @@ const App = () => {
 
   return (
     <div style={s.wrapper}>
-      {isLeftPanelVisible && <div style={s.leftColumn}>Left panel content</div>}
+      {isLeftPanelVisible && <div style={s.leftColumn as React.CSSProperties}>Left panel content</div>}
       <MainFrame onHideLeftPanel={() => setLeftPanelVisibility(isVisible => !isVisible)} />
     </div>
   );
@@ -75,7 +83,7 @@ const App = () => {
 
 // #### 2. HOC pattern
 
-// const MainFrameInner = ({ onHideLeftPanel, width, height }) => {
+// const MainFrameInner = ({ onHideLeftPanel, width, height }: MainFramePropsType) => {
 //   const [count, setCount] = useState(0);
 
 //   useEffect(() => {
@@ -85,8 +93,8 @@ const App = () => {
 //   }, [width, height, setCount]);
 
 //   return (
-//     <div style={s.rightColumn}>
-//       <div style={s.toggleLeftColumnBtn}>
+//     <div style={s.rightColumn as React.CSSProperties}>
+//       <div style={s.toggleLeftColumnBtn as React.CSSProperties}>
 //         <button onClick={onHideLeftPanel} type="button">
 //           Toggle left panel
 //         </button>
@@ -106,15 +114,19 @@ const App = () => {
 
 //   return (
 //     <div style={s.wrapper}>
-//       {isLeftPanelVisible && <div style={s.leftColumn}>Left panel content</div>}
-//       <MainFrame onHideLeftPanel={() => setLeftPanelVisibility(isVisible => !isVisible)} />
+//       {isLeftPanelVisible && <div style={s.leftColumn as React.CSSProperties}>Left panel content</div>}
+//       <MainFrame
+//         onHideLeftPanel={() => {
+//           setLeftPanelVisibility(isVisible => !isVisible);
+//         }}
+//       />
 //     </div>
 //   );
 // };
 
 // #### 3. Child Function Pattern
 
-// const MainFrameInner = ({ onHideLeftPanel, width, height }) => {
+// const MainFrameInner = ({ onHideLeftPanel, width, height }: MainFramePropsType) => {
 //   const [count, setCount] = useState(0);
 
 //   useEffect(() => {
@@ -124,8 +136,8 @@ const App = () => {
 //   }, [width, height, setCount]);
 
 //   return (
-//     <div style={s.rightColumn}>
-//       <div style={s.toggleLeftColumnBtn}>
+//     <div style={s.rightColumn as React.CSSProperties}>
+//       <div style={s.toggleLeftColumnBtn as React.CSSProperties}>
 //         <button onClick={onHideLeftPanel} type="button">
 //           Toggle left panel
 //         </button>
@@ -143,7 +155,7 @@ const App = () => {
 
 //   return (
 //     <div style={s.wrapper}>
-//       {isLeftPanelVisible && <div style={s.leftColumn}>Left panel content</div>}
+//       {isLeftPanelVisible && <div style={s.leftColumn as React.CSSProperties}>Left panel content</div>}
 //       <ReactResizeDetector handleWidth handleHeight skipOnMount>
 //         {({ width, height }) => (
 //           <MainFrameInner

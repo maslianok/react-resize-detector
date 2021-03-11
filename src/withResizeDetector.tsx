@@ -1,37 +1,24 @@
-import React, { Component, createRef, forwardRef, ComponentType, ForwardedRef, ReactElement, RefObject } from 'react';
+import React, { Component, createRef, forwardRef, ComponentType, ForwardedRef, MutableRefObject } from 'react';
 
-import ResizeDetector, { Props, ComponentsProps } from './ResizeDetector';
+import ResizeDetector, { ComponentsProps } from './ResizeDetector';
 
-type WithForwardedRef = {
-  forwardedRef?: ForwardedRef<HTMLElement>;
-};
-
-export interface HOCProps extends Props {
-  forwardedRef?: RefObject<HTMLElement>;
-}
-
-const wrapperForwardRef = parms => forwardRef<HTMLElement>(parms);
-
-function withResizeDetector<P>(
-  ComponentInner: ComponentType<Omit<P, 'forwardedRef'>>,
-  options: ComponentsProps = {}
-): ReturnType<typeof wrapperForwardRef> {
-  class ResizeDetectorHOC extends Component<P & WithForwardedRef> {
+function withResizeDetector<P>(ComponentInner: ComponentType<P>, options: ComponentsProps = {}) {
+  class ResizeDetectorHOC extends Component<P & { forwardedRef: ForwardedRef<HTMLElement> }> {
     ref = createRef<HTMLElement>();
 
     render() {
       const { forwardedRef, ...rest } = this.props;
-      const targetRef = forwardedRef || this.ref;
+      const targetRef = forwardedRef ?? this.ref;
 
       return (
-        <ResizeDetector {...options} targetRef={targetRef as RefObject<HTMLElement>}>
-          <ComponentInner targetRef={targetRef} {...rest} />
+        <ResizeDetector {...options} targetRef={targetRef as MutableRefObject<HTMLElement>}>
+          <ComponentInner targetRef={targetRef} {...(rest as P)} />
         </ResizeDetector>
       );
     }
   }
 
-  function forwardRefWrapper(props, ref: ForwardedRef<HTMLElement>): ReactElement {
+  function forwardRefWrapper(props: P, ref: ForwardedRef<HTMLElement>) {
     return <ResizeDetectorHOC {...props} forwardedRef={ref} />;
   }
 

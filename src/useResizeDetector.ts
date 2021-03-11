@@ -1,21 +1,16 @@
 import { useLayoutEffect, useEffect, useState, useRef, MutableRefObject } from 'react';
 
-import { patchResizeHandler, createNotifier, isSSR, patchResizeHandlerType } from './utils';
+import { patchResizeHandler, createNotifier, isSSR } from './utils';
 
 import { Props, ReactResizeDetectorDimensions } from './ResizeDetector';
 
-const useEnhancedEffect = isSSR() ? useEffect: useLayoutEffect;
+const useEnhancedEffect = isSSR() ? useEffect : useLayoutEffect;
 
-type resizeHandlerType = MutableRefObject<null | patchResizeHandlerType>;
-interface returnType<RefType> extends ReactResizeDetectorDimensions {
-  ref: MutableRefObject<null | RefType>;
+interface FunctionProps extends Props {
+  targetRef?: ReturnType<typeof useRef>;
 }
 
-interface FunctionProps<RefType> extends Props {
-  targetRef?: MutableRefObject<null | RefType>;
-}
-
-function useResizeDetector<RefType extends Element = Element>(props: FunctionProps<RefType> = {}): returnType<RefType> {
+function useResizeDetector(props: FunctionProps = {}) {
   const {
     skipOnMount = false,
     refreshMode,
@@ -29,9 +24,9 @@ function useResizeDetector<RefType extends Element = Element>(props: FunctionPro
   } = props;
 
   const skipResize: MutableRefObject<null | boolean> = useRef(skipOnMount);
-  const localRef: MutableRefObject<null | RefType> = useRef(null);
-  const ref: MutableRefObject<null | RefType> = targetRef ?? localRef;
-  const resizeHandler: resizeHandlerType = useRef(null);
+  const localRef = useRef(null);
+  const ref = (targetRef ?? localRef) as MutableRefObject<null>;
+  const resizeHandler = useRef<ResizeObserverCallback>();
 
   const [size, setSize] = useState<ReactResizeDetectorDimensions>({
     width: undefined,
@@ -62,10 +57,11 @@ function useResizeDetector<RefType extends Element = Element>(props: FunctionPro
 
     resizeHandler.current = patchResizeHandler(resizeCallback, refreshMode, refreshRate, refreshOptions);
 
-    const resizeObserver = new window.ResizeObserver(resizeHandler.current);
+    const resizeObserver = new window.ResizeObserver(resizeHandler.current as ResizeObserverCallback);
 
     if (ref.current) {
-      resizeObserver.observe(ref.current as Element, observerOptions);
+      // Something wrong with typings here...
+      resizeObserver.observe(ref.current as any, observerOptions);
     }
 
     return () => {

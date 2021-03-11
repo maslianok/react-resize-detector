@@ -63,7 +63,9 @@
   "keywords": [
     "react",
     "resize",
-    "detector"
+    "detector",
+    "resizeObserver",
+    "observer"
   ],
   "license": "MIT",
   "sideEffects": false,
@@ -76,11 +78,6 @@
   "contributors": [
     {
       "name": "James J. Womack (@james_womack)"
-    },
-    {
-      "name": "Lam Hieu",
-      "email": "lamhieu.vk@gmail.com",
-      "url": "https://lamhieu.info"
     }
   ]
 }
