@@ -14,7 +14,7 @@ const wrapperForwardRef = parms => forwardRef<HTMLElement>(parms);
 
 function withResizeDetector<P>(
   ComponentInner: ComponentType<Omit<P, 'forwardedRef'>>,
-  options: ComponentsProps
+  options: ComponentsProps = {}
 ): ReturnType<typeof wrapperForwardRef> {
   class ResizeDetectorHOC extends Component<P & WithForwardedRef> {
     ref = createRef<HTMLElement>();
