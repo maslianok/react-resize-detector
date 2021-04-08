@@ -25,7 +25,7 @@ function useResizeDetector(props: FunctionProps = {}) {
 
   const skipResize: MutableRefObject<null | boolean> = useRef(skipOnMount);
   const localRef = useRef(null);
-  const ref = (targetRef ?? localRef) as MutableRefObject<null>;
+  const ref = (targetRef ?? localRef) as MutableRefObject<null | Element>;
   const resizeHandler = useRef<ResizeObserverCallback>();
 
   const [size, setSize] = useState<ReactResizeDetectorDimensions>({
