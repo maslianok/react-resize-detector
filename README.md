@@ -277,6 +277,34 @@ import ReactResizeDetector from 'react-resize-detector';
 | observerOptions | Object | These options will be used as a second parameter of [`resizeObserver.observe`](https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserver/observe) method.                                | `undefined` |
 | targetRef       | Ref    | Use this prop to pass a reference to the element you want to attach resize handlers to. It must be an instance of `React.useRef` or `React.createRef` functions                                | `undefined` |
 
+## Testing with Enzyme and Jest
+
+Thanks to [@Primajin](https://github.com/Primajin) for posting this [snippet](https://github.com/maslianok/react-resize-detector/issues/145)
+
+```jsx
+const { ResizeObserver } = window;
+
+beforeEach(() => {
+  delete window.ResizeObserver;
+  window.ResizeObserver = jest.fn().mockImplementation(() => ({
+    observe: jest.fn(),
+    unobserve: jest.fn(),
+    disconnect: jest.fn()
+  }));
+
+  wrapper = mount(<MyComponent />);
+});
+
+afterEach(() => {
+  window.ResizeObserver = ResizeObserver;
+  jest.restoreAllMocks();
+});
+
+it('should do my test', () => {
+  // [...]
+});
+```
+
 ## License
 
 MIT
