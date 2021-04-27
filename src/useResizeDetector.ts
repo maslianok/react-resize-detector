@@ -10,7 +10,7 @@ interface FunctionProps extends Props {
   targetRef?: ReturnType<typeof useRef>;
 }
 
-function useResizeDetector(props: FunctionProps = {}) {
+function useResizeDetector<T = any>(props: FunctionProps = {}) {
   const {
     skipOnMount = false,
     refreshMode,
@@ -25,7 +25,7 @@ function useResizeDetector(props: FunctionProps = {}) {
 
   const skipResize: MutableRefObject<null | boolean> = useRef(skipOnMount);
   const localRef = useRef(null);
-  const ref = (targetRef ?? localRef) as MutableRefObject<null | Element>;
+  const ref = (targetRef ?? localRef) as MutableRefObject<T>;
   const resizeHandler = useRef<ResizeObserverCallback>();
 
   const [size, setSize] = useState<ReactResizeDetectorDimensions>({
