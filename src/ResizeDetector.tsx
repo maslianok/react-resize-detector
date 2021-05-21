@@ -1,12 +1,5 @@
-import React, {
-  PureComponent,
-  isValidElement,
-  cloneElement,
-  createRef,
-  ReactNode,
-  ReactElement,
-  RefObject
-} from 'react';
+import * as React from 'react';
+import { PureComponent, isValidElement, cloneElement, createRef, ReactNode, ReactElement, RefObject } from 'react';
 import { findDOMNode } from 'react-dom';
 
 import { patchResizeHandler, isFunction, isSSR, isDOMElement, createNotifier } from './utils';
