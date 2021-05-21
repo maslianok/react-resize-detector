@@ -10,7 +10,7 @@
     "strict": true,
     "jsx": "react",
     "moduleResolution": "node",
-    "allowSyntheticDefaultImports": true,
+    "allowSyntheticDefaultImports": false,
     "esModuleInterop": true,
     "noImplicitAny": false,
     "skipLibCheck": true
