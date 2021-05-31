@@ -1,16 +1,29 @@
 import { useLayoutEffect, useEffect, useState, useRef, MutableRefObject } from 'react';
 
-import { patchResizeHandler, createNotifier, isSSR } from './utils';
+import {
+  patchResizeHandler,
+  createNotifier,
+  isSSR,
+  patchResizeHandlerType
+} from './utils';
 
 import { Props, ReactResizeDetectorDimensions } from './ResizeDetector';
 
-const useEnhancedEffect = isSSR() ? useEffect : useLayoutEffect;
-
 interface FunctionProps extends Props {
   targetRef?: ReturnType<typeof useRef>;
+
+  /**
+   * Whether to allow measuring during the render cycle. While measuring
+   * during the render cycle allows for the size to be used in the first
+   * render, it could cause a "Cannot update a component while rendering a
+   * different component" error if passed via a callback to a component that
+   * then calls `setState` with it.
+   * Default: true
+   */
+  measureDuringRender?: boolean;
 }
 
-function useResizeDetector<T = any>(props: FunctionProps = {}) {
+function useResizeDetector<T extends Element = any>(props: FunctionProps = {}) {
   const {
     skipOnMount = false,
     refreshMode,
@@ -18,6 +31,7 @@ function useResizeDetector<T = any>(props: FunctionProps = {}) {
     refreshOptions,
     handleWidth = true,
     handleHeight = true,
+    measureDuringRender = true,
     targetRef,
     observerOptions,
     onResize
@@ -26,12 +40,15 @@ function useResizeDetector<T = any>(props: FunctionProps = {}) {
   const skipResize: MutableRefObject<null | boolean> = useRef(skipOnMount);
   const localRef = useRef(null);
   const ref = (targetRef ?? localRef) as MutableRefObject<T | null>;
-  const resizeHandler = useRef<ResizeObserverCallback>();
+  const resizeHandler = useRef<patchResizeHandlerType>();
 
   const [size, setSize] = useState<ReactResizeDetectorDimensions>({
     width: undefined,
     height: undefined
   });
+
+  const useEnhancedEffect =
+    isSSR() || !measureDuringRender ? useEffect : useLayoutEffect;
 
   useEnhancedEffect(() => {
     if (isSSR()) {
@@ -60,14 +77,13 @@ function useResizeDetector<T = any>(props: FunctionProps = {}) {
     const resizeObserver = new window.ResizeObserver(resizeHandler.current as ResizeObserverCallback);
 
     if (ref.current) {
-      // Something wrong with typings here...
-      resizeObserver.observe(ref.current as any, observerOptions);
+      resizeObserver.observe(ref.current, observerOptions);
     }
 
     return () => {
       resizeObserver.disconnect();
-      const patchedResizeHandler = resizeHandler.current as any;
-      if (patchedResizeHandler && patchedResizeHandler.cancel) {
+      const patchedResizeHandler = resizeHandler.current;
+      if (patchedResizeHandler && 'cancel' in patchedResizeHandler) {
         patchedResizeHandler.cancel();
       }
     };

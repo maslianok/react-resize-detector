@@ -10,7 +10,8 @@
     "strict": true,
     "jsx": "react",
     "moduleResolution": "node",
-    "allowSyntheticDefaultImports": false,
+    // Needed for lodash imports
+    "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "noImplicitAny": false,
     "skipLibCheck": true
