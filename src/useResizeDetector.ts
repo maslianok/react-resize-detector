@@ -1,11 +1,6 @@
 import { useLayoutEffect, useEffect, useState, useRef, MutableRefObject } from 'react';
 
-import {
-  patchResizeHandler,
-  createNotifier,
-  isSSR,
-  patchResizeHandlerType
-} from './utils';
+import { patchResizeHandler, createNotifier, isSSR, patchResizeHandlerType } from './utils';
 
 import { Props, ReactResizeDetectorDimensions } from './ResizeDetector';
 
