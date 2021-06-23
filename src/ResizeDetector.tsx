@@ -9,8 +9,8 @@ export interface ReactResizeDetectorDimensions {
   width?: number;
 }
 
-interface ChildFunctionProps extends ReactResizeDetectorDimensions {
-  targetRef?: RefObject<HTMLElement>;
+interface ChildFunctionProps<ElementT extends HTMLElement> extends ReactResizeDetectorDimensions {
+  targetRef?: RefObject<ElementT>;
 }
 
 export interface Props {
@@ -59,7 +59,7 @@ export interface Props {
   observerOptions?: ResizeObserverOptions;
 }
 
-export interface ComponentsProps extends Props {
+export interface ComponentsProps<ElementT extends HTMLElement> extends Props {
   /**
    * A selector of an element to observe.
    * You can use this property to attach resize-observer to any DOM element.
@@ -89,27 +89,30 @@ export interface ComponentsProps extends Props {
    * @deprecated since version 5.0.0. It will be removed in version 6.0.0.
    * Use targetRef instead
    */
-  targetDomEl?: HTMLElement;
+  targetDomEl?: ElementT;
   /**
    * A React reference of the element to observe.
    * Pass a reference to the element you want to attach resize handlers to.
    * It must be an instance of React.useRef or React.createRef functions
    * Default: undefined
    */
-  targetRef?: RefObject<HTMLElement>;
+  targetRef?: RefObject<ElementT>;
 
   render?: (props: ReactResizeDetectorDimensions) => ReactNode;
 
-  children?: ReactNode | ((props: ChildFunctionProps) => ReactNode);
+  children?: ReactNode | ((props: ChildFunctionProps<ElementT>) => ReactNode);
 }
 
-class ResizeDetector extends PureComponent<ComponentsProps, ReactResizeDetectorDimensions> {
+class ResizeDetector<ElementT extends HTMLElement = HTMLElement> extends PureComponent<
+  ComponentsProps<ElementT>,
+  ReactResizeDetectorDimensions
+> {
   skipOnMount: boolean | undefined;
   targetRef;
   observableElement;
   resizeHandler;
   resizeObserver;
-  constructor(props: ComponentsProps) {
+  constructor(props: ComponentsProps<ElementT>) {
     super(props);
 
     const { skipOnMount, refreshMode, refreshRate = 1000, refreshOptions } = props;
@@ -270,7 +273,7 @@ class ResizeDetector extends PureComponent<ComponentsProps, ReactResizeDetectorD
       case 'renderProp':
         return render && render(childProps);
       case 'childFunction':
-        typedChildren = children as (props: ChildFunctionProps) => ReactNode;
+        typedChildren = children as (props: ChildFunctionProps<ElementT>) => ReactNode;
         return typedChildren(childProps);
       case 'child':
         // @TODO bug prone logic

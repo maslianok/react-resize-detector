@@ -3,7 +3,10 @@ import { Component, createRef, forwardRef, ComponentType, ForwardedRef, MutableR
 
 import ResizeDetector, { ComponentsProps } from './ResizeDetector';
 
-function withResizeDetector<P>(ComponentInner: ComponentType<P>, options: ComponentsProps = {}) {
+function withResizeDetector<P, ElementT extends HTMLElement = HTMLElement>(
+  ComponentInner: ComponentType<P>,
+  options: ComponentsProps<ElementT> = {},
+) {
   class ResizeDetectorHOC extends Component<P & { forwardedRef: ForwardedRef<HTMLElement> }> {
     ref = createRef<HTMLElement>();
 
