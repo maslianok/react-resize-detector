@@ -10,7 +10,7 @@ interface FunctionProps extends Props {
   targetRef?: ReturnType<typeof useRef>;
 }
 
-function useResizeDetector<T = any>(props: FunctionProps = {}) {
+function useResizeDetector<T = any>(props: FunctionProps = {}): UseResizeDetectorReturn<T> {
   const {
     skipOnMount = false,
     refreshMode,
@@ -77,3 +77,7 @@ function useResizeDetector<T = any>(props: FunctionProps = {}) {
 }
 
 export default useResizeDetector;
+
+export interface UseResizeDetectorReturn<T> extends ReactResizeDetectorDimensions {
+  ref: MutableRefObject<T | null>;
+}
