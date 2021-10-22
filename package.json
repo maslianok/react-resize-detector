@@ -19,8 +19,7 @@
   "dependencies": {
     "@types/resize-observer-browser": "^0.1.6",
     "lodash.debounce": "^4.0.8",
-    "lodash.throttle": "^4.1.1",
-    "resize-observer-polyfill": "^1.5.1"
+    "lodash.throttle": "^4.1.1"
   },
   "devDependencies": {
     "@babel/cli": "^7.14.8",
