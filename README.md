@@ -1,4 +1,4 @@
-# Handle element resizes like it's 2021!
+# Handle element resizes like it's 2022!
 
 <img src="https://img.shields.io/npm/dm/react-resize-detector?style=flat-square"> <img src="https://badgen.net/bundlephobia/minzip/react-resize-detector?style=flat-square"> <img src="https://badgen.net/bundlephobia/tree-shaking/react-resize-detector?style=flat-square">
 
