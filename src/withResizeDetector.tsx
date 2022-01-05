@@ -5,10 +5,11 @@ import ResizeDetector, { ComponentsProps } from './ResizeDetector';
 
 function withResizeDetector<P, ElementT extends HTMLElement = HTMLElement>(
   ComponentInner: ComponentType<P>,
-  options: ComponentsProps<ElementT> = {},
+  options: ComponentsProps<ElementT> = {}
 ) {
-  class ResizeDetectorHOC
-      extends Component<PropsWithoutResizeDetectorDimensions<P> & { forwardedRef: ForwardedRef<HTMLElement> }> {
+  class ResizeDetectorHOC extends Component<
+    PropsWithoutResizeDetectorDimensions<P> & { forwardedRef: ForwardedRef<HTMLElement> }
+  > {
     ref = createRef<HTMLElement>();
 
     render() {
@@ -36,11 +37,7 @@ function withResizeDetector<P, ElementT extends HTMLElement = HTMLElement>(
 // Just Pick would be sufficient for this, but I'm trying to avoid unnecessary mapping over union types
 // https://github.com/Microsoft/TypeScript/issues/28339
 type PropsWithoutResizeDetectorDimensions<P> = Without<Without<OptionalKey<P, 'targetRef'>, 'width'>, 'height'>;
-type Without<T, Key> = Key extends keyof T
-    ? Omit<T, Key>
-    : T;
-type OptionalKey<T, Key> = Key extends keyof T
-    ? Omit<T, Key> & { [K in Key]?: T[K] }
-    : T;
+type Without<T, Key> = Key extends keyof T ? Omit<T, Key> : T;
+type OptionalKey<T, Key> = Key extends keyof T ? Omit<T, Key> & { [K in Key]?: T[K] } : T;
 
 export default withResizeDetector;
