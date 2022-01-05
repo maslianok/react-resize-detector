@@ -18,8 +18,7 @@
   },
   "dependencies": {
     "@types/resize-observer-browser": "^0.1.6",
-    "lodash": "^4.17.21",
-    "resize-observer-polyfill": "^1.5.1"
+    "lodash": "^4.17.21"
   },
   "devDependencies": {
     "@babel/cli": "^7.14.8",

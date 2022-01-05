@@ -32,9 +32,6 @@ and
 
 ```jsx
 import ResizeObserver from 'react-resize-detector';
-
-// or, in case you need to support some old browsers
-import ResizeObserver from 'react-resize-detector/build/withPolyfill';
 ```
 
 ## Examples
