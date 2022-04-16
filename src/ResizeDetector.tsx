@@ -146,6 +146,7 @@ class ResizeDetector<ElementT extends HTMLElement = HTMLElement> extends PureCom
     if (isSSR()) {
       return;
     }
+    this.observableElement = null;
     this.resizeObserver.disconnect();
     this.cancelHandler();
   }
