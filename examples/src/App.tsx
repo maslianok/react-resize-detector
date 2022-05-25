@@ -2,7 +2,7 @@ import React, { ReactElement, useEffect, useState } from 'react';
 import { useRef } from 'react';
 import { createRef } from 'react';
 import { RefObject } from 'react';
-import ReactResizeDetector, { useResizeDetector, withResizeDetector } from 'react-resize-detector/build/withPolyfill';
+import ReactResizeDetector, { useResizeDetector, withResizeDetector } from 'react-resize-detector';
 
 const s = {
   wrapper: {
