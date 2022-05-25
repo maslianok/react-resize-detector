@@ -18,7 +18,7 @@ function withResizeDetector<P, ElementT extends HTMLElement = HTMLElement>(
 
       return (
         <ResizeDetector {...options} targetRef={targetRef as MutableRefObject<HTMLElement>}>
-          <ComponentInner targetRef={targetRef} {...(rest as P)} />
+          <ComponentInner targetRef={targetRef} {...(rest as unknown as P)} />
         </ResizeDetector>
       );
     }
