@@ -50,7 +50,7 @@
     "react-dom": "^16.0.0 || ^17.0.0 || ^18.0.0"
   },
   "author": "Vitalii Maslianok <maslianok@gmail.com> (https://github.com/maslianok)",
-  "version": "7.0.1",
+  "version": "7.0.2",
   "bugs": {
     "url": "https://github.com/maslianok/react-resize-detector/issues"
   },
