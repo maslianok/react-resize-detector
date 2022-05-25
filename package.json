@@ -17,7 +17,6 @@
     "prerelease": "npm version prerelease --preid=rc"
   },
   "dependencies": {
-    "@types/resize-observer-browser": "^0.1.7",
     "lodash": "^4.17.21"
   },
   "devDependencies": {
@@ -30,6 +29,7 @@
     "@types/lodash": "^4.14.182",
     "@types/react": "^18.0.9",
     "@types/react-dom": "^18.0.5",
+    "@types/resize-observer-browser": "^0.1.7",
     "@typescript-eslint/eslint-plugin": "^5.26.0",
     "@typescript-eslint/parser": "^5.26.0",
     "babel-eslint": "^10.0.3",
