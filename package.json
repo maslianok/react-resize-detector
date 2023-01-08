@@ -1,5 +1,6 @@
 {
   "name": "react-resize-detector",
+  "version": "7.1.2",
   "description": "React resize detector",
   "main": "build/index.js",
   "module": "build/index.esm.js",
@@ -18,7 +19,8 @@
     "lint": "eslint .",
     "lint-fix": "eslint --fix",
     "fix": "npm run prettier && npm run lint-fix",
-    "prerelease": "npm version prerelease --preid=rc"
+    "prerelease": "npm version prerelease --preid=rc",
+    "prepublishOnly": "npm run build"
   },
   "dependencies": {
     "lodash": "^4.17.21"
@@ -47,7 +49,6 @@
     "react-dom": "^16.0.0 || ^17.0.0 || ^18.0.0"
   },
   "author": "Vitalii Maslianok <maslianok@gmail.com> (https://github.com/maslianok)",
-  "version": "7.1.2",
   "bugs": {
     "url": "https://github.com/maslianok/react-resize-detector/issues"
   },
