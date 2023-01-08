@@ -218,7 +218,7 @@ class ResizeDetector<ElementT extends HTMLElement = HTMLElement> extends PureCom
     }
   };
 
-  createResizeHandler: ResizeObserverCallback = (entries): void => {
+  createResizeHandler: ResizeObserverCallback = (entries: ResizeObserverEntry[]): void => {
     const { handleWidth = true, handleHeight = true, onResize } = this.props;
 
     if (!handleWidth && !handleHeight) return;
@@ -268,27 +268,28 @@ class ResizeDetector<ElementT extends HTMLElement = HTMLElement> extends PureCom
     const childProps = { width, height, targetRef: this.targetRef };
     const renderType = this.getRenderType();
 
-    let typedChildren: any;
-
     switch (renderType) {
       case 'renderProp':
-        return render && render(childProps);
-      case 'childFunction':
-        typedChildren = children as (props: ChildFunctionProps<ElementT>) => ReactNode;
-        return typedChildren(childProps);
-      case 'child':
+        return render?.(childProps);
+      case 'childFunction': {
+        const childFunction = children as (props: ChildFunctionProps<ElementT>) => ReactNode;
+        return childFunction?.(childProps);
+      }
+      case 'child': {
         // @TODO bug prone logic
-        typedChildren = children as ReactElement;
-        if (typedChildren.type && typeof typedChildren.type === 'string') {
+        const child = children as ReactElement;
+        if (child.type && typeof child.type === 'string') {
           // child is a native DOM elements such as div, span etc
           const { targetRef, ...nativeProps } = childProps;
-          return cloneElement(typedChildren, nativeProps);
+          return cloneElement(child, nativeProps);
         }
         // class or functional component otherwise
-        return cloneElement(typedChildren, childProps);
-      case 'childArray':
-        typedChildren = children as [ReactElement];
-        return typedChildren.map((el: ReactElement) => !!el && cloneElement(el, childProps));
+        return cloneElement(child, childProps);
+      }
+      case 'childArray': {
+        const childArray = children as ReactElement[];
+        return childArray.map(el => !!el && cloneElement(el, childProps));
+      }
       default:
         return <WrapperTag />;
     }

@@ -1,7 +1,4 @@
-import React, { ReactElement, useEffect, useState } from 'react';
-import { useRef } from 'react';
-import { createRef } from 'react';
-import { RefObject } from 'react';
+import React, { useEffect, useState } from 'react';
 import ReactResizeDetector, { useResizeDetector, withResizeDetector } from 'react-resize-detector';
 
 const s = {

@@ -1,16 +1,19 @@
-import { useLayoutEffect, useEffect, useState, useRef, MutableRefObject } from 'react';
+import { useLayoutEffect, useEffect, useState, useRef } from 'react';
+import type { MutableRefObject } from 'react';
+import type { DebouncedFunc } from 'lodash';
 
 import { patchResizeHandler, createNotifier, isSSR } from './utils';
 
-import { Props, ReactResizeDetectorDimensions } from './ResizeDetector';
+import type { PatchedResizeObserverCallback } from './utils';
+import type { Props, ReactResizeDetectorDimensions } from './ResizeDetector';
 
 const useEnhancedEffect = isSSR() ? useEffect : useLayoutEffect;
 
-interface FunctionProps extends Props {
-  targetRef?: ReturnType<typeof useRef>;
+interface FunctionProps<T extends HTMLElement> extends Props {
+  targetRef?: MutableRefObject<T>;
 }
 
-function useResizeDetector<T = any>(props: FunctionProps = {}): UseResizeDetectorReturn<T> {
+function useResizeDetector<T extends HTMLElement>(props: FunctionProps<T> = {}): UseResizeDetectorReturn<T> {
   const {
     skipOnMount = false,
     refreshMode,
@@ -23,10 +26,11 @@ function useResizeDetector<T = any>(props: FunctionProps = {}): UseResizeDetecto
     onResize
   } = props;
 
-  const skipResize: MutableRefObject<null | boolean> = useRef(skipOnMount);
-  const localRef = useRef(null);
-  const ref = (targetRef ?? localRef) as MutableRefObject<T | null>;
-  const resizeHandler = useRef<ResizeObserverCallback>();
+  const skipResize = useRef<boolean>(skipOnMount);
+  const localRef = useRef<T | null>(null);
+  const resizeHandler = useRef<PatchedResizeObserverCallback>();
+
+  const ref = targetRef ?? localRef;
 
   const [size, setSize] = useState<ReactResizeDetectorDimensions>({
     width: undefined,
@@ -34,19 +38,17 @@ function useResizeDetector<T = any>(props: FunctionProps = {}): UseResizeDetecto
   });
 
   useEnhancedEffect(() => {
-    if (isSSR()) {
-      return;
-    }
+    if (!handleWidth && !handleHeight) return;
 
     const notifyResize = createNotifier(onResize, setSize, handleWidth, handleHeight);
 
-    const resizeCallback: ResizeObserverCallback = entries => {
+    const resizeCallback: ResizeObserverCallback = (entries: ResizeObserverEntry[]) => {
       if (!handleWidth && !handleHeight) return;
 
       entries.forEach(entry => {
         const { width, height } = (entry && entry.contentRect) || {};
 
-        const shouldSetSize = !skipResize.current && !isSSR();
+        const shouldSetSize = !skipResize.current;
         if (shouldSetSize) {
           notifyResize({ width, height });
         }
@@ -57,19 +59,15 @@ function useResizeDetector<T = any>(props: FunctionProps = {}): UseResizeDetecto
 
     resizeHandler.current = patchResizeHandler(resizeCallback, refreshMode, refreshRate, refreshOptions);
 
-    const resizeObserver = new window.ResizeObserver(resizeHandler.current as ResizeObserverCallback);
+    const resizeObserver = new window.ResizeObserver(resizeHandler.current);
 
     if (ref.current) {
-      // Something wrong with typings here...
-      resizeObserver.observe(ref.current as any, observerOptions);
+      resizeObserver.observe(ref.current, observerOptions);
     }
 
     return () => {
       resizeObserver.disconnect();
-      const patchedResizeHandler = resizeHandler.current as any;
-      if (patchedResizeHandler && patchedResizeHandler.cancel) {
-        patchedResizeHandler.cancel();
-      }
+      (resizeHandler.current as DebouncedFunc<ResizeObserverCallback>).cancel?.();
     };
   }, [refreshMode, refreshRate, refreshOptions, handleWidth, handleHeight, onResize, observerOptions, ref.current]);
 
