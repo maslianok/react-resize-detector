@@ -1,9 +1,10 @@
+import externals from 'rollup-plugin-node-externals';
 import resolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
-import typescript from 'rollup-plugin-typescript2';
-import copy from 'rollup-plugin-copy';
+import typescript from '@rollup/plugin-typescript';
+import terser from '@rollup/plugin-terser';
 
-import packageJson from './package.json';
+import packageJson from './package.json' assert { type: 'json' };
 
 const externalDeps = Object.keys(packageJson.dependencies).concat(Object.keys(packageJson.peerDependencies));
 
@@ -20,12 +21,11 @@ const getConfig = () => ({
   output: [getOutput(packageJson.main, 'cjs'), getOutput(packageJson.module, 'esm')],
   external: externalDeps,
   plugins: [
+    externals(),
     resolve(),
     commonjs(),
-    typescript({ useTsconfigDeclarationDir: true }),
-    copy({
-      targets: [{ src: 'build/index.d.ts', dest: 'build', rename: 'withPolyfill.d.ts' }]
-    })
+    typescript(),
+    terser()
   ]
 });
 
