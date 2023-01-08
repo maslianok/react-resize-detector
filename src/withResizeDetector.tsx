@@ -1,11 +1,11 @@
 import * as React from 'react';
 import { Component, createRef, forwardRef, ComponentType, ForwardedRef, MutableRefObject } from 'react';
 
-import ResizeDetector, { ComponentsProps } from './ResizeDetector';
+import ResizeDetector, { ResizeDetectorProps } from './ResizeDetector';
 
 function withResizeDetector<P, ElementT extends HTMLElement = HTMLElement>(
   ComponentInner: ComponentType<P>,
-  options: ComponentsProps<ElementT> = {}
+  options: ResizeDetectorProps<ElementT> = {}
 ) {
   class ResizeDetectorHOC extends Component<
     PropsWithoutResizeDetectorDimensions<P> & { forwardedRef: ForwardedRef<HTMLElement> }

@@ -59,7 +59,7 @@ export interface Props {
   observerOptions?: ResizeObserverOptions;
 }
 
-export interface ComponentsProps<ElementT extends HTMLElement> extends Props {
+export interface ResizeDetectorProps<ElementT extends HTMLElement> extends Props {
   /**
    * A selector of an element to observe.
    * You can use this property to attach resize-observer to any DOM element.
@@ -104,7 +104,7 @@ export interface ComponentsProps<ElementT extends HTMLElement> extends Props {
 }
 
 class ResizeDetector<ElementT extends HTMLElement = HTMLElement> extends PureComponent<
-  ComponentsProps<ElementT>,
+  ResizeDetectorProps<ElementT>,
   ReactResizeDetectorDimensions
 > {
   skipOnMount: boolean | undefined;
@@ -112,7 +112,7 @@ class ResizeDetector<ElementT extends HTMLElement = HTMLElement> extends PureCom
   observableElement;
   resizeHandler;
   resizeObserver;
-  constructor(props: ComponentsProps<ElementT>) {
+  constructor(props: ResizeDetectorProps<ElementT>) {
     super(props);
 
     const { skipOnMount, refreshMode, refreshRate = 1000, refreshOptions } = props;
