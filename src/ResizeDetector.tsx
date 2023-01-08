@@ -280,6 +280,7 @@ class ResizeDetector<ElementT extends HTMLElement = HTMLElement> extends PureCom
         const child = children as ReactElement;
         if (child.type && typeof child.type === 'string') {
           // child is a native DOM elements such as div, span etc
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
           const { targetRef, ...nativeProps } = childProps;
           return cloneElement(child, nativeProps);
         }
