@@ -1,6 +1,6 @@
 {
   "name": "react-resize-detector",
-  "version": "7.1.2",
+  "version": "8.0.0",
   "description": "React resize detector",
   "main": "build/index.js",
   "module": "build/index.esm.js",
