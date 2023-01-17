@@ -1,8 +1,5 @@
-import React, { ReactElement, useEffect, useState } from 'react';
-import { useRef } from 'react';
-import { createRef } from 'react';
-import { RefObject } from 'react';
-import ReactResizeDetector, { useResizeDetector, withResizeDetector } from 'react-resize-detector';
+import React, { useEffect, useState } from 'react';
+import { useResizeDetector } from 'react-resize-detector';
 
 const s = {
   wrapper: {
@@ -83,6 +80,8 @@ const App = () => {
 
 // #### 2. HOC pattern
 
+// import { withResizeDetector } from 'react-resize-detector';
+
 // const MainFrameInner = ({ onHideLeftPanel, width, height }: MainFramePropsType) => {
 //   const [count, setCount] = useState(0);
 
@@ -125,6 +124,8 @@ const App = () => {
 // };
 
 // #### 3. Child Function Pattern
+
+// import ReactResizeDetector from 'react-resize-detector';
 
 // const MainFrameInner = ({ onHideLeftPanel, width, height }: MainFramePropsType) => {
 //   const [count, setCount] = useState(0);

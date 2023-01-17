@@ -1,19 +1,16 @@
 {
+  "root": true,
+  "extends": ["eslint:recommended", "plugin:@typescript-eslint/recommended", "prettier"],
   "parser": "@typescript-eslint/parser",
-  "extends": ["eslint:recommended", "plugin:@typescript-eslint/recommended"],
+  "plugins": ["@typescript-eslint"],
   "env": {
     "browser": true,
     "node": true,
     "es6": true
   },
-  "plugins": ["@typescript-eslint"],
   "rules": {
-    "max-len": [2, 120],
     "react/jsx-filename-extension": 0,
-    "arrow-parens": ["error", "as-needed"],
     "react/destructuring-assignment": 0,
-    "comma-dangle": ["error", "never"],
-    "object-curly-newline": 0,
     "react/jsx-props-no-spreading": 0,
     "@typescript-eslint/explicit-module-boundary-types": "off"
   },

@@ -59,7 +59,7 @@ export interface Props {
   observerOptions?: ResizeObserverOptions;
 }
 
-export interface ComponentsProps<ElementT extends HTMLElement> extends Props {
+export interface ResizeDetectorProps<ElementT extends HTMLElement> extends Props {
   /**
    * A selector of an element to observe.
    * You can use this property to attach resize-observer to any DOM element.
@@ -104,7 +104,7 @@ export interface ComponentsProps<ElementT extends HTMLElement> extends Props {
 }
 
 class ResizeDetector<ElementT extends HTMLElement = HTMLElement> extends PureComponent<
-  ComponentsProps<ElementT>,
+  ResizeDetectorProps<ElementT>,
   ReactResizeDetectorDimensions
 > {
   skipOnMount: boolean | undefined;
@@ -112,7 +112,7 @@ class ResizeDetector<ElementT extends HTMLElement = HTMLElement> extends PureCom
   observableElement;
   resizeHandler;
   resizeObserver;
-  constructor(props: ComponentsProps<ElementT>) {
+  constructor(props: ResizeDetectorProps<ElementT>) {
     super(props);
 
     const { skipOnMount, refreshMode, refreshRate = 1000, refreshOptions } = props;
@@ -218,7 +218,7 @@ class ResizeDetector<ElementT extends HTMLElement = HTMLElement> extends PureCom
     }
   };
 
-  createResizeHandler: ResizeObserverCallback = (entries): void => {
+  createResizeHandler: ResizeObserverCallback = (entries: ResizeObserverEntry[]): void => {
     const { handleWidth = true, handleHeight = true, onResize } = this.props;
 
     if (!handleWidth && !handleHeight) return;
@@ -268,27 +268,29 @@ class ResizeDetector<ElementT extends HTMLElement = HTMLElement> extends PureCom
     const childProps = { width, height, targetRef: this.targetRef };
     const renderType = this.getRenderType();
 
-    let typedChildren: any;
-
     switch (renderType) {
       case 'renderProp':
-        return render && render(childProps);
-      case 'childFunction':
-        typedChildren = children as (props: ChildFunctionProps<ElementT>) => ReactNode;
-        return typedChildren(childProps);
-      case 'child':
+        return render?.(childProps);
+      case 'childFunction': {
+        const childFunction = children as (props: ChildFunctionProps<ElementT>) => ReactNode;
+        return childFunction?.(childProps);
+      }
+      case 'child': {
         // @TODO bug prone logic
-        typedChildren = children as ReactElement;
-        if (typedChildren.type && typeof typedChildren.type === 'string') {
+        const child = children as ReactElement;
+        if (child.type && typeof child.type === 'string') {
           // child is a native DOM elements such as div, span etc
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
           const { targetRef, ...nativeProps } = childProps;
-          return cloneElement(typedChildren, nativeProps);
+          return cloneElement(child, nativeProps);
         }
         // class or functional component otherwise
-        return cloneElement(typedChildren, childProps);
-      case 'childArray':
-        typedChildren = children as [ReactElement];
-        return typedChildren.map((el: ReactElement) => !!el && cloneElement(el, childProps));
+        return cloneElement(child, childProps);
+      }
+      case 'childArray': {
+        const childArray = children as ReactElement[];
+        return childArray.map(el => !!el && cloneElement(el, childProps));
+      }
       default:
         return <WrapperTag />;
     }
