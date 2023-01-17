@@ -5,3 +5,4 @@ node_modules
 build
 yarn.lock
 .eslintcache
+.yarn
