@@ -8,7 +8,6 @@ import packageJson from './package.json' assert { type: 'json' };
 const getOutput = (path, format) => ({
   file: path,
   format: format,
-  sourcemap: true,
   compact: true,
   exports: 'named'
 });
