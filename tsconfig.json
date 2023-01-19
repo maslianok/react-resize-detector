@@ -13,7 +13,8 @@
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "noImplicitAny": false,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "inlineSources": true
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules", "build", "src/**/*.test.tsx"]
