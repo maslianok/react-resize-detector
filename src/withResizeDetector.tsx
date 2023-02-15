@@ -1,5 +1,4 @@
-import * as React from 'react';
-import { Component, createRef, forwardRef, ComponentType, ForwardedRef, MutableRefObject } from 'react';
+import React, { Component, createRef, forwardRef, ComponentType, ForwardedRef, MutableRefObject } from 'react';
 
 import ResizeDetector, { ResizeDetectorProps } from './ResizeDetector';
 
