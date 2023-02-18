@@ -13,7 +13,9 @@ export interface useResizeDetectorProps<T extends HTMLElement> extends Props {
   targetRef?: MutableRefObject<T | null>;
 }
 
-function useResizeDetector<T extends HTMLElement = any>(props: useResizeDetectorProps<T> = {}): UseResizeDetectorReturn<T> {
+function useResizeDetector<T extends HTMLElement = any>(
+  props: useResizeDetectorProps<T> = {}
+): UseResizeDetectorReturn<T> {
   const {
     skipOnMount = false,
     refreshMode,
