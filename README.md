@@ -12,9 +12,9 @@ Nowadays browsers support element resize handling natively using [ResizeObserver
 
 🦁 Supports Function and Class Components
 
-🐠 Used by <a href="https://github.com/maslianok/react-resize-detector/network/dependents" target="__blank">75k repositories</a>
+🐠 Used by <a href="https://github.com/maslianok/react-resize-detector/network/dependents" target="__blank">90k repositories</a>
 
-🦄 Generating <a href="https://npmtrends.com/react-resize-detector" target="__blank">50M+ downloads/year</a>
+🦄 Generating <a href="https://npmtrends.com/react-resize-detector" target="__blank">70M+ downloads/year</a>
 
 No `window.resize` listeners! No timeouts! No 👑 viruses! :)
 
