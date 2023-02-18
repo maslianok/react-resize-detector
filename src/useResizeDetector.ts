@@ -10,7 +10,7 @@ import type { Props, ReactResizeDetectorDimensions } from './ResizeDetector';
 const useEnhancedEffect = isSSR() ? useEffect : useLayoutEffect;
 
 export interface useResizeDetectorProps<T extends HTMLElement> extends Props {
-  targetRef?: MutableRefObject<T>;
+  targetRef?: MutableRefObject<T | null>;
 }
 
 function useResizeDetector<T extends HTMLElement = any>(props: useResizeDetectorProps<T> = {}): UseResizeDetectorReturn<T> {
