@@ -20,6 +20,41 @@ No `window.resize` listeners! No timeouts! No 👑 viruses! :)
 
 <i>TypeScript-lovers notice: starting from v6.0.0 you may safely remove `@types/react-resize-detector` from you deps list.</i>
 
+## Do you really need this library?
+
+Container queries now work in [all major browsers](https://caniuse.com/css-container-queries). It's very likely you can resolve your problem using [pure CSS](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Container_Queries).
+
+<details><summary>Example</summary>
+
+```html
+<div class="post">
+  <div class="card">
+    <h2>Card title</h2>
+    <p>Card content</p>
+  </div>
+</div>
+```
+
+```css
+.post {
+  container-type: inline-size;
+}
+
+/* Default heading styles for the card title */
+.card h2 {
+  font-size: 1em;
+}
+
+/* If the container is larger than 700px */
+@container (min-width: 700px) {
+  .card h2 {
+    font-size: 2em;
+  }
+}
+```
+
+</details>
+
 ## Installation
 
 ```ssh
