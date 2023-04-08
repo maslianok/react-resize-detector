@@ -89,6 +89,7 @@ function useResizeDetector<T extends HTMLElement = any>({
     return () => {
       resizeObserver.disconnect();
       (resizeHandler.current as DebouncedFunc<ResizeObserverCallback>).cancel?.();
+      setRefElement(null);
     };
   }, [refreshMode, refreshRate, refreshOptions, handleWidth, handleHeight, observerOptions, refElement]);
 
