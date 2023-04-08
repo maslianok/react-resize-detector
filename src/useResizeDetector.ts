@@ -40,11 +40,14 @@ function useResizeDetector<T extends HTMLElement = any>({
 
   // this is a callback that will be called every time the ref is changed
   // we call setState inside to trigger rerender
-  const onRefChange: OnRefChangeType = useCallback((node: T | null) => {
-    if (node !== refElement) {
-      setRefElement(node);
-    }
-  }, []);
+  const onRefChange: OnRefChangeType = useCallback(
+    (node: T | null) => {
+      if (node !== refElement) {
+        setRefElement(node);
+      }
+    },
+    [refElement]
+  );
   // adding `current` to make it compatible with useRef shape
   onRefChange.current = refElement;
 
@@ -55,6 +58,12 @@ function useResizeDetector<T extends HTMLElement = any>({
     height: undefined
   });
 
+  /**
+   * To access the current size in the ResizeObserver without having to recreate it each time size updates.
+   */
+  const sizeRef = useRef(size);
+  sizeRef.current = size;
+
   useEffect(() => {
     if (!handleWidth && !handleHeight) return;
 
@@ -62,7 +71,7 @@ function useResizeDetector<T extends HTMLElement = any>({
       return;
     }
 
-    const notifyResize = createNotifier(setSize, handleWidth, handleHeight);
+    const notifyResize = createNotifier(onResize, sizeRef, setSize, handleWidth, handleHeight);
 
     const resizeCallback: ResizeObserverCallback = (entries: ResizeObserverEntry[]) => {
       if (!handleWidth && !handleHeight) return;
@@ -91,11 +100,7 @@ function useResizeDetector<T extends HTMLElement = any>({
       (resizeHandler.current as DebouncedFunc<ResizeObserverCallback>).cancel?.();
       setRefElement(null);
     };
-  }, [refreshMode, refreshRate, refreshOptions, handleWidth, handleHeight, observerOptions, refElement]);
-
-  useEffect(() => {
-    onResize?.(size.width, size.height);
-  }, [size]);
+  }, [refreshMode, refreshRate, refreshOptions, handleWidth, handleHeight, observerOptions, onResize, refElement]);
 
   return { ref: onRefChange, ...size };
 }

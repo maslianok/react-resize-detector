@@ -1,10 +1,9 @@
 import ResizeDetector from './ResizeDetector';
 import withResizeDetector from './withResizeDetector';
-import useResizeDetector, { UseResizeDetectorReturn } from './useResizeDetector';
+import useResizeDetector from './useResizeDetector';
 
-export { withResizeDetector, useResizeDetector, UseResizeDetectorReturn };
+export { withResizeDetector, useResizeDetector };
 
-export type { ResizeDetectorProps } from './types';
-export type { useResizeDetectorProps } from './useResizeDetector';
+export type { ResizeDetectorProps, UseResizeDetectorReturn, useResizeDetectorProps } from './types';
 
 export default ResizeDetector;
