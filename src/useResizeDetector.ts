@@ -24,6 +24,11 @@ function useResizeDetector<T extends HTMLElement = any>({
 }: useResizeDetectorProps<T> = {}): UseResizeDetectorReturn<T> {
   const skipResize = useRef<boolean>(skipOnMount);
 
+  const [size, setSize] = useState<ReactResizeDetectorDimensions>({
+    width: undefined,
+    height: undefined
+  });
+
   // we are going to use this ref to store the last element that was passed to the hook
   const [refElement, setRefElement] = useState<T | null>(targetRef?.current || null);
 
@@ -41,24 +46,25 @@ function useResizeDetector<T extends HTMLElement = any>({
   // this is a callback that will be called every time the ref is changed
   // we call setState inside to trigger rerender
   const onRefChange: OnRefChangeType = useCallback((node: T | null) => {
-    if (node !== refElement) {
-      setRefElement(node);
-    }
+    setRefElement(node);
   }, []);
   // adding `current` to make it compatible with useRef shape
   onRefChange.current = refElement;
 
   const resizeHandler = useRef<PatchedResizeObserverCallback>();
 
-  const [size, setSize] = useState<ReactResizeDetectorDimensions>({
-    width: undefined,
-    height: undefined
-  });
+  useEffect(() => {
+    return () => {
+      setRefElement(null);
+      onRefChange.current = null;
+    };
+  }, []);
 
   useEffect(() => {
     if (!handleWidth && !handleHeight) return;
 
-    if (!refElement) {
+    if (!refElement && (size.width || size.height)) {
+      setSize({ width: undefined, height: undefined });
       return;
     }
 
@@ -89,7 +95,6 @@ function useResizeDetector<T extends HTMLElement = any>({
     return () => {
       resizeObserver.disconnect();
       (resizeHandler.current as DebouncedFunc<ResizeObserverCallback>).cancel?.();
-      setRefElement(null);
     };
   }, [refreshMode, refreshRate, refreshOptions, handleWidth, handleHeight, observerOptions, refElement]);
 
