@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+
 import { useResizeDetector } from 'react-resize-detector';
 
 const s = {
