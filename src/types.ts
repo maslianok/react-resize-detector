@@ -1,4 +1,5 @@
 import { ReactNode, RefObject } from 'react';
+import type { MutableRefObject } from 'react';
 
 export type ReactResizeDetectorDimensions = {
   height?: number;
@@ -102,3 +103,16 @@ export type ResizeDetectorProps<ElementT extends HTMLElement> = Props & {
 
   children?: ReactNode | ((props: ChildFunctionProps<ElementT>) => ReactNode);
 };
+
+export type OnRefChangeType<T = any> = {
+  (node: T | null): void;
+  current?: T | null;
+};
+
+export interface UseResizeDetectorReturn<T> extends ReactResizeDetectorDimensions {
+  ref: OnRefChangeType<T>;
+}
+
+export interface useResizeDetectorProps<T extends HTMLElement> extends Props {
+  targetRef?: MutableRefObject<T | null>;
+}
