@@ -2,7 +2,7 @@ import debounce from 'lodash/debounce';
 import throttle from 'lodash/throttle';
 import type { DebouncedFunc } from 'lodash';
 
-import { Props, ReactResizeDetectorDimensions } from './ResizeDetector';
+import { Props, ReactResizeDetectorDimensions } from './types';
 
 export type PatchedResizeObserverCallback = DebouncedFunc<ResizeObserverCallback> | ResizeObserverCallback;
 
@@ -31,7 +31,6 @@ export const isDOMElement = (element: unknown): boolean =>
 
 export const createNotifier =
   (
-    onResize: Props['onResize'],
     setSize: React.Dispatch<React.SetStateAction<ReactResizeDetectorDimensions>>,
     handleWidth: boolean,
     handleHeight: boolean
@@ -47,8 +46,6 @@ export const createNotifier =
         // process `handleHeight/handleWidth` props
         return prev;
       }
-
-      onResize?.(width, height);
 
       return { width, height };
     });

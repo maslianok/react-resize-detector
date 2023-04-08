@@ -1,6 +1,7 @@
 import React, { Component, createRef, forwardRef, ComponentType, ForwardedRef, MutableRefObject } from 'react';
 
-import ResizeDetector, { ResizeDetectorProps } from './ResizeDetector';
+import ResizeDetector from './ResizeDetector';
+import { ResizeDetectorProps } from './types';
 
 function withResizeDetector<P, ElementT extends HTMLElement = HTMLElement>(
   ComponentInner: ComponentType<P>,

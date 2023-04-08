@@ -5,7 +5,7 @@ import type { DebouncedFunc } from 'lodash';
 import { patchResizeHandler, createNotifier, isSSR } from './utils';
 
 import type { PatchedResizeObserverCallback } from './utils';
-import type { Props, ReactResizeDetectorDimensions } from './ResizeDetector';
+import type { Props, ReactResizeDetectorDimensions } from './types';
 
 const useEnhancedEffect = isSSR() ? useEffect : useLayoutEffect;
 
@@ -13,21 +13,17 @@ export interface useResizeDetectorProps<T extends HTMLElement> extends Props {
   targetRef?: MutableRefObject<T | null>;
 }
 
-function useResizeDetector<T extends HTMLElement = any>(
-  props: useResizeDetectorProps<T> = {}
-): UseResizeDetectorReturn<T> {
-  const {
-    skipOnMount = false,
-    refreshMode,
-    refreshRate = 1000,
-    refreshOptions,
-    handleWidth = true,
-    handleHeight = true,
-    targetRef,
-    observerOptions,
-    onResize
-  } = props;
-
+function useResizeDetector<T extends HTMLElement = any>({
+  skipOnMount = false,
+  refreshMode,
+  refreshRate = 1000,
+  refreshOptions,
+  handleWidth = true,
+  handleHeight = true,
+  targetRef,
+  observerOptions,
+  onResize
+}: useResizeDetectorProps<T> = {}): UseResizeDetectorReturn<T> {
   const skipResize = useRef<boolean>(skipOnMount);
   const localRef = useRef<T | null>(null);
   const resizeHandler = useRef<PatchedResizeObserverCallback>();
@@ -42,7 +38,7 @@ function useResizeDetector<T extends HTMLElement = any>(
   useEnhancedEffect(() => {
     if (!handleWidth && !handleHeight) return;
 
-    const notifyResize = createNotifier(onResize, setSize, handleWidth, handleHeight);
+    const notifyResize = createNotifier(setSize, handleWidth, handleHeight);
 
     const resizeCallback: ResizeObserverCallback = (entries: ResizeObserverEntry[]) => {
       if (!handleWidth && !handleHeight) return;
@@ -71,7 +67,11 @@ function useResizeDetector<T extends HTMLElement = any>(
       resizeObserver.disconnect();
       (resizeHandler.current as DebouncedFunc<ResizeObserverCallback>).cancel?.();
     };
-  }, [refreshMode, refreshRate, refreshOptions, handleWidth, handleHeight, onResize, observerOptions, ref.current]);
+  }, [refreshMode, refreshRate, refreshOptions, handleWidth, handleHeight, observerOptions, ref.current]);
+
+  useEffect(() => {
+    onResize?.(size.width, size.height);
+  }, [size]);
 
   return { ref, ...size };
 }
