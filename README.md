@@ -66,14 +66,12 @@ yarn add react-resize-detector
 and
 
 ```jsx
-import ResizeObserver from 'react-resize-detector';
+import { useResizeDetector } from 'react-resize-detector';
 ```
 
 ## Examples
 
-Starting from v6.0.0 there are 3 recommended ways to work with `resize-detector` library:
-
-#### 1. React hook (new in v6.0.0)
+#### 1. React hook
 
 ```jsx
 import { useResizeDetector } from 'react-resize-detector';
@@ -107,7 +105,7 @@ const CustomComponent = () => {
 
 </details>
 
-<details><summary>With custom ref</summary>
+<details><summary>With custom ref. _not recommended, may have some unexpected behaviour if you dynamically mount/unmount the observed element_</summary>
 
 ```js
 import { useResizeDetector } from 'react-resize-detector';
@@ -236,30 +234,6 @@ export default App;
 <br/>
 
 We still support [other ways](https://github.com/maslianok/react-resize-detector/tree/v4.2.1#examples) to work with this library, but in the future consider using the ones described above. Please let me know if the examples above don't fit your needs.
-
-## Performance optimization
-
-This library uses the native [ResizeObserver](https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserver) API.
-
-DOM nodes get attached to `ResizeObserver.observe` every time the component mounts and every time any property gets changed.
-
-It means you should try to avoid passing anonymous functions to `ResizeDetector`, because they will trigger the whole initialization process every time the component rerenders. Use `useCallback` whenever it's possible.
-
-```jsx
-// WRONG - anonymous function
-const { ref, width, height } = useResizeDetector({
-  onResize: () => {
-    // on resize logic
-  }
-});
-
-// CORRECT - `useCallback` approach
-const onResize = useCallback(() => {
-  // on resize logic
-}, []);
-
-const { ref, width, height } = useResizeDetector({ onResize });
-```
 
 ## Refs
 

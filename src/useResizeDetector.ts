@@ -66,8 +66,6 @@ function useResizeDetector<T extends HTMLElement = any>({
 
   const shouldSetSize = useCallback(
     (prevSize: ReactResizeDetectorDimensions, nextSize: ReactResizeDetectorDimensions) => {
-      if (!handleWidth && !handleHeight) return false;
-
       if (prevSize.width === nextSize.width && prevSize.height === nextSize.height) {
         // skip if dimensions haven't changed
         return false;
@@ -81,18 +79,20 @@ function useResizeDetector<T extends HTMLElement = any>({
         return false;
       }
 
-      if (skipResize.current) {
-        skipResize.current = false;
-        return false;
-      }
-
       return true;
     },
-    [handleWidth, handleHeight, skipResize]
+    [handleWidth, handleHeight]
   );
 
   const resizeCallback: ResizeObserverCallback = useCallback(
     (entries: ResizeObserverEntry[]) => {
+      if (!handleWidth && !handleHeight) return;
+
+      if (skipResize.current) {
+        skipResize.current = false;
+        return;
+      }
+
       entries.forEach(entry => {
         const { width, height } = entry?.contentRect || {};
         setSize(prevSize => {
@@ -101,7 +101,7 @@ function useResizeDetector<T extends HTMLElement = any>({
         });
       });
     },
-    [shouldSetSize]
+    [handleWidth, handleHeight, skipResize, shouldSetSize]
   );
 
   const resizeHandler = useCallback(patchResizeCallback(resizeCallback, refreshMode, refreshRate, refreshOptions), [
@@ -111,18 +111,16 @@ function useResizeDetector<T extends HTMLElement = any>({
     refreshOptions
   ]);
 
+  // on refElement change
   useEffect(() => {
     let resizeObserver: ResizeObserver | undefined;
     if (refElement) {
       resizeObserver = new window.ResizeObserver(resizeHandler);
       resizeObserver.observe(refElement, observerOptions);
     } else {
-      setSize(prev => {
-        if (prev.width || prev.height) {
-          return { width: undefined, height: undefined };
-        }
-        return prev;
-      });
+      if (size.width || size.height) {
+        setSize({ width: undefined, height: undefined });
+      }
     }
 
     return () => {

@@ -44,14 +44,29 @@ type MainFramePropsType = {
 // #### 1. React hook (new in v6.0.0)
 const MainFrame = ({ onHideLeftPanel }: MainFramePropsType) => {
   const [count, setCount] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
   const { width, height, ref } = useResizeDetector<HTMLDivElement>();
   // { refreshMode: 'debounce', refreshRate: 2000, skipOnMount: true }
+
+  useEffect(() => {
+    const i = setTimeout(() => {
+      setIsLoading(isLoading => !isLoading);
+    }, 5000);
+
+    return () => {
+      clearTimeout(i);
+    };
+  }, []);
 
   useEffect(() => {
     if (width || height) {
       setCount(count => count + 1);
     }
   }, [width, height]);
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div style={s.rightColumn as React.CSSProperties} ref={ref}>
