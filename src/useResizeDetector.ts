@@ -1,9 +1,8 @@
 import { useEffect, useState, useRef, useCallback } from 'react';
 import type { DebouncedFunc } from 'lodash';
 
-import { patchResizeHandler, createNotifier } from './utils';
+import { patchResizeCallback } from './utils';
 
-import type { PatchedResizeObserverCallback } from './utils';
 import type {
   OnRefChangeType,
   ReactResizeDetectorDimensions,
@@ -45,68 +44,96 @@ function useResizeDetector<T extends HTMLElement = any>({
 
   // this is a callback that will be called every time the ref is changed
   // we call setState inside to trigger rerender
-
-  const onRefChange: OnRefChangeType = useCallback((node: T | null) => {
-    if (node !== refElement) {
-      setRefElement(node);
-    }
-  }, [refElement]);
-
+  const onRefChange: OnRefChangeType = useCallback(
+    (node: T | null) => {
+      if (node !== refElement) {
+        setRefElement(node);
+      }
+    },
+    [refElement]
+  );
   // adding `current` to make it compatible with useRef shape
   onRefChange.current = refElement;
 
-  const resizeHandler = useRef<PatchedResizeObserverCallback>();
-
   useEffect(() => {
     return () => {
+      // component is unmounted
+      // clear ref to avoid memory leaks
       setRefElement(null);
       onRefChange.current = null;
     };
   }, []);
 
-  /**
-   * To access the current size in the ResizeObserver without having to recreate it each time size updates.
-   */
-  const sizeRef = useRef(size);
-  sizeRef.current = size;
+  const shouldSetSize = useCallback(
+    (prevSize: ReactResizeDetectorDimensions, nextSize: ReactResizeDetectorDimensions) => {
+      if (!handleWidth && !handleHeight) return false;
+
+      if (prevSize.width === nextSize.width && prevSize.height === nextSize.height) {
+        // skip if dimensions haven't changed
+        return false;
+      }
+
+      if (
+        (prevSize.width === nextSize.width && !handleHeight) ||
+        (prevSize.height === nextSize.height && !handleWidth)
+      ) {
+        // process `handleHeight/handleWidth` props
+        return false;
+      }
+
+      if (skipResize.current) {
+        skipResize.current = false;
+        return false;
+      }
+
+      return true;
+    },
+    [handleWidth, handleHeight, skipResize]
+  );
+
+  const resizeCallback: ResizeObserverCallback = useCallback(
+    (entries: ResizeObserverEntry[]) => {
+      entries.forEach(entry => {
+        const { width, height } = entry?.contentRect || {};
+        setSize(prevSize => {
+          if (!shouldSetSize(prevSize, { width, height })) return prevSize;
+          return { width, height };
+        });
+      });
+    },
+    [shouldSetSize]
+  );
+
+  const resizeHandler = useCallback(patchResizeCallback(resizeCallback, refreshMode, refreshRate, refreshOptions), [
+    resizeCallback,
+    refreshMode,
+    refreshRate,
+    refreshOptions
+  ]);
 
   useEffect(() => {
-    if (!handleWidth && !handleHeight) return;
-
-    if (!refElement && (size.width || size.height)) {
-      setSize({ width: undefined, height: undefined });
-      return;
-    }
-
-    const notifyResize = createNotifier(onResize, sizeRef, setSize, handleWidth, handleHeight);
-
-    const resizeCallback: ResizeObserverCallback = (entries: ResizeObserverEntry[]) => {
-      if (!handleWidth && !handleHeight) return;
-
-      entries.forEach(entry => {
-        const { width, height } = (entry && entry.contentRect) || {};
-
-        const shouldSetSize = !skipResize.current;
-        if (shouldSetSize) {
-          notifyResize({ width, height });
-        }
-
-        skipResize.current = false;
-      });
-    };
-
-    resizeHandler.current = patchResizeHandler(resizeCallback, refreshMode, refreshRate, refreshOptions);
-
-    const resizeObserver = new window.ResizeObserver(resizeHandler.current);
+    let resizeObserver: ResizeObserver | undefined;
     if (refElement) {
+      resizeObserver = new window.ResizeObserver(resizeHandler);
       resizeObserver.observe(refElement, observerOptions);
+    } else {
+      setSize(prev => {
+        if (prev.width || prev.height) {
+          return { width: undefined, height: undefined };
+        }
+        return prev;
+      });
     }
 
     return () => {
-      resizeObserver.disconnect();
-      (resizeHandler.current as DebouncedFunc<ResizeObserverCallback>).cancel?.();
+      resizeObserver?.disconnect?.();
+      (resizeHandler as DebouncedFunc<ResizeObserverCallback>).cancel?.();
     };
-  }, [refreshMode, refreshRate, refreshOptions, handleWidth, handleHeight, observerOptions, onResize, refElement]);
+  }, [resizeHandler, refElement]);
+
+  useEffect(() => {
+    onResize?.(size.width, size.height);
+  }, [size]);
 
   return { ref: onRefChange, ...size };
 }

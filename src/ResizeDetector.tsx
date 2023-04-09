@@ -9,7 +9,7 @@ import React, {
 } from 'react';
 import { findDOMNode } from 'react-dom';
 
-import { patchResizeHandler, isFunction, isSSR, isDOMElement, createNotifier } from './utils';
+import { patchResizeCallback, isFunction, isSSR, isDOMElement } from './utils';
 import { ReactResizeDetectorDimensions, ResizeDetectorProps, ChildFunctionProps } from './types';
 
 class ResizeDetector<ElementT extends HTMLElement = HTMLElement> extends PureComponent<
@@ -47,7 +47,7 @@ class ResizeDetector<ElementT extends HTMLElement = HTMLElement> extends PureCom
       return;
     }
 
-    this.resizeHandler = patchResizeHandler(this.createResizeHandler, refreshMode, refreshRate, refreshOptions);
+    this.resizeHandler = patchResizeCallback(this.createResizeHandler, refreshMode, refreshRate, refreshOptions);
     this.resizeObserver = new window.ResizeObserver(this.resizeHandler);
   }
 
@@ -141,7 +141,20 @@ class ResizeDetector<ElementT extends HTMLElement = HTMLElement> extends PureCom
 
     if (!handleWidth && !handleHeight) return;
 
-    const notifyResize = createNotifier(onResize, this.sizeRef, this.setState.bind(this), handleWidth, handleHeight);
+    const notifyResize = ({ width, height }: ReactResizeDetectorDimensions): void => {
+      if (this.state.width === width && this.state.height === height) {
+        // skip if dimensions haven't changed
+        return;
+      }
+
+      if ((this.state.width === width && !handleHeight) || (this.state.height === height && !handleWidth)) {
+        // process `handleHeight/handleWidth` props
+        return;
+      }
+
+      onResize?.(width, height);
+      this.setState({ width, height });
+    };
 
     entries.forEach(entry => {
       const { width, height } = (entry && entry.contentRect) || {};
