@@ -31,22 +31,27 @@ export const isDOMElement = (element: unknown): boolean =>
 
 export const createNotifier =
   (
+    onResize: Props['onResize'],
+    sizeRef: Readonly<React.MutableRefObject<ReactResizeDetectorDimensions>>,
     setSize: React.Dispatch<React.SetStateAction<ReactResizeDetectorDimensions>>,
     handleWidth: boolean,
     handleHeight: boolean
   ) =>
   ({ width, height }: ReactResizeDetectorDimensions): void => {
-    setSize(prev => {
-      if (prev.width === width && prev.height === height) {
-        // skip if dimensions haven't changed
-        return prev;
-      }
+    const { current: prev } = sizeRef;
 
-      if ((prev.width === width && !handleHeight) || (prev.height === height && !handleWidth)) {
-        // process `handleHeight/handleWidth` props
-        return prev;
-      }
+    if (prev.width === width && prev.height === height) {
+      // skip if dimensions haven't changed
+      return;
+    }
 
-      return { width, height };
-    });
+    if ((prev.width === width && !handleHeight) || (prev.height === height && !handleWidth)) {
+      // process `handleHeight/handleWidth` props
+      return;
+    }
+
+    onResize?.(width, height);
+
+    const newSize = { width, height };
+    setSize(newSize);
   };

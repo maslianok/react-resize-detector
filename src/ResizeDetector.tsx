@@ -1,4 +1,12 @@
-import React, { PureComponent, isValidElement, cloneElement, createRef, ReactNode, ReactElement } from 'react';
+import React, {
+  PureComponent,
+  isValidElement,
+  cloneElement,
+  createRef,
+  ReactNode,
+  ReactElement,
+  MutableRefObject
+} from 'react';
 import { findDOMNode } from 'react-dom';
 
 import { patchResizeHandler, isFunction, isSSR, isDOMElement, createNotifier } from './utils';
@@ -13,6 +21,11 @@ class ResizeDetector<ElementT extends HTMLElement = HTMLElement> extends PureCom
   observableElement;
   resizeHandler;
   resizeObserver;
+  /**
+   * To access the current size in the ResizeObserver without having to recreate it each time size updates.
+   */
+  private readonly sizeRef: MutableRefObject<ReactResizeDetectorDimensions>;
+
   constructor(props: ResizeDetectorProps<ElementT>) {
     super(props);
 
@@ -21,6 +34,9 @@ class ResizeDetector<ElementT extends HTMLElement = HTMLElement> extends PureCom
     this.state = {
       width: undefined,
       height: undefined
+    };
+    this.sizeRef = {
+      current: this.state
     };
 
     this.skipOnMount = skipOnMount;
@@ -41,6 +57,7 @@ class ResizeDetector<ElementT extends HTMLElement = HTMLElement> extends PureCom
 
   componentDidUpdate(): void {
     this.attachObserver();
+    this.sizeRef.current = this.state;
   }
 
   componentWillUnmount(): void {
@@ -124,11 +141,7 @@ class ResizeDetector<ElementT extends HTMLElement = HTMLElement> extends PureCom
 
     if (!handleWidth && !handleHeight) return;
 
-    const notifyResize = createNotifier(
-      setStateFunc => this.setState(setStateFunc, () => onResize?.(this.state.width, this.state.height)),
-      handleWidth,
-      handleHeight
-    );
+    const notifyResize = createNotifier(onResize, this.sizeRef, this.setState.bind(this), handleWidth, handleHeight);
 
     entries.forEach(entry => {
       const { width, height } = (entry && entry.contentRect) || {};
