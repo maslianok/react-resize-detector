@@ -239,7 +239,7 @@ We still support [other ways](https://github.com/maslianok/react-resize-detector
 
 _The below explanation doesn't apply to `useResizeDetector`_
 
-The library is trying to be smart and does not add any extra DOM elements to not break your layouts. That's why we use [`findDOMNode`](https://reactjs.org/docs/reactdom.html#finddomnode) method to find and attach listeners to the existing DOM elements. Unfortunately, this method has been deprecated and throws a warning in StrictMode.
+The library is trying to be smart and does not add any extra DOM elements to not break your layouts. That's why we use [`findDOMNode`](https://react.dev/reference/react-dom/findDOMNode) method to find and attach listeners to the existing DOM elements. Unfortunately, this method has been deprecated and throws a warning in StrictMode.
 
 For those who want to avoid this warning, we are introducing an additional property - `targetRef`. You have to set this prop as a `ref` of your target DOM element and the library will use this reference instead of searching the DOM element with help of `findDOMNode`
 
