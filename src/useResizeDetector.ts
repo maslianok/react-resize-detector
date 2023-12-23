@@ -55,15 +55,6 @@ function useResizeDetector<T extends HTMLElement = any>({
   // adding `current` to make it compatible with useRef shape
   onRefChange.current = refElement;
 
-  useEffect(() => {
-    return () => {
-      // component is unmounted
-      // clear ref to avoid memory leaks
-      setRefElement(null);
-      onRefChange.current = null;
-    };
-  }, []);
-
   const shouldSetSize = useCallback(
     (prevSize: ReactResizeDetectorDimensions, nextSize: ReactResizeDetectorDimensions) => {
       if (prevSize.width === nextSize.width && prevSize.height === nextSize.height) {
