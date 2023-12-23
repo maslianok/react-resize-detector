@@ -1,4 +1,4 @@
-import { ReactNode, RefObject } from 'react';
+import { RefObject } from 'react';
 import type { MutableRefObject } from 'react';
 
 export type ReactResizeDetectorDimensions = {
@@ -58,50 +58,6 @@ export type Props = {
    * Default: undefined
    */
   observerOptions?: ResizeObserverOptions;
-};
-
-export type ResizeDetectorProps<ElementT extends HTMLElement> = Props & {
-  /**
-   * A selector of an element to observe.
-   * You can use this property to attach resize-observer to any DOM element.
-   * Please refer to the querySelector docs.
-   * Default: undefined
-   * @deprecated since version 5.0.0. It will be removed in version 7.0.0.
-   * Use targetRef instead
-   */
-  querySelector?: string;
-  /**
-   * Valid only for a callback-pattern.
-   * Ignored for other render types.
-   * Set resize-detector's node type.
-   * You can pass any valid React node: string with node's name or element.
-   * Can be useful when you need to handle table's or paragraph's resizes.
-   * Default: "div"
-   * @deprecated since version 5.0.0. It will be removed in version 7.0.0.
-   * Use targetRef instead
-   */
-  nodeType?: keyof JSX.IntrinsicElements; // will be passed to React.createElement()
-  /**
-   * A DOM element to observe.
-   * By default it's a parent element in relation to the ReactResizeDetector component.
-   * But you can pass any DOM element to observe.
-   * This property is omitted when you pass querySelector.
-   * Default: undefined
-   * @deprecated since version 5.0.0. It will be removed in version 6.0.0.
-   * Use targetRef instead
-   */
-  targetDomEl?: ElementT;
-  /**
-   * A React reference of the element to observe.
-   * Pass a reference to the element you want to attach resize handlers to.
-   * It must be an instance of React.useRef or React.createRef functions
-   * Default: undefined
-   */
-  targetRef?: RefObject<ElementT>;
-
-  render?: (props: ReactResizeDetectorDimensions) => ReactNode;
-
-  children?: ReactNode | ((props: ChildFunctionProps<ElementT>) => ReactNode);
 };
 
 export type OnRefChangeType<T = any> = {

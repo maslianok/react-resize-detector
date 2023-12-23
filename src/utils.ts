@@ -21,10 +21,3 @@ export const patchResizeCallback = (
       return resizeCallback;
   }
 };
-
-export const isFunction = (fn: unknown): boolean => typeof fn === 'function';
-
-export const isSSR = (): boolean => typeof window === 'undefined';
-
-export const isDOMElement = (element: unknown): boolean =>
-  element instanceof Element || element instanceof HTMLDocument;
