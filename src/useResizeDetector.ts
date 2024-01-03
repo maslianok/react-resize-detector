@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef, useCallback } from 'react';
+import { useEffect, useState, useRef, useCallback, useMemo } from 'react';
 import type { DebouncedFunc } from 'lodash';
 
 import { patchResizeCallback } from './utils';
@@ -42,18 +42,38 @@ function useResizeDetector<T extends HTMLElement = any>({
     }, 0);
   }
 
-  // this is a callback that will be called every time the ref is changed
+  // this is a memo that will be called every time the ref is changed
+  // This proxy will properly call setState either when the ref is called as a function or when `.current` is set
   // we call setState inside to trigger rerender
-  const onRefChange: OnRefChangeType = useCallback(
-    (node: T | null) => {
-      if (node !== refElement) {
-        setRefElement(node);
-      }
-    },
+
+  const onRefChange: OnRefChangeType<T> = useMemo(
+    () =>
+      new Proxy(
+        node => {
+          if (node !== refElement) {
+            setRefElement(node);
+          }
+        },
+        {
+          get(target, prop) {
+            if (prop === 'current') {
+              return refElement;
+            } else {
+              return target[prop];
+            }
+          },
+          set(target, prop, value) {
+            if (prop === 'current') {
+              setRefElement(value);
+            } else {
+              target[prop] = value;
+            }
+            return true;
+          }
+        }
+      ),
     [refElement]
   );
-  // adding `current` to make it compatible with useRef shape
-  onRefChange.current = refElement;
 
   const shouldSetSize = useCallback(
     (prevSize: ReactResizeDetectorDimensions, nextSize: ReactResizeDetectorDimensions) => {
