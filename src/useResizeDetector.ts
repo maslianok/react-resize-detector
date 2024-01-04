@@ -58,9 +58,8 @@ function useResizeDetector<T extends HTMLElement = any>({
           get(target, prop) {
             if (prop === 'current') {
               return refElement;
-            } else {
-              return target[prop];
             }
+            return target[prop];
           },
           set(target, prop, value) {
             if (prop === 'current') {
