@@ -1,13 +1,8 @@
-import { RefObject } from 'react';
 import type { MutableRefObject } from 'react';
 
 export type ReactResizeDetectorDimensions = {
   height?: number;
   width?: number;
-};
-
-export type ChildFunctionProps<ElementT extends HTMLElement> = ReactResizeDetectorDimensions & {
-  targetRef?: RefObject<ElementT>;
 };
 
 export type ResfreshModeType = 'throttle' | 'debounce';
