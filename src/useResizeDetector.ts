@@ -46,7 +46,7 @@ function useResizeDetector<T extends HTMLElement = any>({
   // This proxy will properly call setState either when the ref is called as a function or when `.current` is set
   // we call setState inside to trigger rerender
 
-  const onRefChange: OnRefChangeType<T> = useMemo(
+  const refProxy: OnRefChangeType<T> = useMemo(
     () =>
       new Proxy(
         node => {
@@ -144,7 +144,7 @@ function useResizeDetector<T extends HTMLElement = any>({
     onResize?.(size.width, size.height);
   }, [size]);
 
-  return { ref: onRefChange, ...size };
+  return { ref: refProxy, ...size };
 }
 
 export default useResizeDetector;
