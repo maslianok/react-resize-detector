@@ -6,7 +6,7 @@
 
 Modern browsers now have native support for detecting element size changes through [ResizeObservers](https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserver). This library utilizes ResizeObservers to facilitate managing element size changes in React applications.
 
-🐥 Tiny <a href="https://bundlephobia.com/result?p=react-resize-detector" target="__blank">~3kb</a>
+🐥 Tiny <a href="https://bundlephobia.com/result?p=react-resize-detector" target="__blank">~2kb</a>
 
 🐼 Written in TypeScript
 
