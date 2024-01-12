@@ -44,18 +44,14 @@ type MainFramePropsType = {
 // #### 1. React hook (new in v6.0.0)
 const MainFrame = ({ onHideLeftPanel }: MainFramePropsType) => {
   const [count, setCount] = useState(0);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const { width, height, ref } = useResizeDetector<HTMLDivElement>();
   // { refreshMode: 'debounce', refreshRate: 2000, skipOnMount: true }
 
   useEffect(() => {
-    const i = setTimeout(() => {
-      setIsLoading(isLoading => !isLoading);
-    }, 5000);
+    const i = setTimeout(() => setIsLoading(false), 1000);
 
-    return () => {
-      clearTimeout(i);
-    };
+    return () => clearTimeout(i);
   }, []);
 
   useEffect(() => {
