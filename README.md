@@ -14,7 +14,7 @@ Modern browsers now have native support for detecting element size changes throu
 
 🦄 Produces <a href="https://npmtrends.com/react-resize-detector" target="__blank">100 million downloads annually</a>
 
-No `window.resize` listeners! No timeouts! No 👑 viruses! :)
+No `window.resize` listeners! No timeouts! 
 
 ## Is it necessary for you to use this library?
 
