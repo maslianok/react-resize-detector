@@ -41,21 +41,16 @@ type MainFramePropsType = {
   height?: number;
 };
 
-// #### 1. React hook (new in v6.0.0)
 const MainFrame = ({ onHideLeftPanel }: MainFramePropsType) => {
   const [count, setCount] = useState(0);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const { width, height, ref } = useResizeDetector<HTMLDivElement>();
   // { refreshMode: 'debounce', refreshRate: 2000, skipOnMount: true }
 
   useEffect(() => {
-    const i = setTimeout(() => {
-      setIsLoading(isLoading => !isLoading);
-    }, 5000);
+    const i = setTimeout(() => setIsLoading(false), 1000);
 
-    return () => {
-      clearTimeout(i);
-    };
+    return () => clearTimeout(i);
   }, []);
 
   useEffect(() => {
@@ -93,97 +88,5 @@ const App = () => {
     </div>
   );
 };
-
-// #### 2. HOC pattern
-
-// import { withResizeDetector } from 'react-resize-detector';
-
-// const MainFrameInner = ({ onHideLeftPanel, width, height }: MainFramePropsType) => {
-//   const [count, setCount] = useState(0);
-
-//   useEffect(() => {
-//     if (width || height) {
-//       setCount(count => count + 1);
-//     }
-//   }, [width, height, setCount]);
-
-//   return (
-//     <div style={s.rightColumn as React.CSSProperties}>
-//       <div style={s.toggleLeftColumnBtn as React.CSSProperties}>
-//         <button onClick={onHideLeftPanel} type="button">
-//           Toggle left panel
-//         </button>
-//         <span> or resize window.</span>
-//       </div>
-
-//       <div>{`Main div resized ${count} times`}</div>
-//       <div style={s.dimensions}>{`Width: ${width}, Height: ${height}`}</div>
-//     </div>
-//   );
-// };
-
-// const MainFrame = withResizeDetector(MainFrameInner);
-
-// const App = () => {
-//   const [isLeftPanelVisible, setLeftPanelVisibility] = useState(true);
-
-//   return (
-//     <div style={s.wrapper}>
-//       {isLeftPanelVisible && <div style={s.leftColumn as React.CSSProperties}>Left panel content</div>}
-//       <MainFrame
-//         onHideLeftPanel={() => {
-//           setLeftPanelVisibility(isVisible => !isVisible);
-//         }}
-//       />
-//     </div>
-//   );
-// };
-
-// #### 3. Child Function Pattern
-
-// import ReactResizeDetector from 'react-resize-detector';
-
-// const MainFrameInner = ({ onHideLeftPanel, width, height }: MainFramePropsType) => {
-//   const [count, setCount] = useState(0);
-
-//   useEffect(() => {
-//     if (width || height) {
-//       setCount(count => count + 1);
-//     }
-//   }, [width, height, setCount]);
-
-//   return (
-//     <div style={s.rightColumn as React.CSSProperties}>
-//       <div style={s.toggleLeftColumnBtn as React.CSSProperties}>
-//         <button onClick={onHideLeftPanel} type="button">
-//           Toggle left panel
-//         </button>
-//         <span> or resize window.</span>
-//       </div>
-
-//       <div>{`Main div resized ${count} times`}</div>
-//       <div style={s.dimensions}>{`Width: ${width}, Height: ${height}`}</div>
-//     </div>
-//   );
-// };
-
-// const App = () => {
-//   const [isLeftPanelVisible, setLeftPanelVisibility] = useState(true);
-
-//   return (
-//     <div style={s.wrapper}>
-//       {isLeftPanelVisible && <div style={s.leftColumn as React.CSSProperties}>Left panel content</div>}
-//       <ReactResizeDetector handleWidth handleHeight skipOnMount>
-//         {({ width, height }) => (
-//           <MainFrameInner
-//             width={width}
-//             height={height}
-//             onHideLeftPanel={() => setLeftPanelVisibility(isVisible => !isVisible)}
-//           />
-//         )}
-//       </ReactResizeDetector>
-//     </div>
-//   );
-// };
 
 export default App;
