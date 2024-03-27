@@ -109,7 +109,7 @@ const CustomComponent = () => {
 
 | Prop            | Type   | Description                                                                                                                                                                                    | Default     |
 | --------------- | ------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
-| onResize        | Func   | Function that will be invoked with `width` and `height` arguments                                                                                                                              | `undefined` |
+| onResize        | Func   | Function that will be invoked with `width`, `height` and ResizeObserver `entry` arguments                                                                                                      | `undefined` |
 | handleWidth     | Bool   | Trigger `onResize` on width change                                                                                                                                                             | `true`      |
 | handleHeight    | Bool   | Trigger `onResize` on height change                                                                                                                                                            | `true`      |
 | skipOnMount     | Bool   | Do not trigger onResize when a component mounts                                                                                                                                                | `false`     |

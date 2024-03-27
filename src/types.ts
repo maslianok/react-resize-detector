@@ -5,13 +5,20 @@ export type ReactResizeDetectorDimensions = {
   width?: number;
 };
 
+/** If element is mounted, returns its dimensions and `ResizeObserverEntry`
+ * If element is unmounted, returns null */
+export type ResizePayload =
+  | { width: number; height: number; entry: ResizeObserverEntry }
+  | { width: null; height: null; entry: null };
+
 export type ResfreshModeType = 'throttle' | 'debounce';
 export type ResfreshOptionsType = { leading?: boolean; trailing?: boolean };
-export type OnResizeCallback = (width?: number, height?: number) => void;
+export type OnResizeCallback = (payload: ResizePayload) => void;
 
 export type Props = {
   /**
-   * Function that will be invoked with observable element's width and height.
+   * Function that will be invoked with observable element's width, height and ResizeObserverEntry.
+   * If element is unmounted, width and height will be null.
    * Default: undefined
    */
   onResize?: OnResizeCallback;

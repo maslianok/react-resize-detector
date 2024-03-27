@@ -45,7 +45,6 @@ function useResizeDetector<T extends HTMLElement = any>({
   // this is a memo that will be called every time the ref is changed
   // This proxy will properly call setState either when the ref is called as a function or when `.current` is set
   // we call setState inside to trigger rerender
-
   const refProxy: OnRefChangeType<T> = useMemo(
     () =>
       new Proxy(
@@ -74,6 +73,7 @@ function useResizeDetector<T extends HTMLElement = any>({
     [refElement]
   );
 
+  // Only update the size if one of the observed dimensions has changed
   const shouldSetSize = useCallback(
     (prevSize: ReactResizeDetectorDimensions, nextSize: ReactResizeDetectorDimensions) => {
       if (prevSize.width === nextSize.width && prevSize.height === nextSize.height) {
@@ -104,16 +104,22 @@ function useResizeDetector<T extends HTMLElement = any>({
       }
 
       entries.forEach(entry => {
-        const { width, height } = entry?.contentRect || {};
+        const dimensions = entry?.contentRect || {};
         setSize(prevSize => {
-          if (!shouldSetSize(prevSize, { width, height })) return prevSize;
-          return { width, height };
+          if (!shouldSetSize(prevSize, dimensions)) return prevSize;
+          onResize?.({
+            width: dimensions.width,
+            height: dimensions.height,
+            entry
+          });
+          return dimensions;
         });
       });
     },
     [handleWidth, handleHeight, skipResize, shouldSetSize]
   );
 
+  // Throttle/Debounce the resize event if refreshMode is configured
   const resizeHandler = useCallback(patchResizeCallback(resizeCallback, refreshMode, refreshRate, refreshOptions), [
     resizeCallback,
     refreshMode,
@@ -121,27 +127,29 @@ function useResizeDetector<T extends HTMLElement = any>({
     refreshOptions
   ]);
 
-  // on refElement change
+  // Attach ResizeObserver to the element
   useEffect(() => {
     let resizeObserver: ResizeObserver | undefined;
     if (refElement) {
       resizeObserver = new window.ResizeObserver(resizeHandler);
       resizeObserver.observe(refElement, observerOptions);
-    } else {
-      if (size.width || size.height) {
-        setSize({ width: undefined, height: undefined });
-      }
+    }
+    // If refElement is not available, reset the size
+    else if (size.width || size.height) {
+      onResize?.({
+        width: null,
+        height: null,
+        entry: null
+      });
+      setSize({ width: undefined, height: undefined });
     }
 
+    // Disconnect the ResizeObserver when the component is unmounted
     return () => {
       resizeObserver?.disconnect?.();
       (resizeHandler as DebouncedFunc<ResizeObserverCallback>).cancel?.();
     };
   }, [resizeHandler, refElement]);
-
-  useEffect(() => {
-    onResize?.(size.width, size.height);
-  }, [size]);
 
   return { ref: refProxy, ...size };
 }
