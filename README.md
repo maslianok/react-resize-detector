@@ -1,6 +1,6 @@
 # Handle element resizes like it's 2024!
 
-<img src="https://img.shields.io/npm/dm/react-resize-detector?style=flat-square"> <img src="https://badgen.net/bundlephobia/minzip/react-resize-detector?style=flat-square"> <img src="https://badgen.net/bundlephobia/tree-shaking/react-resize-detector?style=flat-square">
+<img src="https://img.shields.io/npm/v/react-resize-detector?style=flat-square" /> <img src="https://img.shields.io/npm/l/react-resize-detector?style=flat-square" /> <img src="https://img.shields.io/npm/dm/react-resize-detector?style=flat-square" /> <img src="https://img.shields.io/bundlejs/size/react-resize-detector?style=flat-square" />
 
 #### [Live demo](http://maslianok.github.io/react-resize-detector/)
 
@@ -10,11 +10,11 @@ Modern browsers now have native support for detecting element size changes throu
 
 🐼 Written in TypeScript
 
-🐠 Used by <a href="https://github.com/maslianok/react-resize-detector/network/dependents" target="__blank">160k repositories</a>
+🐠 Used by <a href="https://github.com/maslianok/react-resize-detector/network/dependents" target="__blank">170k repositories</a>
 
 🦄 Produces <a href="https://npmtrends.com/react-resize-detector" target="__blank">100 million downloads annually</a>
 
-No `window.resize` listeners! No timeouts! 
+No `window.resize` listeners! No timeouts!
 
 ## Is it necessary for you to use this library?
 
