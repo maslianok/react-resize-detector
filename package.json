@@ -49,9 +49,6 @@
   "bugs": {
     "url": "https://github.com/maslianok/react-resize-detector/issues"
   },
-  "directories": {
-    "example": "example"
-  },
   "homepage": "https://github.com/maslianok/react-resize-detector",
   "keywords": [
     "react",
