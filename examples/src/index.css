@@ -1,11 +1,112 @@
-body {
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans',
-    'Droid Sans', 'Helvetica Neue', sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  padding: 0;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+:root {
+  --highlight-color: var(--pink-8);
+}
+
+nav {
+  width: 420px;
+  flex: 0 0 auto;
+
+  @media (max-width: 768px) {
+    width: 100%;
+  }
+}
+
+main {
+  display: flex;
+  position: relative;
+  overflow: hidden;
+  flex: 1 1 auto;
+  padding: 24px;
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+.rt-RadioCardsItem {
+  text-align: center;
+}
+
+main .rt-BaseCard {
+  box-shadow: var(--shadow-4);
+
+  margin: auto;
+  text-align: center;
+
+  resize: both;
+  min-width: 240px;
+  min-height: 240px;
+
+  max-width: 92%;
+  max-height: 92%;
+
+  width: 320px;
+  height: 320px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+
+  & .highlight {
+    position: absolute;
+    inset: 20px;
+    border-radius: 16px;
+    border: 4px solid var(--highlight-color);
+    pointer-events: none;
+
+    animation: fadeOut 1s ease-out forwards;
+  }
+
+  & i {
+    color: var(--highlight-color);
+  }
+}
+
+.snippet {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  margin-top: 8px;
+
+  & > code {
+    min-height: 40px;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 12px;
+  }
+
+  & > button {
+    position: absolute;
+    right: 4px;
+    top: 50%;
+    transform: translateY(-50%);
+
+    box-sizing: border-box;
+    padding: 4px;
+    margin: 0;
+    width: 32px;
+    height: 32px;
+
+    & svg {
+      --size: 20px;
+      width: var(--size);
+      height: var(--size);
+    }
+  }
 }
