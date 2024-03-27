@@ -3,12 +3,7 @@ import type { DebouncedFunc } from 'lodash';
 
 import { patchResizeCallback } from './utils';
 
-import type {
-  OnRefChangeType,
-  Dimensions,
-  UseResizeDetectorReturn,
-  useResizeDetectorProps
-} from './types';
+import type { OnRefChangeType, Dimensions, UseResizeDetectorReturn, useResizeDetectorProps } from './types';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function useResizeDetector<T extends HTMLElement = any>({
