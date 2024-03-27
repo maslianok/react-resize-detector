@@ -16,9 +16,8 @@
     "build": "rollup -c",
     "link": "npm link react react-dom",
     "prettier": "prettier --write .",
-    "lint": "eslint .",
-    "lint-fix": "eslint --fix",
-    "fix": "npm run prettier && npm run lint-fix",
+    "lint": "eslint . --fix",
+    "fix": "npm run prettier && npm run lint",
     "prerelease": "npm version prerelease --preid=rc",
     "prepublishOnly": "npm run build"
   },
