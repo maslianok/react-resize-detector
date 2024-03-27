@@ -94,6 +94,8 @@ function useResizeDetector<T extends HTMLElement = any>({
     [handleWidth, handleHeight]
   );
 
+  const box = observerOptions?.box;
+
   const resizeCallback: ResizeObserverCallback = useCallback(
     (entries: ResizeObserverEntry[]) => {
       if (!handleWidth && !handleHeight) return;
@@ -103,8 +105,37 @@ function useResizeDetector<T extends HTMLElement = any>({
         return;
       }
 
+      // Calculates the dimensions of the element based on the current box model
+      // Refs: https://developer.mozilla.org/en-US/docs/Learn/CSS/Building_blocks/The_box_model
+
+      // Value	          Border	  Padding	  Inner Content
+      // ---------------------------------------------------
+      // 'border-box'	    Yes	      Yes	      Yes
+      // 'content-box'	  No	      No	      Yes
+      //  undefined       No	      No?	      Yes
+      const getDimensions = (entry: ResizeObserverEntry) => {
+        if (box === 'border-box') {
+          return {
+            width: entry.borderBoxSize[0].inlineSize,
+            height: entry.borderBoxSize[0].blockSize
+          };
+        }
+
+        if (box === 'content-box') {
+          return {
+            width: entry.contentBoxSize[0].inlineSize,
+            height: entry.contentBoxSize[0].blockSize
+          };
+        }
+
+        return {
+          width: entry.contentRect.width,
+          height: entry.contentRect.height
+        };
+      };
+
       entries.forEach(entry => {
-        const dimensions = entry?.contentRect || {};
+        const dimensions = getDimensions(entry);
         setSize(prevSize => {
           if (!shouldSetSize(prevSize, dimensions)) return prevSize;
           onResize?.({
@@ -116,7 +147,7 @@ function useResizeDetector<T extends HTMLElement = any>({
         });
       });
     },
-    [handleWidth, handleHeight, skipResize, shouldSetSize]
+    [handleWidth, handleHeight, skipResize, shouldSetSize, box]
   );
 
   // Throttle/Debounce the resize event if refreshMode is configured
