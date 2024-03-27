@@ -5,7 +5,7 @@ import { patchResizeCallback } from './utils';
 
 import type {
   OnRefChangeType,
-  ReactResizeDetectorDimensions,
+  Dimensions,
   UseResizeDetectorReturn,
   useResizeDetectorProps
 } from './types';
@@ -24,7 +24,7 @@ function useResizeDetector<T extends HTMLElement = any>({
 }: useResizeDetectorProps<T> = {}): UseResizeDetectorReturn<T> {
   const skipResize = useRef<boolean>(skipOnMount);
 
-  const [size, setSize] = useState<ReactResizeDetectorDimensions>({
+  const [size, setSize] = useState<Dimensions>({
     width: undefined,
     height: undefined
   });
@@ -76,7 +76,7 @@ function useResizeDetector<T extends HTMLElement = any>({
 
   // Only update the size if one of the observed dimensions has changed
   const shouldSetSize = useCallback(
-    (prevSize: ReactResizeDetectorDimensions, nextSize: ReactResizeDetectorDimensions) => {
+    (prevSize: Dimensions, nextSize: Dimensions) => {
       if (prevSize.width === nextSize.width && prevSize.height === nextSize.height) {
         // skip if dimensions haven't changed
         return false;

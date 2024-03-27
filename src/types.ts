@@ -1,6 +1,6 @@
 import type { MutableRefObject } from 'react';
 
-export type ReactResizeDetectorDimensions = {
+export type Dimensions = {
   height?: number;
   width?: number;
 };
@@ -68,7 +68,7 @@ export type OnRefChangeType<T = any> = {
   current?: T | null;
 };
 
-export interface UseResizeDetectorReturn<T> extends ReactResizeDetectorDimensions {
+export interface UseResizeDetectorReturn<T> extends Dimensions {
   ref: OnRefChangeType<T>;
 }
 
