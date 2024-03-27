@@ -29,17 +29,15 @@
     "@rollup/plugin-node-resolve": "^15.2.3",
     "@rollup/plugin-typescript": "^11.1.6",
     "@types/lodash": "^4.17.0",
-    "@types/react": "^18.2.69",
+    "@types/react": "^18.2.72",
     "@types/react-dom": "^18.2.22",
-    "@typescript-eslint/eslint-plugin": "^7.3.1",
-    "@typescript-eslint/parser": "^7.3.1",
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^9.1.0",
-    "eslint-plugin-react": "^7.34.1",
     "prettier": "^3.2.5",
     "rollup": "^4.13.0",
     "rollup-plugin-node-externals": "^7.1.1",
-    "typescript": "^5.4.3"
+    "typescript": "^5.4.3",
+    "typescript-eslint": "^7.4.0"
   },
   "peerDependencies": {
     "react": "^18.0.0",
