@@ -62,6 +62,7 @@ export type Props = {
   observerOptions?: ResizeObserverOptions;
 };
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type OnRefChangeType<T = any> = {
   (node: T | null): void;
   current?: T | null;
