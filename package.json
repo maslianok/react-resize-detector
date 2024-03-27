@@ -31,13 +31,15 @@
     "@types/lodash": "^4.17.0",
     "@types/react": "^18.2.72",
     "@types/react-dom": "^18.2.22",
+    "@typescript-eslint/eslint-plugin": "^7.4.0",
+    "@typescript-eslint/parser": "^7.4.0",
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-react": "^7.34.1",
     "prettier": "^3.2.5",
-    "rollup": "^4.13.0",
+    "rollup": "^4.13.1",
     "rollup-plugin-node-externals": "^7.1.1",
-    "typescript": "^5.4.3",
-    "typescript-eslint": "^7.4.0"
+    "typescript": "^5.4.3"
   },
   "peerDependencies": {
     "react": "^18.0.0",
