@@ -1,4 +1,4 @@
-export const BackgroundImage = ({ id, style, ...props }: React.ComponentPropsWithoutRef<'svg'>) => (
+export const BackgroundImage = ({ style, ...props }: React.ComponentPropsWithoutRef<'svg'>) => (
   <svg
     width="2560"
     height="1920"
