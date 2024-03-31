@@ -29,7 +29,7 @@ function useResizeDetector<T extends HTMLElement = any>({
   });
 
   // Create a proxy ref to handle conditional rendering and dynamic ref changes of the target element
-  const { refProxy, refElement } = useRefProxy(targetRef);
+  const { refProxy, refElement } = useRefProxy<T>(targetRef);
 
   const { box } = observerOptions || {};
 
