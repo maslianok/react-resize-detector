@@ -61,7 +61,7 @@ main .rt-BaseCard {
   text-align: center;
   margin: auto;
 
-  transition: 0.2s ease-out;
+  transition: 0.3s ease-out;
   transition-property: background, border, padding;
 
   & .highlight {
