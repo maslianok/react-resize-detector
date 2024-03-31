@@ -3,10 +3,11 @@ import { Flex, Theme } from '@radix-ui/themes';
 
 import { DemoProvider } from './context';
 import { Sidebar } from './Sidebar';
-import { MainFrame } from './MainFrame';
+import { ResizeCard } from './ResizeCard';
 
 import '@radix-ui/themes/styles.css';
 import './index.css';
+import { BackgroundImage } from './BackgroundImage';
 
 const root = ReactDOMClient.createRoot(document.getElementById('root')!);
 
@@ -27,7 +28,12 @@ root.render(
         }}
       >
         <Sidebar />
-        <MainFrame />
+        <main>
+          <Flex align="center" justify="center" overflow="hidden" position="absolute" inset="0">
+            <BackgroundImage />
+          </Flex>
+          <ResizeCard />
+        </main>
       </Flex>
     </DemoProvider>
   </Theme>,

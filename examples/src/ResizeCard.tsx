@@ -6,9 +6,11 @@ import { Card, Code, Flex, Heading, Text, Spinner } from '@radix-ui/themes';
 import { useResizeDetector } from 'react-resize-detector';
 
 import { useDemoContext } from './context';
-import { BackgroundImage } from './BackgroundImage';
+import { DimensionsTooltip, getDimensions, useDimensions } from './useDimensions';
 
-export const MainFrame = () => {
+export const ResizeCard = () => {
+  const [dimensions, setDimensions] = useDimensions();
+
   const [count, setCount] = useState(0);
   const { refreshMode, box, handleHeight, handleWidth, isLoading } = useDemoContext();
 
@@ -37,9 +39,10 @@ export const MainFrame = () => {
 
     // You can attach a side effect to the resize event
     // For example, count the number of times the element has been resized
-    onResize: ({ width, height }) => {
+    onResize: ({ width, height, entry }) => {
       if (width && height) {
         setCount((count) => count + 1);
+        setDimensions(getDimensions(entry));
       }
     },
 
@@ -47,30 +50,38 @@ export const MainFrame = () => {
     // https://github.com/maslianok/react-resize-detector/tree/master?tab=readme-ov-file#api
   });
 
-  return (
-    <main>
+  // 4) `useResizeDetector` supports dynamic ref change. It's useful when you
+  // need to use conditional rendering or when the ref is not available immediately.
+  if (isLoading) {
+    return (
       <Flex align="center" justify="center" overflow="hidden" position="absolute" inset="0">
-        <BackgroundImage />
+        <Spinner size="3" />
       </Flex>
+    );
+  }
 
-      {/* 4) `useResizeDetector` supports dynamic ref change. It's useful when you 
-      need to use conditional rendering or when the ref is not available immediately. */}
-      {isLoading ? (
-        <Flex align="center" justify="center" overflow="hidden" position="absolute" inset="0">
-          <Spinner size="3" />
-        </Flex>
-      ) : (
-        // 5) Attach the `ref` to the element you want to observe.
-        <Card size="4" ref={ref}>
-          <div className="highlight" key={count} />
-          <Heading mb="2">
-            Card resized <i>{count}</i> times
-          </Heading>
-          <Text color="pink" highContrast as="p">
-            Width: <Code>{width}px</Code>, Height: <Code>{height}px</Code>
-          </Text>
-        </Card>
-      )}
-    </main>
+  return (
+    <Card
+      size="4"
+      // 5) Attach the `ref` to the element you want to observe.
+      ref={ref}
+    >
+      <div className="highlight" key={count} />
+      <div className="inner">
+        <Heading mb="2">
+          Card resized <i>{count}</i> times
+        </Heading>
+        <Text color="pink" highContrast as="p">
+          Width:{' '}
+          <DimensionsTooltip dimensions={dimensions} orientation="horizontal">
+            <Code>{width}px</Code>
+          </DimensionsTooltip>
+          , Height:{' '}
+          <DimensionsTooltip dimensions={dimensions} orientation="vertical">
+            <Code>{height}px</Code>
+          </DimensionsTooltip>
+        </Text>
+      </div>
+    </Card>
   );
 };

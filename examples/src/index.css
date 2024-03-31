@@ -41,25 +41,28 @@ main {
 }
 
 main .rt-BaseCard {
+  --card-padding: var(--space-5);
+
   box-shadow: var(--shadow-4);
 
-  margin: auto;
-  text-align: center;
-
-  resize: both;
   min-width: 240px;
   min-height: 240px;
-
   max-width: 92%;
   max-height: 92%;
-
-  width: 320px;
-  height: 320px;
+  width: 340px;
+  height: 340px;
+  resize: both;
+  will-change: width, height;
 
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
+  text-align: center;
+  margin: auto;
+
+  transition: 0.2s ease-out;
+  transition-property: background, border, padding;
 
   & .highlight {
     position: absolute;
@@ -71,8 +74,48 @@ main .rt-BaseCard {
     animation: fadeOut 1s ease-out forwards;
   }
 
-  & i {
-    color: var(--highlight-color);
+  & .inner {
+    border-radius: calc(var(--card-border-radius));
+    width: 100%;
+    height: 100%;
+    flex: 1 1 auto;
+    padding: var(--card-padding);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+
+    transition: inherit;
+
+    & i {
+      color: var(--highlight-color);
+    }
+
+    & .rt-Code {
+      text-decoration: underline dotted;
+      cursor: help;
+    }
+  }
+
+  &[data-debug-colors='true'] {
+    --card-background-color: var(--green-4);
+    box-shadow: var(--shadow-1);
+    & .inner {
+      background: var(--blue-4);
+      box-shadow: var(--shadow-1);
+    }
+  }
+}
+
+body:has(#debug-hover:hover) main .rt-BaseCard,
+main .rt-BaseCard:has(code:hover),
+main .rt-BaseCard:has(code[data-state*='open']) {
+  --card-background-color: var(--green-4);
+  box-shadow: var(--shadow-1);
+  & .inner {
+    background: var(--blue-4);
+    box-shadow: var(--shadow-1);
   }
 }
 
@@ -108,5 +151,20 @@ main .rt-BaseCard {
       width: var(--size);
       height: var(--size);
     }
+  }
+}
+
+#debug-hover {
+  cursor: help;
+  border: 1px dashed var(--accent-a6);
+  box-shadow: none;
+
+  & p > em {
+    text-decoration: underline dotted;
+  }
+
+  /* Hide if device doesn't support hover */
+  @media (hover: none) {
+    display: none;
   }
 }

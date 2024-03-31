@@ -16,8 +16,9 @@ import {
   Badge,
   Table,
   Tooltip,
+  Callout,
 } from '@radix-ui/themes';
-import { Github, MessageCircleQuestion, Rocket } from 'lucide-react';
+import { Github, MessageCircleQuestion, Rocket, WandSparkles } from 'lucide-react';
 
 import { Box, ResfreshModeType, useDemoContext } from './context';
 import { Snippet } from './Snippet';
@@ -114,17 +115,28 @@ export const Sidebar = () => {
               <Table.Root mb="4">
                 <Table.Header>
                   <Table.Row>
-                    <Table.ColumnHeaderCell>Value</Table.ColumnHeaderCell>
-                    <Table.ColumnHeaderCell>Includes Border</Table.ColumnHeaderCell>
-                    <Table.ColumnHeaderCell>Includes Padding</Table.ColumnHeaderCell>
-                    <Table.ColumnHeaderCell>Includes Inner Content</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell>
+                      <Flex align="end" height="100%">
+                        Value
+                      </Flex>
+                    </Table.ColumnHeaderCell>
+
+                    <Table.ColumnHeaderCell>
+                      Includes <Badge color="orange">Border</Badge>
+                    </Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell>
+                      Includes <Badge color="green">Padding</Badge>
+                    </Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell>
+                      Includes <Badge color="blue">Inner Content</Badge>
+                    </Table.ColumnHeaderCell>
                   </Table.Row>
                 </Table.Header>
 
                 <Table.Body>
                   <Table.Row>
                     <Table.RowHeaderCell>
-                      <Code>undefined</Code>
+                      <Badge>undefined</Badge>
                     </Table.RowHeaderCell>
                     <Table.Cell>
                       <Text color="red">No</Text>
@@ -135,7 +147,7 @@ export const Sidebar = () => {
                           <>
                             Docs say that padding should be included by default, but{' '}
                             <Theme appearance="light" asChild>
-                              <Code>contentRect</Code>
+                              <Badge>contentRect</Badge>
                             </Theme>{' '}
                             actually only includes the inner content.
                           </>
@@ -160,7 +172,7 @@ export const Sidebar = () => {
 
                   <Table.Row>
                     <Table.RowHeaderCell>
-                      <Code>content-box</Code>
+                      <Badge>content-box</Badge>
                     </Table.RowHeaderCell>
                     <Table.Cell>
                       <Text color="red">No</Text>
@@ -175,7 +187,7 @@ export const Sidebar = () => {
 
                   <Table.Row>
                     <Table.RowHeaderCell>
-                      <Code>border-box</Code>
+                      <Badge>border-box</Badge>
                     </Table.RowHeaderCell>
                     <Table.Cell>
                       <Text color="green">Yes</Text>
@@ -189,6 +201,17 @@ export const Sidebar = () => {
                   </Table.Row>
                 </Table.Body>
               </Table.Root>
+
+              <Flex align="center" gap="3" asChild>
+                <Callout.Root mb="4" variant="surface" id="debug-hover">
+                  <Callout.Icon>
+                    <WandSparkles />
+                  </Callout.Icon>
+                  <Callout.Text>
+                    <em>Hover</em> to visualize card's border / padding / inner content with a different color
+                  </Callout.Text>
+                </Callout.Root>
+              </Flex>
 
               <RadioCards.Root value={box || ''} onValueChange={(v) => setBox((v || undefined) as Box)} columns="3">
                 <RadioCards.Item value="">undefined (Default)</RadioCards.Item>
