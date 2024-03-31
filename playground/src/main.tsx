@@ -4,10 +4,10 @@ import { Flex, Theme } from '@radix-ui/themes';
 import { DemoProvider } from './context';
 import { Sidebar } from './Sidebar';
 import { ResizeCard } from './ResizeCard';
+import { BackgroundImage } from './BackgroundImage';
 
 import '@radix-ui/themes/styles.css';
 import './index.css';
-import { BackgroundImage } from './BackgroundImage';
 
 const root = ReactDOMClient.createRoot(document.getElementById('root')!);
 
