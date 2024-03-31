@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef, useCallback, useMemo } from 'react';
 import type { DebouncedFunc } from 'lodash';
 
-import { patchResizeCallback } from './utils';
+import { patchResizeCallback, useCallbackRef } from './utils';
 
 import type { OnRefChangeType, Dimensions, UseResizeDetectorReturn, useResizeDetectorProps } from './types';
 
@@ -18,6 +18,9 @@ function useResizeDetector<T extends HTMLElement = any>({
   onResize
 }: useResizeDetectorProps<T> = {}): UseResizeDetectorReturn<T> {
   const skipResize = useRef<boolean>(skipOnMount);
+
+  // Wrap the onResize callback with a ref to avoid re-renders
+  const onResizeRef = useCallbackRef(onResize);
 
   const [size, setSize] = useState<Dimensions>({
     width: undefined,
@@ -134,7 +137,7 @@ function useResizeDetector<T extends HTMLElement = any>({
         const dimensions = getDimensions(entry);
         setSize(prevSize => {
           if (!shouldSetSize(prevSize, dimensions)) return prevSize;
-          onResize?.({
+          onResizeRef?.({
             width: dimensions.width,
             height: dimensions.height,
             entry
@@ -163,7 +166,7 @@ function useResizeDetector<T extends HTMLElement = any>({
     }
     // If refElement is not available, reset the size
     else if (size.width || size.height) {
-      onResize?.({
+      onResizeRef?.({
         width: null,
         height: null,
         entry: null
