@@ -1,0 +1,33 @@
+{
+  "name": "playground",
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "linklocal && vite",
+    "build": "tsc && vite build",
+    "prettier": "prettier --write ./src",
+    "lint": "eslint ./src --fix",
+    "fix": "npm run prettier && npm run lint",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@radix-ui/themes": "^3.0.1",
+    "lucide-react": "^0.363.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-resize-detector": "file:.."
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.30",
+    "@types/react": "^18.2.72",
+    "@types/react-dom": "^18.2.22",
+    "@vitejs/plugin-react": "^4.2.1",
+    "eslint": "^8.57.0",
+    "eslint-config-prettier": "^9.1.0",
+    "linklocal": "^2.8.2",
+    "prettier": "3.2.5",
+    "typescript": "^5.4.3",
+    "typescript-eslint": "^7.4.0",
+    "vite": "^5.2.6"
+  }
+}

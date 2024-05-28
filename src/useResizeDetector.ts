@@ -1,15 +1,11 @@
-import { useEffect, useState, useRef, useCallback, useMemo } from 'react';
+import { useEffect, useState, useRef, useCallback } from 'react';
 import type { DebouncedFunc } from 'lodash';
 
-import { patchResizeCallback } from './utils';
+import { getDimensions, patchResizeCallback, useCallbackRef, useRefProxy } from './utils';
 
-import type {
-  OnRefChangeType,
-  ReactResizeDetectorDimensions,
-  UseResizeDetectorReturn,
-  useResizeDetectorProps
-} from './types';
+import type { Dimensions, UseResizeDetectorReturn, useResizeDetectorProps } from './types';
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function useResizeDetector<T extends HTMLElement = any>({
   skipOnMount = false,
   refreshMode,
@@ -21,78 +17,21 @@ function useResizeDetector<T extends HTMLElement = any>({
   observerOptions,
   onResize
 }: useResizeDetectorProps<T> = {}): UseResizeDetectorReturn<T> {
+  // If `skipOnMount` is enabled, skip the first resize event
   const skipResize = useRef<boolean>(skipOnMount);
 
-  const [size, setSize] = useState<ReactResizeDetectorDimensions>({
+  // Wrap the `onResize` callback with a ref to avoid re-renders
+  const onResizeRef = useCallbackRef(onResize);
+
+  const [size, setSize] = useState<Dimensions>({
     width: undefined,
     height: undefined
   });
 
-  // we are going to use this ref to store the last element that was passed to the hook
-  const [refElement, setRefElement] = useState<T | null>(targetRef?.current || null);
+  // Create a proxy ref to handle conditional rendering and dynamic ref changes of the target element
+  const { refProxy, refElement } = useRefProxy<T>(targetRef);
 
-  // if targetRef is passed, we need to update the refElement
-  // we have to use setTimeout because ref get assigned after the hook is called
-  // in the future releases we are going to remove targetRef and force users to use ref returned by the hook
-  if (targetRef) {
-    setTimeout(() => {
-      if (targetRef.current !== refElement) {
-        setRefElement(targetRef.current);
-      }
-    }, 0);
-  }
-
-  // this is a memo that will be called every time the ref is changed
-  // This proxy will properly call setState either when the ref is called as a function or when `.current` is set
-  // we call setState inside to trigger rerender
-
-  const refProxy: OnRefChangeType<T> = useMemo(
-    () =>
-      new Proxy(
-        node => {
-          if (node !== refElement) {
-            setRefElement(node);
-          }
-        },
-        {
-          get(target, prop) {
-            if (prop === 'current') {
-              return refElement;
-            }
-            return target[prop];
-          },
-          set(target, prop, value) {
-            if (prop === 'current') {
-              setRefElement(value);
-            } else {
-              target[prop] = value;
-            }
-            return true;
-          }
-        }
-      ),
-    [refElement]
-  );
-
-  const shouldSetSize = useCallback(
-    (prevSize: ReactResizeDetectorDimensions, nextSize: ReactResizeDetectorDimensions) => {
-      if (prevSize.width === nextSize.width && prevSize.height === nextSize.height) {
-        // skip if dimensions haven't changed
-        return false;
-      }
-
-      if (
-        (prevSize.width === nextSize.width && !handleHeight) ||
-        (prevSize.height === nextSize.height && !handleWidth)
-      ) {
-        // process `handleHeight/handleWidth` props
-        return false;
-      }
-
-      return true;
-    },
-    [handleWidth, handleHeight]
-  );
+  const { box } = observerOptions || {};
 
   const resizeCallback: ResizeObserverCallback = useCallback(
     (entries: ResizeObserverEntry[]) => {
@@ -103,17 +42,27 @@ function useResizeDetector<T extends HTMLElement = any>({
         return;
       }
 
+      // Only update the size if one of the observed dimensions has changed
+      const shouldSetSize = (prevSize: Dimensions, nextSize: Dimensions) =>
+        (handleWidth && prevSize.width !== nextSize.width) || (handleHeight && prevSize.height !== nextSize.height);
+
       entries.forEach(entry => {
-        const { width, height } = entry?.contentRect || {};
+        const dimensions = getDimensions(entry, box);
         setSize(prevSize => {
-          if (!shouldSetSize(prevSize, { width, height })) return prevSize;
-          return { width, height };
+          if (!shouldSetSize(prevSize, dimensions)) return prevSize;
+          onResizeRef?.({
+            width: dimensions.width,
+            height: dimensions.height,
+            entry
+          });
+          return dimensions;
         });
       });
     },
-    [handleWidth, handleHeight, skipResize, shouldSetSize]
+    [handleWidth, handleHeight, skipResize, box]
   );
 
+  // Throttle/Debounce the resize event if refreshMode is configured
   const resizeHandler = useCallback(patchResizeCallback(resizeCallback, refreshMode, refreshRate, refreshOptions), [
     resizeCallback,
     refreshMode,
@@ -121,27 +70,29 @@ function useResizeDetector<T extends HTMLElement = any>({
     refreshOptions
   ]);
 
-  // on refElement change
+  // Attach ResizeObserver to the element
   useEffect(() => {
     let resizeObserver: ResizeObserver | undefined;
     if (refElement) {
       resizeObserver = new window.ResizeObserver(resizeHandler);
       resizeObserver.observe(refElement, observerOptions);
-    } else {
-      if (size.width || size.height) {
-        setSize({ width: undefined, height: undefined });
-      }
+    }
+    // If refElement is not available, reset the size
+    else if (size.width || size.height) {
+      onResizeRef?.({
+        width: null,
+        height: null,
+        entry: null
+      });
+      setSize({ width: undefined, height: undefined });
     }
 
+    // Disconnect the ResizeObserver when the component is unmounted
     return () => {
       resizeObserver?.disconnect?.();
       (resizeHandler as DebouncedFunc<ResizeObserverCallback>).cancel?.();
     };
   }, [resizeHandler, refElement]);
-
-  useEffect(() => {
-    onResize?.(size.width, size.height);
-  }, [size]);
 
   return { ref: refProxy, ...size };
 }

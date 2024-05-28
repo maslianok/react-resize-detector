@@ -3,7 +3,7 @@
 node_modules
 src
 test
-examples
+playground
 yarn.lock
 tsconfig.json
 .babelrc

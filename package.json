@@ -1,6 +1,6 @@
 {
   "name": "react-resize-detector",
-  "version": "10.0.1",
+  "version": "11.0.0-beta.0",
   "description": "React resize detector",
   "main": "build/index.js",
   "module": "build/index.esm.js",
@@ -16,9 +16,8 @@
     "build": "rollup -c",
     "link": "npm link react react-dom",
     "prettier": "prettier --write .",
-    "lint": "eslint .",
-    "lint-fix": "eslint --fix",
-    "fix": "npm run prettier && npm run lint-fix",
+    "lint": "eslint . --fix",
+    "fix": "npm run prettier && npm run lint",
     "prerelease": "npm version prerelease --preid=rc",
     "prepublishOnly": "npm run build"
   },
@@ -26,23 +25,21 @@
     "lodash": "^4.17.21"
   },
   "devDependencies": {
-    "@rollup/plugin-commonjs": "^25.0.7",
+    "@rollup/plugin-commonjs": "^25.0.8",
     "@rollup/plugin-node-resolve": "^15.2.3",
     "@rollup/plugin-typescript": "^11.1.6",
-    "@types/lodash": "^4.14.202",
-    "@types/react": "^18.2.47",
-    "@types/react-dom": "^18.2.18",
-    "@typescript-eslint/eslint-plugin": "^6.18.1",
-    "@typescript-eslint/parser": "^6.18.1",
-    "eslint": "^8.56.0",
+    "@types/lodash": "^4.17.4",
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "@typescript-eslint/eslint-plugin": "^7.11.0",
+    "@typescript-eslint/parser": "^7.11.0",
+    "eslint": "^8.57.0",
     "eslint-config-prettier": "^9.1.0",
-    "eslint-plugin-import": "^2.29.1",
-    "eslint-plugin-react": "^7.33.2",
-    "prettier": "^3.1.1",
-    "rollup": "^4.9.5",
-    "rollup-plugin-node-externals": "^6.1.2",
-    "tslib": "^2.6.2",
-    "typescript": "^5.3.3"
+    "eslint-plugin-react": "^7.34.2",
+    "prettier": "^3.2.5",
+    "rollup": "^4.18.0",
+    "rollup-plugin-node-externals": "^7.1.2",
+    "typescript": "^5.4.5"
   },
   "peerDependencies": {
     "react": "^18.0.0",
@@ -51,9 +48,6 @@
   "author": "Vitalii Maslianok <maslianok@gmail.com> (https://github.com/maslianok)",
   "bugs": {
     "url": "https://github.com/maslianok/react-resize-detector/issues"
-  },
-  "directories": {
-    "example": "example"
   },
   "homepage": "https://github.com/maslianok/react-resize-detector",
   "keywords": [
