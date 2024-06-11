@@ -2,7 +2,7 @@
 
 <img src="https://img.shields.io/npm/v/react-resize-detector?style=flat-square" /> <img src="https://img.shields.io/npm/l/react-resize-detector?style=flat-square" /> <img src="https://img.shields.io/npm/dm/react-resize-detector?style=flat-square" /> <img src="https://img.shields.io/bundlejs/size/react-resize-detector?style=flat-square" />
 
-#### [Live demo](http://maslianok.github.io/react-resize-detector/)
+#### [Live demo](https://react-resize-detector.vercel.app/)
 
 Modern browsers now have native support for detecting element size changes through [ResizeObservers](https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserver). This library utilizes ResizeObservers to facilitate managing element size changes in React applications.
 
