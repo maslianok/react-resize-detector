@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Card, Code, DataList, Flex, Heading, Text, Spinner, Tooltip, Theme } from '@radix-ui/themes';
+import { Code, DataList, Tooltip, Theme } from '@radix-ui/themes';
 
 export interface TRBL {
   top: number;
@@ -25,7 +25,6 @@ const defaultValue: TRBL = {
 };
 
 // You can use the `ResizeObserverEntry` returned in the `onResize` callback to calculate border and padding dimensions of the element.
-//
 export const getDimensions = (entry: ResizeObserverEntry): Dimensions => {
   const style = getComputedStyle(entry.target);
 
