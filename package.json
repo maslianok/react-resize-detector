@@ -2,12 +2,12 @@
   "name": "react-resize-detector",
   "version": "11.0.1",
   "description": "React resize detector",
-  "main": "build/index.js",
-  "module": "build/index.esm.js",
+  "type": "module",
+  "exports": "./build/index.js",
+  "types": "./build/index.d.ts",
   "files": [
     "build"
   ],
-  "types": "build/types/index.d.ts",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/maslianok/react-resize-detector.git"
