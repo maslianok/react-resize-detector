@@ -11,23 +11,23 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@radix-ui/themes": "^3.1.3",
-    "lucide-react": "^0.428.0",
+    "@radix-ui/themes": "^3.1.6",
+    "lucide-react": "^0.468.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-resize-detector": "file:.."
   },
   "devDependencies": {
-    "@types/node": "^22.4.1",
+    "@types/node": "^22.10.2",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
-    "@vitejs/plugin-react": "^4.3.1",
-    "eslint": "^8.57.0",
+    "@vitejs/plugin-react": "^4.3.4",
+    "eslint": "^8.57.1",
     "eslint-config-prettier": "^9.1.0",
     "linklocal": "^2.8.2",
-    "prettier": "3.3.3",
-    "typescript": "^5.5.4",
+    "prettier": "3.4.2",
+    "typescript": "^5.7.2",
     "typescript-eslint": "^7.18.0",
-    "vite": "^5.4.1"
+    "vite": "^5.4.11"
   }
 }
