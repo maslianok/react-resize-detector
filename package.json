@@ -1,6 +1,6 @@
 {
   "name": "react-resize-detector",
-  "version": "12.0.1",
+  "version": "12.0.2",
   "description": "React resize detector",
   "type": "module",
   "exports": "./build/index.js",
