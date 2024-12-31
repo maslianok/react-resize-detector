@@ -1,4 +1,4 @@
-# Handle element resizes like it's 2024!
+# Handle element resizes like it's 2025!
 
 <img src="https://img.shields.io/npm/v/react-resize-detector?style=flat-square" /> <img src="https://img.shields.io/npm/l/react-resize-detector?style=flat-square" /> <img src="https://img.shields.io/npm/dm/react-resize-detector?style=flat-square" /> <img src="https://img.shields.io/bundlejs/size/react-resize-detector?style=flat-square" />
 
