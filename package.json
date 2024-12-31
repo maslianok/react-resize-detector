@@ -14,7 +14,6 @@
   },
   "scripts": {
     "build": "rollup -c",
-    "link": "npm link react react-dom",
     "prettier": "prettier --write .",
     "lint": "eslint . --fix",
     "fix": "npm run prettier && npm run lint",
@@ -31,16 +30,15 @@
     "@types/lodash": "^4.17.13",
     "@types/react": "^19.0.2",
     "@types/react-dom": "^19.0.2",
-    "@typescript-eslint/eslint-plugin": "^7.18.0",
-    "@typescript-eslint/parser": "^7.18.0",
-    "eslint": "^8.57.1",
+    "eslint": "^9.17.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-react": "^7.37.3",
     "prettier": "^3.4.2",
     "rollup": "^4.29.1",
     "rollup-plugin-node-externals": "^8.0.0",
     "tslib": "^2.8.1",
-    "typescript": "^5.7.2"
+    "typescript": "^5.7.2",
+    "typescript-eslint": "^8.19.0"
   },
   "peerDependencies": {
     "react": "^18.0.0 || ^19.0.0"

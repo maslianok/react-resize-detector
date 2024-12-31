@@ -1,7 +1,0 @@
-/.git
-/.vscode
-/.idea
-node_modules/*
-build/*
-public/*
-eslint.config.js

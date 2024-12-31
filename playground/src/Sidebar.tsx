@@ -52,7 +52,7 @@ export const Sidebar = () => {
 
               <Flex>
                 <Badge radius="full" size="2" color="gray" asChild>
-                  <a href="https://github.com/maslianok/react-resize-detector" target="_blank">
+                  <a href="https://github.com/maslianok/react-resize-detector" target="_blank" rel="noreferrer">
                     <Github size="16" /> maslianok/react-resize-detector
                   </a>
                 </Badge>
@@ -208,7 +208,7 @@ export const Sidebar = () => {
                     <WandSparkles />
                   </Callout.Icon>
                   <Callout.Text>
-                    <em>Hover</em> to visualize card's border / padding / inner content with a different color
+                    <em>Hover</em> to visualize card&apos;s border / padding / inner content with a different color
                   </Callout.Text>
                 </Callout.Root>
               </Flex>
@@ -230,7 +230,7 @@ export const Sidebar = () => {
                 <Link href="https://lodash.com/docs" target="_blank">
                   lodash
                 </Link>{' '}
-                to limit the amount of times the resize event can be fired per second. It's useful to prevent
+                to limit the amount of times the resize event can be fired per second. It&apos;s useful to prevent
                 unnecessary re-renders when the user is resizing the window.
                 <br />-{' '}
                 <Link href="https://lodash.com/docs#throttle" target="_blank">

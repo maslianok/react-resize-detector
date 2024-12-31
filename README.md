@@ -84,7 +84,7 @@ const CustomComponent = () => {
     handleHeight: false,
     refreshMode: 'debounce',
     refreshRate: 1000,
-    onResize
+    onResize,
   });
 
   return <div ref={ref}>{`${width}x${height}`}</div>;
@@ -131,7 +131,7 @@ beforeEach(() => {
   window.ResizeObserver = jest.fn().mockImplementation(() => ({
     observe: jest.fn(),
     unobserve: jest.fn(),
-    disconnect: jest.fn()
+    disconnect: jest.fn(),
   }));
 
   wrapper = mount(<MyComponent />);
