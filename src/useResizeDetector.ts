@@ -15,7 +15,7 @@ function useResizeDetector<T extends HTMLElement = any>({
   handleHeight = true,
   targetRef,
   observerOptions,
-  onResize
+  onResize,
 }: useResizeDetectorProps<T> = {}): UseResizeDetectorReturn<T> {
   // If `skipOnMount` is enabled, skip the first resize event
   const skipResize = useRef<boolean>(skipOnMount);
@@ -25,7 +25,7 @@ function useResizeDetector<T extends HTMLElement = any>({
 
   const [size, setSize] = useState<Dimensions>({
     width: undefined,
-    height: undefined
+    height: undefined,
   });
 
   // Create a proxy ref to handle conditional rendering and dynamic ref changes of the target element
@@ -46,20 +46,20 @@ function useResizeDetector<T extends HTMLElement = any>({
       const shouldSetSize = (prevSize: Dimensions, nextSize: Dimensions) =>
         (handleWidth && prevSize.width !== nextSize.width) || (handleHeight && prevSize.height !== nextSize.height);
 
-      entries.forEach(entry => {
+      entries.forEach((entry) => {
         const dimensions = getDimensions(entry, box);
-        setSize(prevSize => {
+        setSize((prevSize) => {
           if (!shouldSetSize(prevSize, dimensions)) return prevSize;
           onResizeRef?.({
             width: dimensions.width,
             height: dimensions.height,
-            entry
+            entry,
           });
           return dimensions;
         });
       });
     },
-    [handleWidth, handleHeight, skipResize, box]
+    [handleWidth, handleHeight, skipResize, box],
   );
 
   // Throttle/Debounce the resize event if refreshMode is configured
@@ -67,7 +67,7 @@ function useResizeDetector<T extends HTMLElement = any>({
     resizeCallback,
     refreshMode,
     refreshRate,
-    refreshOptions
+    refreshOptions,
   ]);
 
   // Attach ResizeObserver to the element
@@ -82,7 +82,7 @@ function useResizeDetector<T extends HTMLElement = any>({
       onResizeRef?.({
         width: null,
         height: null,
-        entry: null
+        entry: null,
       });
       setSize({ width: undefined, height: undefined });
     }

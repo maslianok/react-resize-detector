@@ -4,6 +4,9 @@ import reactPlugin from 'eslint-plugin-react';
 import prettierConfig from 'eslint-config-prettier';
 
 export default tseslint.config(
+  {
+    ignores: ['**/build/**', '**/playground/**'],
+  },
   eslint.configs.recommended,
   tseslint.configs.recommended,
   reactPlugin.configs.flat.recommended,

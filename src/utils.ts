@@ -1,6 +1,6 @@
 import * as React from 'react';
-import debounce from 'lodash/debounce';
-import throttle from 'lodash/throttle';
+import debounce from 'lodash/debounce.js';
+import throttle from 'lodash/throttle.js';
 import type { DebouncedFunc } from 'lodash';
 
 import { OnRefChangeType, Props } from './types';
@@ -14,7 +14,7 @@ export const patchResizeCallback = (
   resizeCallback: ResizeObserverCallback,
   refreshMode: Props['refreshMode'],
   refreshRate: Props['refreshRate'],
-  refreshOptions: Props['refreshOptions']
+  refreshOptions: Props['refreshOptions'],
 ): PatchedResizeObserverCallback => {
   switch (refreshMode) {
     case 'debounce':
@@ -67,7 +67,7 @@ export const useRefProxy =
     const refProxy: OnRefChangeType<T> = React.useMemo(
       () =>
         new Proxy(
-          node => {
+          (node) => {
             if (node !== refElement) {
               setRefElement(node);
             }
@@ -86,10 +86,10 @@ export const useRefProxy =
                 target[prop] = value;
               }
               return true;
-            }
-          }
+            },
+          },
         ),
-      [refElement]
+      [refElement],
     );
 
     return { refProxy, refElement, setRefElement };
@@ -108,19 +108,19 @@ export const getDimensions = (entry: ResizeObserverEntry, box: ResizeObserverBox
   if (box === 'border-box') {
     return {
       width: entry.borderBoxSize[0].inlineSize,
-      height: entry.borderBoxSize[0].blockSize
+      height: entry.borderBoxSize[0].blockSize,
     };
   }
 
   if (box === 'content-box') {
     return {
       width: entry.contentBoxSize[0].inlineSize,
-      height: entry.contentBoxSize[0].blockSize
+      height: entry.contentBoxSize[0].blockSize,
     };
   }
 
   return {
     width: entry.contentRect.width,
-    height: entry.contentRect.height
+    height: entry.contentRect.height,
   };
 };

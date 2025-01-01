@@ -8,5 +8,5 @@ export type {
   ResizePayload,
   ResfreshModeType,
   ResfreshOptionsType,
-  Dimensions
+  Dimensions,
 } from './types';

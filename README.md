@@ -1,4 +1,4 @@
-# Handle element resizes like it's 2024!
+# Handle element resizes like it's 2025!
 
 <img src="https://img.shields.io/npm/v/react-resize-detector?style=flat-square" /> <img src="https://img.shields.io/npm/l/react-resize-detector?style=flat-square" /> <img src="https://img.shields.io/npm/dm/react-resize-detector?style=flat-square" /> <img src="https://img.shields.io/bundlejs/size/react-resize-detector?style=flat-square" />
 
@@ -84,7 +84,7 @@ const CustomComponent = () => {
     handleHeight: false,
     refreshMode: 'debounce',
     refreshRate: 1000,
-    onResize
+    onResize,
   });
 
   return <div ref={ref}>{`${width}x${height}`}</div>;
@@ -131,7 +131,7 @@ beforeEach(() => {
   window.ResizeObserver = jest.fn().mockImplementation(() => ({
     observe: jest.fn(),
     unobserve: jest.fn(),
-    disconnect: jest.fn()
+    disconnect: jest.fn(),
   }));
 
   wrapper = mount(<MyComponent />);

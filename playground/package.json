@@ -12,22 +12,23 @@
   },
   "dependencies": {
     "@radix-ui/themes": "^3.1.6",
-    "lucide-react": "^0.468.0",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
+    "lucide-react": "^0.469.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
     "react-resize-detector": "file:.."
   },
   "devDependencies": {
     "@types/node": "^22.10.2",
-    "@types/react": "^18.3.3",
-    "@types/react-dom": "^18.3.0",
+    "@types/react": "^19.0.2",
+    "@types/react-dom": "^19.0.2",
     "@vitejs/plugin-react": "^4.3.4",
-    "eslint": "^8.57.1",
+    "eslint": "^9.17.0",
     "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-react": "^7.37.3",
     "linklocal": "^2.8.2",
     "prettier": "3.4.2",
     "typescript": "^5.7.2",
-    "typescript-eslint": "^7.18.0",
-    "vite": "^5.4.11"
+    "typescript-eslint": "^8.19.0",
+    "vite": "^6.0.6"
   }
 }

@@ -10,9 +10,9 @@ const getConfig = () => ({
     format: 'esm',
     sourcemap: true,
     preserveModules: true,
-    preserveModulesRoot: 'src'
+    preserveModulesRoot: 'src',
   },
-  plugins: [externals(), resolve(), commonjs(), typescript()]
+  plugins: [externals(), resolve(), commonjs(), typescript()],
 });
 
 export default [getConfig()];
