@@ -3,7 +3,7 @@ import debounce from 'lodash/debounce.js';
 import throttle from 'lodash/throttle.js';
 import type { DebouncedFunc } from 'lodash';
 
-import { OnRefChangeType, Props } from './types';
+import { OnRefChangeType, Props } from './types.js';
 
 export type PatchedResizeObserverCallback = DebouncedFunc<ResizeObserverCallback> | ResizeObserverCallback;
 

@@ -1,9 +1,9 @@
 import { useEffect, useState, useRef, useCallback } from 'react';
 import type { DebouncedFunc } from 'lodash';
 
-import { getDimensions, patchResizeCallback, useCallbackRef, useRefProxy } from './utils';
+import { getDimensions, patchResizeCallback, useCallbackRef, useRefProxy } from './utils.js';
 
-import type { Dimensions, UseResizeDetectorReturn, useResizeDetectorProps } from './types';
+import type { Dimensions, UseResizeDetectorReturn, useResizeDetectorProps } from './types.js';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function useResizeDetector<T extends HTMLElement = any>({

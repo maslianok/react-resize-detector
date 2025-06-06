@@ -13,6 +13,7 @@
     "url": "git+https://github.com/maslianok/react-resize-detector.git"
   },
   "scripts": {
+    "prebuild": "tsc",
     "build": "rollup -c",
     "prettier": "prettier --write .",
     "lint": "eslint . --fix",
