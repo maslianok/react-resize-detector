@@ -1,4 +1,4 @@
-import useResizeDetector from './useResizeDetector';
+import useResizeDetector from './useResizeDetector.js';
 
 export { useResizeDetector };
 export type {
@@ -9,4 +9,4 @@ export type {
   ResfreshModeType,
   ResfreshOptionsType,
   Dimensions,
-} from './types';
+} from './types.js';
