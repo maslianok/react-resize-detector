@@ -20,7 +20,7 @@ import {
 } from '@radix-ui/themes';
 import { Github, MessageCircleQuestion, Rocket, WandSparkles } from 'lucide-react';
 
-import { Box, ResfreshModeType, useDemoContext } from './context';
+import { Box, RefreshModeType, useDemoContext } from './context';
 import { Snippet } from './Snippet';
 
 export const Sidebar = () => {
@@ -244,7 +244,7 @@ export const Sidebar = () => {
 
               <RadioCards.Root
                 value={refreshMode || ''}
-                onValueChange={(v) => setRefreshMode((v || undefined) as ResfreshModeType)}
+                onValueChange={(v) => setRefreshMode((v || undefined) as RefreshModeType)}
                 columns="3"
               >
                 <RadioCards.Item value="">No Throttle (Default)</RadioCards.Item>

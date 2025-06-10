@@ -6,7 +6,7 @@ export type {
   useResizeDetectorProps,
   OnResizeCallback,
   ResizePayload,
-  ResfreshModeType,
-  ResfreshOptionsType,
+  RefreshModeType,
+  RefreshOptionsType,
   Dimensions,
 } from './types.js';

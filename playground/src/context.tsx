@@ -1,6 +1,6 @@
 import { createContext, useContext, useMemo, useState } from 'react';
 
-export type ResfreshModeType = 'throttle' | 'debounce' | undefined;
+export type RefreshModeType = 'throttle' | 'debounce' | undefined;
 
 export type Box = ResizeObserverBoxOptions | undefined;
 
@@ -8,8 +8,8 @@ export interface DemoContext {
   box: Box;
   setBox: React.Dispatch<React.SetStateAction<Box>>;
 
-  refreshMode: ResfreshModeType;
-  setRefreshMode: React.Dispatch<React.SetStateAction<ResfreshModeType>>;
+  refreshMode: RefreshModeType;
+  setRefreshMode: React.Dispatch<React.SetStateAction<RefreshModeType>>;
 
   isLoading: boolean;
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
@@ -29,7 +29,7 @@ export const useDemoContext = () => useContext(DemoContext);
 
 export const DemoProvider = ({ children }: { children: React.ReactNode }) => {
   const [box, setBox] = useState<Box>(undefined);
-  const [refreshMode, setRefreshMode] = useState<ResfreshModeType>(undefined);
+  const [refreshMode, setRefreshMode] = useState<RefreshModeType>(undefined);
   const [isLoading, setIsLoading] = useState(false);
   const [handleHeight, setHandleHeight] = useState(true);
   const [handleWidth, setHandleWidth] = useState(true);
