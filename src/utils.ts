@@ -105,17 +105,20 @@ export const getDimensions = (entry: ResizeObserverEntry, box: ResizeObserverBox
   // 'content-box'	  No	      No	      Yes
   //  undefined       No	      No?	      Yes
 
-  if (box === 'border-box') {
+  const borderBox = entry.borderBoxSize?.[0];
+  const contentBox = entry.contentBoxSize?.[0];
+
+  if (box === 'border-box' && borderBox) {
     return {
-      width: entry.borderBoxSize[0].inlineSize,
-      height: entry.borderBoxSize[0].blockSize,
+      width: borderBox.inlineSize,
+      height: borderBox.blockSize,
     };
   }
 
-  if (box === 'content-box') {
+  if (box === 'content-box' && contentBox) {
     return {
-      width: entry.contentBoxSize[0].inlineSize,
-      height: entry.contentBoxSize[0].blockSize,
+      width: contentBox.inlineSize,
+      height: contentBox.blockSize,
     };
   }
 
