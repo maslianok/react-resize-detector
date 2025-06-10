@@ -74,8 +74,12 @@ function useResizeDetector<T extends HTMLElement = any>({
   useEffect(() => {
     let resizeObserver: ResizeObserver | undefined;
     if (refElement) {
-      resizeObserver = new window.ResizeObserver(resizeHandler);
-      resizeObserver.observe(refElement, observerOptions);
+      try {
+        resizeObserver = new window.ResizeObserver(resizeHandler);
+        resizeObserver.observe(refElement, observerOptions);
+      } catch (error) {
+        console.warn('ResizeObserver not supported or failed to initialize:', error);
+      }
     }
     // If refElement is not available, reset the size
     else if (size.width || size.height) {
