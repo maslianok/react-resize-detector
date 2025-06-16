@@ -11,8 +11,8 @@ export type ResizePayload =
   | { width: number; height: number; entry: ResizeObserverEntry }
   | { width: null; height: null; entry: null };
 
-export type ResfreshModeType = 'throttle' | 'debounce';
-export type ResfreshOptionsType = { leading?: boolean; trailing?: boolean };
+export type RefreshModeType = 'throttle' | 'debounce';
+export type RefreshOptionsType = { leading?: boolean; trailing?: boolean };
 export type OnResizeCallback = (payload: ResizePayload) => void;
 
 export type Props = {
@@ -43,7 +43,7 @@ export type Props = {
    * undefined - callback will be fired for every frame.
    * Default: undefined
    */
-  refreshMode?: ResfreshModeType;
+  refreshMode?: RefreshModeType;
   /**
    * Set the timeout/interval for `refreshMode` strategy
    * Default: undefined
@@ -53,7 +53,7 @@ export type Props = {
    * Pass additional params to `refreshMode` according to lodash docs
    * Default: undefined
    */
-  refreshOptions?: ResfreshOptionsType;
+  refreshOptions?: RefreshOptionsType;
   /**
    * These options will be used as a second parameter of `resizeObserver.observe` method
    * @see https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserver/observe
