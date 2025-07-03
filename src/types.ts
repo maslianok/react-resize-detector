@@ -39,7 +39,7 @@ export type Props = {
   skipOnMount?: boolean;
   /**
    * Changes the update strategy. Possible values: "throttle" and "debounce".
-   * See `lodash` docs for more information https://lodash.com/docs/
+   * See `es-toolkit` docs for more information https://es-toolkit.dev/
    * undefined - callback will be fired for every frame.
    * Default: undefined
    */
@@ -50,7 +50,7 @@ export type Props = {
    */
   refreshRate?: number;
   /**
-   * Pass additional params to `refreshMode` according to lodash docs
+   * Pass additional params to `refreshMode` according to es-toolkit docs
    * Default: undefined
    */
   refreshOptions?: RefreshOptionsType;

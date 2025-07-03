@@ -22,7 +22,7 @@ export const ResizeCard = () => {
     // For example, you can throttle the refresh rate of the resize event
 
     // Limit the refresh rate of the resize event.
-    // Refs: https://lodash.com/docs#debounce
+    // Refs: https://es-toolkit.dev/reference/function/debounce.html#debounce
     refreshMode,
     refreshRate: 200,
 
