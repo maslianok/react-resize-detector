@@ -287,6 +287,10 @@ export const Sidebar = () => {
                 You can disable re-renders triggered by the hook while still receiving resize events through the{' '}
                 <Code>onResize</Code> callback. This is useful for performance optimization when you don't need the
                 component to re-render on every resize event.
+                <br/>
+              </Text>
+              <Text as="p" mb="4">
+                Resize the card above and below 300px width to see the re-render count change.
               </Text>
 
               <Text as="label" size="3">

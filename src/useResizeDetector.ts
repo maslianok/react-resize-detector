@@ -119,8 +119,9 @@ function useResizeDetector<T extends HTMLElement = any>({
       (resizeHandler as DebouncedFunc<ResizeObserverCallback>).cancel?.();
     };
   }, [resizeHandler, refElement]);
+  
 
-  return { ref: refProxy, ...size };
+  return { ref: refProxy, ...(disableRerender ? sizeRef.current : size) };
 }
 
 export default useResizeDetector;

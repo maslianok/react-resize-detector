@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 
 import { Card, Code, Flex, Heading, Text, Spinner } from '@radix-ui/themes';
 
@@ -10,6 +10,9 @@ import { DimensionsTooltip, getDimensions, useDimensions } from './useDimensions
 
 export const ResizeCard = () => {
   const [dimensions, setDimensions] = useDimensions();
+  const renderedRef = useRef(0);
+  renderedRef.current++;
+
 
   const [count, setCount] = useState(0);
   const { refreshMode, box, handleHeight, handleWidth, isLoading, disableRerender } = useDemoContext();
@@ -17,7 +20,7 @@ export const ResizeCard = () => {
   // 2) Call `useResizeDetector` to get dimensions of the element.
   // It will return `width` and `height` of the element in pixels.
   // You need to pass a `ref` to the element you want to observe.
-  const { ref, width, height } = useResizeDetector<HTMLDivElement>({
+  const { ref } = useResizeDetector<HTMLDivElement>({
     // 3) You can customize `useResizeDetector` behavior by overriding default options.
     // For example, you can throttle the refresh rate of the resize event
 
@@ -45,8 +48,21 @@ export const ResizeCard = () => {
     // For example, count the number of times the element has been resized
     onResize: ({ width, height, entry }) => {
       if (width && height) {
-        setCount((count) => count + 1);
-        setDimensions(getDimensions(entry));
+        if(!disableRerender) {
+          setCount((count) => count + 1);
+          setDimensions(getDimensions(entry));
+        } else {
+          setDimensions(prev => {
+            const newDimensions = getDimensions(entry);
+            console.log(prev.inner.width, newDimensions.inner.width);
+            if((prev.inner.width >= 300 && newDimensions.inner.width < 300) 
+              || (prev.inner.width <= 300 && newDimensions.inner.width >= 300)) {
+              setCount((count) => count + 1);
+              return newDimensions;
+            }
+            return prev;
+          });
+        }
       }
     },
 
@@ -78,13 +94,15 @@ export const ResizeCard = () => {
         <Text color="pink" highContrast as="p">
           Width:{' '}
           <DimensionsTooltip dimensions={dimensions} orientation="horizontal">
-            <Code>{width}px</Code>
+            <Code>{dimensions.inner.width}px</Code>
           </DimensionsTooltip>
           , Height:{' '}
           <DimensionsTooltip dimensions={dimensions} orientation="vertical">
-            <Code>{height}px</Code>
+            <Code>{dimensions.inner.height}px</Code>
           </DimensionsTooltip>
         </Text>
+
+        <Text color="pink" highContrast as="p">Rendered: {renderedRef.current}</Text>
       </div>
     </Card>
   );
