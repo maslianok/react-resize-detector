@@ -12,7 +12,7 @@ export const ResizeCard = () => {
   const [dimensions, setDimensions] = useDimensions();
 
   const [count, setCount] = useState(0);
-  const { refreshMode, box, handleHeight, handleWidth, isLoading } = useDemoContext();
+  const { refreshMode, box, handleHeight, handleWidth, isLoading, disableRerender } = useDemoContext();
 
   // 2) Call `useResizeDetector` to get dimensions of the element.
   // It will return `width` and `height` of the element in pixels.
@@ -29,6 +29,10 @@ export const ResizeCard = () => {
     // If you only need to observe the width or height, you can disable the other dimension
     handleHeight,
     handleWidth,
+
+    // Disable re-renders triggered by the hook. When true, only the onResize callback will be called.
+    // This is useful when you want to handle resize events without causing component re-renders.
+    disableRerender,
 
     // You can pass additional options directly to the ResizeObserver
     // For example, you can change the box model used to calculate the dimensions

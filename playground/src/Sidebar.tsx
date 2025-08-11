@@ -35,6 +35,8 @@ export const Sidebar = () => {
     setHandleWidth,
     isLoading,
     setIsLoading,
+    disableRerender,
+    setDisableRerender,
   } = useDemoContext();
 
   const toggleLoading = useCallback(() => {
@@ -274,6 +276,24 @@ export const Sidebar = () => {
                   </Flex>
                 </Text>
               </Flex>
+            </div>
+
+            <div>
+              <Heading size="4" mb="3">
+                Re-render Control
+              </Heading>
+
+              <Text as="p" mb="4">
+                You can disable re-renders triggered by the hook while still receiving resize events through the{' '}
+                <Code>onResize</Code> callback. This is useful for performance optimization when you don't need the
+                component to re-render on every resize event.
+              </Text>
+
+              <Text as="label" size="3">
+                <Flex gap="2">
+                  <Switch checked={disableRerender} onCheckedChange={setDisableRerender} /> Disable Re-renders
+                </Flex>
+              </Text>
             </div>
 
             <div>

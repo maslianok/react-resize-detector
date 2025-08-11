@@ -38,6 +38,11 @@ export type Props = {
    */
   skipOnMount?: boolean;
   /**
+   * Disable re-renders triggered by the hook. When true, only the onResize callback will be called.
+   * Default: false
+   */
+  disableRerender?: boolean;
+  /**
    * Changes the update strategy. Possible values: "throttle" and "debounce".
    * See `lodash` docs for more information https://lodash.com/docs/
    * undefined - callback will be fired for every frame.

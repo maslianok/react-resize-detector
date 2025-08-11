@@ -16,6 +16,7 @@ function useResizeDetector<T extends HTMLElement = any>({
   targetRef,
   observerOptions,
   onResize,
+  disableRerender = false,
 }: useResizeDetectorProps<T> = {}): UseResizeDetectorReturn<T> {
   // If `skipOnMount` is enabled, skip the first resize event
   const skipResize = useRef<boolean>(skipOnMount);
@@ -24,6 +25,11 @@ function useResizeDetector<T extends HTMLElement = any>({
   const onResizeRef = useCallbackRef(onResize);
 
   const [size, setSize] = useState<Dimensions>({
+    width: undefined,
+    height: undefined,
+  });
+
+  const sizeRef = useRef<Dimensions>({
     width: undefined,
     height: undefined,
   });
@@ -48,18 +54,30 @@ function useResizeDetector<T extends HTMLElement = any>({
 
       entries.forEach((entry) => {
         const dimensions = getDimensions(entry, box);
-        setSize((prevSize) => {
-          if (!shouldSetSize(prevSize, dimensions)) return prevSize;
-          onResizeRef?.({
-            width: dimensions.width,
-            height: dimensions.height,
-            entry,
+        if(disableRerender) {
+          if(shouldSetSize(sizeRef.current, dimensions)) {
+            sizeRef.current.width = dimensions.width;
+            sizeRef.current.height = dimensions.height;
+            onResizeRef?.({
+              width: dimensions.width,
+              height: dimensions.height,
+              entry,
+            });
+          }
+        } else {
+          setSize((prevSize) => {
+            if (!shouldSetSize(prevSize, dimensions)) return prevSize;
+              onResizeRef?.({
+                width: dimensions.width,
+                height: dimensions.height,
+                entry,
+              });
+            return dimensions;
           });
-          return dimensions;
-        });
+        }
       });
     },
-    [handleWidth, handleHeight, skipResize, box],
+    [handleWidth, handleHeight, skipResize, box, disableRerender],
   );
 
   // Throttle/Debounce the resize event if refreshMode is configured
@@ -88,7 +106,11 @@ function useResizeDetector<T extends HTMLElement = any>({
         height: null,
         entry: null,
       });
-      setSize({ width: undefined, height: undefined });
+      sizeRef.current.width = undefined;
+      sizeRef.current.height = undefined;
+      if (!disableRerender) {
+        setSize({ width: undefined, height: undefined });
+      }
     }
 
     // Disconnect the ResizeObserver when the component is unmounted
