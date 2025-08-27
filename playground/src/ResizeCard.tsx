@@ -48,7 +48,7 @@ export const ResizeCard = () => {
     // For example, count the number of times the element has been resized
     onResize: ({ width, height, entry }) => {
       if (width && height) {
-        if(!disableRerender) {
+        if (!disableRerender) {
           setCount((count) => count + 1);
           setDimensions(getDimensions(entry));
         } else {
