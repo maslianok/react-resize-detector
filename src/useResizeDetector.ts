@@ -54,8 +54,7 @@ function useResizeDetector<T extends HTMLElement = any>({
 
       entries.forEach((entry) => {
         const dimensions = getDimensions(entry, box);
-        if(disableRerender) {
-          if(shouldSetSize(sizeRef.current, dimensions)) {
+          if (shouldSetSize(sizeRef.current, dimensions)) {
             sizeRef.current.width = dimensions.width;
             sizeRef.current.height = dimensions.height;
             onResizeRef?.({
