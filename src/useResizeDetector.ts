@@ -54,6 +54,7 @@ function useResizeDetector<T extends HTMLElement = any>({
 
       entries.forEach((entry) => {
         const dimensions = getDimensions(entry, box);
+        if (disableRerender) {
           if (shouldSetSize(sizeRef.current, dimensions)) {
             sizeRef.current.width = dimensions.width;
             sizeRef.current.height = dimensions.height;
@@ -66,11 +67,11 @@ function useResizeDetector<T extends HTMLElement = any>({
         } else {
           setSize((prevSize) => {
             if (!shouldSetSize(prevSize, dimensions)) return prevSize;
-              onResizeRef?.({
-                width: dimensions.width,
-                height: dimensions.height,
-                entry,
-              });
+            onResizeRef?.({
+              width: dimensions.width,
+              height: dimensions.height,
+              entry,
+            });
             return dimensions;
           });
         }
@@ -118,7 +119,6 @@ function useResizeDetector<T extends HTMLElement = any>({
       (resizeHandler as DebouncedFunc<ResizeObserverCallback>).cancel?.();
     };
   }, [resizeHandler, refElement]);
-  
 
   return { ref: refProxy, ...(disableRerender ? sizeRef.current : size) };
 }
