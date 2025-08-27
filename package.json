@@ -1,6 +1,6 @@
 {
   "name": "react-resize-detector",
-  "version": "12.2.0",
+  "version": "12.3.0",
   "description": "React resize detector",
   "type": "module",
   "exports": "./build/index.js",
@@ -22,7 +22,7 @@
     "prepublishOnly": "npm run build"
   },
   "dependencies": {
-    "es-toolkit" : "^1.39.6"
+    "es-toolkit": "^1.39.6"
   },
   "devDependencies": {
     "@eslint/js": "^9.28.0",
