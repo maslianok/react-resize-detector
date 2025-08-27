@@ -19,6 +19,9 @@ export interface DemoContext {
 
   handleWidth: boolean;
   setHandleWidth: React.Dispatch<React.SetStateAction<boolean>>;
+
+  disableRerender: boolean;
+  setDisableRerender: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const defaultContext = {} as DemoContext;
@@ -33,6 +36,7 @@ export const DemoProvider = ({ children }: { children: React.ReactNode }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [handleHeight, setHandleHeight] = useState(true);
   const [handleWidth, setHandleWidth] = useState(true);
+  const [disableRerender, setDisableRerender] = useState(false);
 
   const value = useMemo(
     () => ({
@@ -46,8 +50,10 @@ export const DemoProvider = ({ children }: { children: React.ReactNode }) => {
       setHandleWidth,
       box,
       setBox,
+      disableRerender,
+      setDisableRerender,
     }),
-    [refreshMode, isLoading, handleHeight, handleWidth, box],
+    [refreshMode, isLoading, handleHeight, handleWidth, box, disableRerender],
   );
 
   return <DemoContext.Provider value={value}>{children}</DemoContext.Provider>;
