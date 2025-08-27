@@ -137,8 +137,8 @@ useResizeDetector<T extends HTMLElement = HTMLElement>(
 | `handleWidth`     | `boolean`                                   | Trigger updates on width changes                                                                                      | `true`      |
 | `handleHeight`    | `boolean`                                   | Trigger updates on height changes                                                                                     | `true`      |
 | `skipOnMount`     | `boolean`                                   | Skip the first resize event when component mounts                                                                     | `false`     |
-| `disableRerender` | `boolean`                                   | Disable re-renders triggered by the hook. Only the onResize callback will be called                                    | `false`     |
-| `refreshMode`     | `'throttle' \| 'debounce'`                  | Rate limiting strategy. See [lodash docs](https://lodash.com/docs)                                                    | `undefined` |
+| `disableRerender` | `boolean`                                   | Disable re-renders triggered by the hook. Only the onResize callback will be called                                   | `false`     |
+| `refreshMode`     | `'throttle' \| 'debounce'`                  | Rate limiting strategy. See [es-toolkit docs](https://es-toolkit.dev)                                                 | `undefined` |
 | `refreshRate`     | `number`                                    | Delay in milliseconds for rate limiting                                                                               | `1000`      |
 | `refreshOptions`  | `{ leading?: boolean; trailing?: boolean }` | Additional options for throttle/debounce                                                                              | `undefined` |
 | `observerOptions` | `ResizeObserverOptions`                     | Options passed to [`resizeObserver.observe`](https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserver/observe) | `undefined` |

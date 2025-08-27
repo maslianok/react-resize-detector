@@ -1,14 +1,14 @@
 import * as React from 'react';
-import debounce from 'lodash/debounce.js';
-import throttle from 'lodash/throttle.js';
-import type { DebouncedFunc } from 'lodash';
+import { debounce, throttle } from 'es-toolkit/compat'
+import type { DebouncedFunc } from 'es-toolkit/compat'
+
 
 import { OnRefChangeType, Props } from './types.js';
 
 export type PatchedResizeObserverCallback = DebouncedFunc<ResizeObserverCallback> | ResizeObserverCallback;
 
 /**
- * Wraps the resize callback with a lodash debounce / throttle based on the refresh mode
+ * Wraps the resize callback with a es-toolkit debounce / throttle based on the refresh mode
  */
 export const patchResizeCallback = (
   resizeCallback: ResizeObserverCallback,

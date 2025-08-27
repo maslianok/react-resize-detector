@@ -229,17 +229,17 @@ export const Sidebar = () => {
 
               <Text as="p" mb="4">
                 Uses{' '}
-                <Link href="https://lodash.com/docs" target="_blank">
-                  lodash
+                <Link href="https://es-toolkit.dev/" target="_blank">
+                  es-toolkit
                 </Link>{' '}
                 to limit the amount of times the resize event can be fired per second. It&apos;s useful to prevent
                 unnecessary re-renders when the user is resizing the window.
                 <br />-{' '}
-                <Link href="https://lodash.com/docs#throttle" target="_blank">
+                <Link href="https://es-toolkit.dev/reference/function/throttle.html#throttle" target="_blank">
                   Throttle docs
                 </Link>
                 <br />-{' '}
-                <Link href="https://lodash.com/docs#debounce" target="_blank">
+                <Link href="https://es-toolkit.dev/reference/function/debounce.html#debounce" target="_blank">
                   Debounce docs
                 </Link>
               </Text>

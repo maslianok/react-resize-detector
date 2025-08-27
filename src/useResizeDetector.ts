@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef, useCallback } from 'react';
-import type { DebouncedFunc } from 'lodash';
+import type { DebouncedFunc } from 'es-toolkit/compat';
 
 import { getDimensions, patchResizeCallback, useCallbackRef, useRefProxy } from './utils.js';
 
