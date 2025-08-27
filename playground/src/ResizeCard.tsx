@@ -54,7 +54,6 @@ export const ResizeCard = () => {
         } else {
           setDimensions(prev => {
             const newDimensions = getDimensions(entry);
-            console.log(prev.inner.width, newDimensions.inner.width);
             if((prev.inner.width >= 300 && newDimensions.inner.width < 300) 
               || (prev.inner.width <= 300 && newDimensions.inner.width >= 300)) {
               setCount((count) => count + 1);
