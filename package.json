@@ -18,7 +18,7 @@
   },
   "dependencies": {
     "@types/resize-observer-browser": "^0.1.6",
-    "lodash": "^4.17.21",
+    "lodash": "^4.18.1",
     "resize-observer-polyfill": "^1.5.1"
   },
   "devDependencies": {
