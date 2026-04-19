@@ -22,24 +22,24 @@
     "prepublishOnly": "npm run build"
   },
   "dependencies": {
-    "es-toolkit": "^1.39.6"
+    "es-toolkit": "^1.45.1"
   },
   "devDependencies": {
-    "@eslint/js": "^9.28.0",
-    "@rollup/plugin-commonjs": "^28.0.3",
-    "@rollup/plugin-node-resolve": "^16.0.1",
-    "@rollup/plugin-typescript": "^12.1.2",
-    "@types/react": "^19.1.7",
-    "@types/react-dom": "^19.1.6",
-    "eslint": "^9.28.0",
-    "eslint-config-prettier": "^10.1.5",
+    "@eslint/js": "^9.39.4",
+    "@rollup/plugin-commonjs": "^28.0.9",
+    "@rollup/plugin-node-resolve": "^16.0.3",
+    "@rollup/plugin-typescript": "^12.3.0",
+    "@types/react": "^19.2.3",
+    "@types/react-dom": "^19.2.3",
+    "eslint": "^9.39.4",
+    "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-react": "^7.37.5",
     "prettier": "^3.5.3",
-    "rollup": "^4.59.0",
-    "rollup-plugin-node-externals": "^8.0.0",
+    "rollup": "^4.60.2",
+    "rollup-plugin-node-externals": "^8.1.2",
     "tslib": "^2.8.1",
     "typescript": "^5.8.3",
-    "typescript-eslint": "^8.34.0"
+    "typescript-eslint": "^8.58.2"
   },
   "peerDependencies": {
     "react": "^18.0.0 || ^19.0.0"
